@@ -5,10 +5,18 @@ sys.path.insert(0, os.path.dirname(__file__))
 sys.stdout.reconfigure(encoding='utf-8')
 
 from compile_data import all_products_sorted, customer_reviews, mens_all, couples_all, priced_products, request_products
+from i18n_products import PROD_RU, STRAP_RU, BRAND_SWAP, ru_piece_join
+from i18n_blocks import bi, LANG_SWITCH, RIBBON, HOLIDAY_SECTION, STORY_SECTION, CSS_EXTRA, JS_EXTRA
+import i18n_engine
+
+# Review screenshots that show other people's phone numbers / delivery documents are not published
+PRIVATE_REVIEW_IMGS = ("review-2.jpg", "review-4.jpg", "review-7.jpg", "review-8.jpg", "review-11.jpg")
+customer_reviews = [r for r in customer_reviews if not r["img"].endswith(PRIVATE_REVIEW_IMGS)]
 
 # Single source of truth for contact data
-WA = "77073356059"          # WhatsApp number used on every button (change here only)
-WA_DISP = "+7 707 335 60 59"
+WA = "77079781857"          # WhatsApp number used on every button (change here only)
+WA_DISP = "+7 707 978 18 57"
+JS_EXTRA_WA = JS_EXTRA.replace("__WA__", WA)
 
 # Only facts confirmed by the owner's photos are shown on the site
 def _clean_text(t):
@@ -30,6 +38,42 @@ for _p in list(all_products_sorted):
         if _k in _p:
             _p[_k] = _clean_text(_p[_k])
 
+# Kazakh copy fixes: no third-party brand names, no unverifiable claims
+KK_FIX = {
+    "p39900_nautilus": {"name": "«Баһадүр» көк циферблат", "badge": "Көк циферблат", "tag": "Көк циферблат • Араб өрнегі",
+                        "desc": "Спорт-элегант корпусы, көлденең сызықты көк циферблат, араб каллиграфиясы."},
+    "p69900_iibb": {"name": "«ІІББ» Механика", "desc": "Ішкі Істер Басқармасының қалқан мен қылыш эмблемасы, бұрандалы безель, механикалық калибр."},
+    "p39900_aday": {"desc": "Кіші жүз Адай руының жебе таңбасы, сегізқырлы безель, қара циферблаттағы алтын жазу."},
+    "showcase_baglan": {"desc": "Сегізқырлы корпус, алтын таңба, сары алтын жылтыры, фирмалық сыйлық қаптамасы."},
+    "p75900_argyn": {"desc": "Арғын руы, ҚР қыран бүркіті, сапфир әйнек, табиғи ағаш шкатулка."},
+    "p75900_rahat_showcase": {"desc": "Көк циферблаттағы күн мен қыран, мерейтойлық жазу, безель, қымбат вишня шкатулка."},
+    "p66900_tortkara": {"desc": "Әлім Төртқара руы, сегізқырлы қара корпус, механикалық калибр, ағаш қорап."},
+    "p75900_sharkesh": {"desc": "Медициналық болаттан жасалған алтын түсті корпус, Шәркеш руының оюы, механикалық калибр."},
+}
+for _p in all_products_sorted:
+    for _k in ("name", "badge", "tag", "desc"):
+        v = _p.get(_k)
+        if isinstance(v, str):
+            for a, b in BRAND_SWAP:
+                v = v.replace(a, b)
+            v = v.replace("Алтын жалатылған", "Алтын түсті").replace("алтын жалатылған", "алтын түсті").replace("жалатылған", "түсті")
+            _p[_k] = " ".join(v.split())
+    for _k, v in KK_FIX.get(_p["id"], {}).items():
+        _p[_k] = v
+    _r = PROD_RU.get(_p["id"], (None, None))
+    _mech = "mechanic" in _p.get("cat", "")
+    _gold = "алтын" in (_p.get("case") or "").lower()
+    _p["ru"] = {
+        "name": _r[0] or _p["name"],
+        "desc": _r[1] or _p["desc"],
+        "badge": ru_piece_join(_p["badge"]),
+        "tag": ru_piece_join(_p["tag"]),
+        "strap": STRAP_RU.get(_p.get("strap"), _p.get("strap")),
+        "mech": "Механика" if _mech else "Кварц",
+        "glass": "Сапфировое стекло, ударопрочное" if _mech else "Минеральное стекло, стойкое к царапинам",
+        "case": "Золотистый корпус" if _gold else "Стальной корпус",
+    }
+
 _prices = [p["price"] for p in priced_products]
 T1 = sum(1 for x in _prices if x < 30000)
 T2 = sum(1 for x in _prices if 30000 <= x < 40000)
@@ -40,7 +84,7 @@ print(f"Loaded {len(all_products_sorted)} products (Men: {len(mens_all)}, Couple
 
 # JSON dump for frontend interactive search and modal lookup
 products_json = json.dumps(all_products_sorted, ensure_ascii=False)
-reviews_json = json.dumps(customer_reviews, ensure_ascii=False)
+reviews_json = json.dumps([{"img": r["img"]} for r in customer_reviews], ensure_ascii=False)
 
 def generate():
     # Generate cards HTML
@@ -128,27 +172,11 @@ def generate():
             rev_cat += ' ornament'
 
         rcard = f'''
-        <div class="review-card" data-rev-cat="{rev_cat}" onclick="openReviewLightbox({idx})">
-          <div class="review-status-bar">
-            <span class="status-indicator"></span>
-            <span class="status-text">{badge} • {city}</span>
-            <span class="status-verified">✓ Расталған</span>
-          </div>
+        <div class="review-card" onclick="openReviewLightbox({idx})">
           <div class="review-img-wrapper" title="Үлкейтіп оқу үшін басыңыз">
-            <img src="{img}" alt="UAQYT WhatsApp пікір — {author}" loading="lazy">
+            <img src="{img}" alt="Клиенттің WhatsApp пікірі" loading="lazy">
             <div class="review-overlay-hover">
               <span class="review-read-pill">🔍 Скриншотты толық оқу</span>
-            </div>
-          </div>
-          <div class="review-content">
-            <div class="review-stars">★★★★★</div>
-            <p class="review-quote">{quote}</p>
-            <div class="reviewer-meta-box">
-              <div class="reviewer-avatar">{author[0]}</div>
-              <div class="reviewer-details">
-                <span class="reviewer-name">{author}</span>
-                <span class="reviewer-order">{order}</span>
-              </div>
             </div>
           </div>
         </div>'''
@@ -1147,6 +1175,9 @@ def generate():
       color: var(--text);
     }}
 
+    html {{ color-scheme: light; }}
+    .form-input, .form-select, .search-input, .sort-select, .modal-input-engrave {{ color: #111827; background-color: #fff; }}
+    .form-input::placeholder, .search-input::placeholder, .modal-input-engrave::placeholder {{ color: #9ca3af; }}
     .form-input, .form-select {{
       padding: 12px 16px;
       border: 1.5px solid var(--border);
@@ -2672,6 +2703,25 @@ def generate():
       .sort-select {{ width: 100%; }}
       .search-sort-bar {{ flex-direction: column; align-items: stretch; }}
     }}
+
+    /* ───────── CONSTRUCTOR DIAL v2: store emblem in the centre ───────── */
+    .dial-v2 {{ width: 310px; height: 310px; background: #fffdf8; box-shadow: 0 15px 35px rgba(212, 175, 55, 0.25), inset 0 2px 10px rgba(0,0,0,0.08); }}
+    .dial-v2 .dial-marks {{ position: absolute; inset: 0; }}
+    .dial-v2 .dial-mark {{ position: absolute; left: 50%; top: 8px; width: 2px; height: 9px; margin-left: -1px; background: #9ca3af; transform-origin: 50% 133px; }}
+    .dial-v2 .dial-mark.big {{ width: 3px; height: 14px; margin-left: -1.5px; background: #92400e; }}
+    .dial-v2 .dial-tamga-top {{ position: absolute; top: 34px; left: 50%; transform: translateX(-50%); width: 34px; height: 34px; color: #92400e; z-index: 2; }}
+    .dial-v2 .dial-tamga-top .dial-tamga-icon {{ width: 34px; height: 34px; margin: 0; }}
+    .dial-v2 .hour-hand {{ height: 84px; width: 7px; margin-left: -3.5px; background: #b45309; border-radius: 6px; box-shadow: 0 0 0 1.5px #fff, 0 2px 6px rgba(0,0,0,.25); transform: rotate(-60deg); z-index: 3; }}
+    .dial-v2 .min-hand {{ height: 118px; width: 5px; margin-left: -2.5px; background: #d4af37; border-radius: 5px; box-shadow: 0 0 0 1.5px #fff, 0 2px 6px rgba(0,0,0,.25); transform: rotate(60deg); z-index: 3; }}
+    .dial-v2 .dial-emblem {{ position: absolute; top: 50%; left: 50%; width: 84px; height: auto; transform: translate(-50%, -50%); z-index: 6; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }}
+    .dial-v2 .dial-text {{ position: absolute; left: 50%; top: 190px; transform: translateX(-50%); width: 190px; text-align: center; z-index: 2; }}
+    .dial-v2 .dial-name {{ font-size: 21px; white-space: nowrap; }}
+    @media (max-width: 380px) {{
+      .dial-v2 {{ width: 280px; height: 280px; }}
+      .dial-v2 .dial-mark {{ transform-origin: 50% 118px; }}
+      .dial-v2 .dial-text {{ top: 172px; }}
+    }}
+  {CSS_EXTRA}
   </style>
 </head>
 <body>
@@ -2692,6 +2742,8 @@ def generate():
       <span style="color: var(--accent-gold); font-weight: 700;">Тел: {WA_DISP}</span>
     </div>
   </div>
+
+  {RIBBON}
 
   <!-- ───────── NAVBAR ───────── -->
   <header class="navbar">
@@ -2717,6 +2769,7 @@ def generate():
     <button class="nav-burger" id="navBurger" type="button" aria-label="Мәзір" aria-expanded="false" onclick="toggleNav()"><span></span><span></span><span></span></button>
 
     <div class="nav-actions">
+      {LANG_SWITCH}
       <a href="https://2gis.kz/almaty/search/%D0%A3%D1%82%D0%B5%D0%B3%D0%B5%D0%BD%20%D0%B1%D0%B0%D1%82%D1%8B%D1%80%D0%B0%2011%D0%B0" target="_blank" rel="noopener" class="btn-nav-2gis" title="2GIS маршрут">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
         <span>2GIS-те көру</span>
@@ -2858,14 +2911,9 @@ def generate():
     </div>
   </section>
 
-  <!-- ───────── REVIEWS TEASER ───────── -->
-  <section class="teaser-section" id="reviewTeaser">
-    <div class="teaser-head">
-      <h2 class="teaser-title">Клиенттер жазады</h2>
-      <a class="teaser-link" href="#reviews">Барлық пікірлерді көру</a>
-    </div>
-    <div class="teaser-grid" id="teaserGrid"></div>
-  </section>
+  {HOLIDAY_SECTION}
+
+  {STORY_SECTION}
 
   <!-- ───────── 1+1 PROMO SECTION ───────── -->
   <section class="promo-banner-section" id="bonus">
@@ -2908,26 +2956,26 @@ def generate():
     <div class="sim-grid">
       <!-- Interactive Dial Display -->
       <div class="dial-display-card">
-        <div class="dial-case">
+        <div class="dial-case dial-v2">
           <div class="dial-ticks"></div>
-          <div class="dial-center-content">
-            <div id="simTamgaBox">
-              <svg class="dial-tamga-icon" viewBox="0 0 60 60" fill="currentColor">
-                <circle cx="30" cy="30" r="16" fill="none" stroke="currentColor" stroke-width="3"/>
-                <circle cx="30" cy="30" r="6" fill="currentColor"/>
-              </svg>
-            </div>
+          <div class="dial-marks"><i class="dial-mark big" style="transform: rotate(0deg)"></i><i class="dial-mark" style="transform: rotate(30deg)"></i><i class="dial-mark" style="transform: rotate(60deg)"></i><i class="dial-mark big" style="transform: rotate(90deg)"></i><i class="dial-mark" style="transform: rotate(120deg)"></i><i class="dial-mark" style="transform: rotate(150deg)"></i><i class="dial-mark big" style="transform: rotate(180deg)"></i><i class="dial-mark" style="transform: rotate(210deg)"></i><i class="dial-mark" style="transform: rotate(240deg)"></i><i class="dial-mark big" style="transform: rotate(270deg)"></i><i class="dial-mark" style="transform: rotate(300deg)"></i><i class="dial-mark" style="transform: rotate(330deg)"></i></div>
+          <div class="dial-tamga-top" id="simTamgaBox">
+            <svg class="dial-tamga-icon" viewBox="0 0 60 60" fill="currentColor">
+              <circle cx="30" cy="30" r="16" fill="none" stroke="currentColor" stroke-width="3"/>
+              <circle cx="30" cy="30" r="6" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="hand hour-hand"></div>
+          <div class="hand min-hand"></div>
+          <img class="dial-emblem" src="./images/emblem.png" alt="UAQYT kzt эмблемасы" width="360" height="170">
+          <div class="dial-text">
             <div class="dial-name" id="simDialName">АРМАН</div>
             <div class="dial-sub" id="simDialSub">АРҒЫН РУЫ</div>
             <div class="dial-date" id="simDialDate">UAQYT KZT • 2026</div>
           </div>
-          <div class="hand hour-hand"></div>
-          <div class="hand min-hand"></div>
-          <div class="hand sec-hand" id="liveSimSecHand"></div>
-          <div class="center-pin"></div>
         </div>
         <div style="margin-top: 18px; font-size: 13px; color: var(--accent-gold-dark); font-weight: 700;">
-          ⚡ Нақты уақыттық секунд тілі жүріп тұр
+          Дизайн нақты уақытта өзгереді. Ортасында UAQYT эмблемасы
         </div>
       </div>
 
@@ -3095,14 +3143,6 @@ def generate():
         </p>
       </div>
 
-      <!-- Review Filter Tabs -->
-      <div class="rev-filter-tabs">
-        <button class="rev-filter-tab active" data-rev-filter="all" onclick="filterReviews('all', this)">Барлық пікірлер ({len(customer_reviews)})</button>
-        <button class="rev-filter-tab" data-rev-filter="couples" onclick="filterReviews('couples', this)">Жұптық сағат алғандар (1+1)</button>
-        <button class="rev-filter-tab" data-rev-filter="ornament" onclick="filterReviews('ornament', this)">Рулық және есімді сағаттар</button>
-        <button class="rev-filter-tab" data-rev-filter="service" onclick="filterReviews('service', this)">Қызметтік сағаттар (ІІМ, ҰҚК)</button>
-      </div>
-
       <!-- Reviews Grid -->
       <div class="reviews-grid" id="reviewsGrid">
         {all_reviews_str}
@@ -3212,7 +3252,7 @@ def generate():
         <ul class="footer-links">
           <li><a href="https://www.instagram.com/uaqyt.kzt?psln=ZXd3MTI5cmI3NGF6" target="_blank" rel="noopener" class="footer-link">Instagram: @uaqyt.kzt</a></li>
           <li><a href="https://www.tiktok.com/@uaqyt.kzz2?_t=ZM-8uQyLn8Uuxi&_r=1" target="_blank" rel="noopener" class="footer-link">TikTok: @uaqyt.kzz2</a></li>
-          <li><a href="https://wa.me/{WA}" target="_blank" rel="noopener" class="footer-link">WhatsApp: +7 707 335 60 59</a></li>
+          <li><a href="https://wa.me/{WA}" target="_blank" rel="noopener" class="footer-link">WhatsApp: {WA_DISP}</a></li>
           <li><a href="https://2gis.kz/almaty/search/%D0%A3%D1%82%D0%B5%D0%B3%D0%B5%D0%BD%20%D0%B1%D0%B0%D1%82%D1%8B%D1%80%D0%B0%2011%D0%B0" target="_blank" rel="noopener" class="footer-link">2GIS: Сайран Сити 320</a></li>
         </ul>
       </div>
@@ -3397,7 +3437,11 @@ def generate():
       const dialSub = document.getElementById('simDialSub');
       const dialDate = document.getElementById('simDialDate');
 
-      if (dialName) dialName.textContent = name.toUpperCase();
+      if (dialName) {{
+        dialName.textContent = name.toUpperCase();
+        const n = name.length;
+        dialName.style.fontSize = Math.max(13, Math.min(21, 21 - Math.max(0, n - 9) * 1.1)) + 'px';
+      }}
       if (dialSub) dialSub.textContent = sub.toUpperCase();
       if (dialDate) dialDate.textContent = dt;
     }}
@@ -3595,7 +3639,6 @@ def generate():
       document.getElementById('modalGlass').textContent = p.glass || 'Сызатқа төзімді шыңдалған минералды / сапфир';
       document.getElementById('modalCase').textContent = p.case || 'Болат корпус';
       document.getElementById('modalStrap').textContent = p.strap || 'Құйылған болат бау';
-      document.getElementById('modalWater').textContent = p.water || 'WhatsApp-та нақтылаймыз';
 
       const modal = document.getElementById('productModal');
       modal.classList.add('active');
@@ -3736,7 +3779,9 @@ def generate():
     function renderTeaser() {{
       const g = document.getElementById('teaserGrid');
       if (!g) return;
-      g.innerHTML = reviewsData.slice(0, 6).map((r, i) => `<div class="teaser-card" onclick="openReviewLightbox(${{i}})">
+      const pick = ['review-12', 'review-13', 'review-15', 'review-16', 'review-18', 'review-19'];
+      const items = reviewsData.map((r, i) => ({{ r, i }})).filter(x => pick.some(t => x.r.img.includes(t + '.jpg'))).slice(0, 6);
+      g.innerHTML = items.map(({{ r, i }}) => `<div class="teaser-card" onclick="openReviewLightbox(${{i}})">
         <img src="${{r.img}}" alt="Клиент пікірі" loading="lazy">
         <div class="teaser-cap">${{r.author}}, ${{r.city.replace(' қаласы', '')}}<small>${{r.order}}</small></div>
       </div>`).join('');
@@ -3766,9 +3811,6 @@ def generate():
     }} catch (e) {{}}
 
     // Initial catalog state: men's watches first
-    filterCatalog();
-    renderPicks();
-    renderTeaser();
 
     // Keyboard navigation for modals
     document.addEventListener('keydown', (e) => {{
@@ -3784,10 +3826,18 @@ def generate():
         if (lb.classList.contains('active')) changeReviewLightbox(1);
       }}
     }});
+    {JS_EXTRA_WA}
   </script>
 </body>
 </html>'''
 
+    soup, unmapped = i18n_engine.localize(html_content, all_products_sorted)
+    i18n_engine.reorder(soup, ["hero", "story", "picks", "holidays", "catalog", "bonus", "customizer", "reviews", "socials", "contact"])
+    if unmapped:
+        print("UNMAPPED Kazakh strings:", len(unmapped))
+        for u in unmapped[:60]:
+            print("  -", u[:140])
+    html_content = "<!DOCTYPE html>\n" + str(soup).replace("<!DOCTYPE html>", "", 1).lstrip()
     with open('D:/watch-boutique/index.html', 'w', encoding='utf-8') as f:
         f.write(html_content)
 
