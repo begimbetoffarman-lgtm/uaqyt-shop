@@ -7,6 +7,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 from compile_data import all_products_sorted, customer_reviews, mens_all, couples_all, priced_products, request_products
 from i18n_products import PROD_RU, STRAP_RU, BRAND_SWAP, ru_piece_join
 from i18n_blocks import bi, LANG_SWITCH, RIBBON, HOLIDAY_SECTION, STORY_SECTION, CSS_EXTRA, JS_EXTRA
+from i18n_features import PICKER_SECTION, DOCK_HTML, CART_HTML, CSS_FEATURES, JS_FEATURES
 import i18n_engine
 
 # Review screenshots that show other people's phone numbers / delivery documents are not published
@@ -16,7 +17,7 @@ customer_reviews = [r for r in customer_reviews if not r["img"].endswith(PRIVATE
 # Single source of truth for contact data
 WA = "77079781857"          # WhatsApp number used on every button (change here only)
 WA_DISP = "+7 707 978 18 57"
-JS_EXTRA_WA = JS_EXTRA.replace("__WA__", WA)
+JS_EXTRA_WA = JS_EXTRA.replace("    // if the browser blocks autoplay", JS_FEATURES + "\n    // if the browser blocks autoplay", 1).replace("__WA__", WA)
 
 # Only facts confirmed by the owner's photos are shown on the site
 def _clean_text(t):
@@ -2709,19 +2710,22 @@ def generate():
     .dial-v2 .dial-marks {{ position: absolute; inset: 0; }}
     .dial-v2 .dial-mark {{ position: absolute; left: 50%; top: 8px; width: 2px; height: 9px; margin-left: -1px; background: #9ca3af; transform-origin: 50% 133px; }}
     .dial-v2 .dial-mark.big {{ width: 3px; height: 14px; margin-left: -1.5px; background: #92400e; }}
-    .dial-v2 .dial-tamga-top {{ position: absolute; top: 34px; left: 50%; transform: translateX(-50%); width: 34px; height: 34px; color: #92400e; z-index: 2; }}
-    .dial-v2 .dial-tamga-top .dial-tamga-icon {{ width: 34px; height: 34px; margin: 0; }}
-    .dial-v2 .hour-hand {{ height: 84px; width: 7px; margin-left: -3.5px; background: #b45309; border-radius: 6px; box-shadow: 0 0 0 1.5px #fff, 0 2px 6px rgba(0,0,0,.25); transform: rotate(-60deg); z-index: 3; }}
-    .dial-v2 .min-hand {{ height: 118px; width: 5px; margin-left: -2.5px; background: #d4af37; border-radius: 5px; box-shadow: 0 0 0 1.5px #fff, 0 2px 6px rgba(0,0,0,.25); transform: rotate(60deg); z-index: 3; }}
-    .dial-v2 .dial-emblem {{ position: absolute; top: 50%; left: 50%; width: 84px; height: auto; transform: translate(-50%, -50%); z-index: 6; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }}
-    .dial-v2 .dial-text {{ position: absolute; left: 50%; top: 190px; transform: translateX(-50%); width: 190px; text-align: center; z-index: 2; }}
+    .dial-v2 .dial-tamga-top {{ position: absolute; top: 54%; left: 50%; transform: translateX(-50%); width: 24px; height: 24px; color: #92400e; z-index: 2; }}
+    .dial-v2 .dial-tamga-top .dial-tamga-icon {{ width: 24px; height: 24px; margin: 0; }}
+    .dial-v2 .hour-hand {{ height: 78px; width: 7px; margin-left: -3.5px; background: #92400e; border-radius: 6px; box-shadow: 0 0 0 2px #fff, 0 2px 6px rgba(0,0,0,.3); transform: rotate(-60deg); z-index: 5; }}
+    .dial-v2 .min-hand {{ height: 108px; width: 5px; margin-left: -2.5px; background: #b45309; border-radius: 5px; box-shadow: 0 0 0 2px #fff, 0 2px 6px rgba(0,0,0,.3); transform: rotate(60deg); z-index: 5; }}
+    .dial-v2 .dial-emblem {{ position: absolute; top: 12%; left: 50%; width: 104px; height: auto; transform: translateX(-50%); z-index: 4; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }}
+    .dial-v2::after {{ content: ""; position: absolute; left: 50%; top: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; background: #92400e; border: 3px solid #fff; z-index: 6; }}
+    .dial-v2 .dial-text {{ position: absolute; left: 50%; top: 64%; transform: translateX(-50%); width: 200px; text-align: center; z-index: 3; }}
     .dial-v2 .dial-name {{ font-size: 21px; white-space: nowrap; }}
     @media (max-width: 380px) {{
       .dial-v2 {{ width: 280px; height: 280px; }}
       .dial-v2 .dial-mark {{ transform-origin: 50% 118px; }}
-      .dial-v2 .dial-text {{ top: 172px; }}
+      .dial-v2 .dial-emblem {{ width: 92px; }}
     }}
+  /*__DARK_STOP__*/
   {CSS_EXTRA}
+  {CSS_FEATURES}
   </style>
 </head>
 <body>
@@ -2879,37 +2883,7 @@ def generate():
     </div>
   </section>
 
-  <!-- ───────── GIFT PICKER (for cold visitors) ───────── -->
-  <section class="picker-section" id="picks">
-    <div class="picker-head">
-      <h2 class="picker-title">Сағатты 1 минутта таңдаңыз</h2>
-      <p class="picker-sub">Кімге? Қандай бюджет? Қалғанын көрсетеміз: бағасымен, бөліп төлеумен және тегін жеткізумен.</p>
-    </div>
-    <div class="picker-box">
-      <div class="picker-row">
-        <div class="picker-label">Кімге арналған?</div>
-        <div class="picker-chips" id="pickWho">
-          <button type="button" class="picker-chip" data-v="mens" onclick="setPick('who','mens',this)">👨 Ерлерге сыйлық</button>
-          <button type="button" class="picker-chip" data-v="couples" onclick="setPick('who','couples',this)">💑 Жұбайларға (1+1)</button>
-          <button type="button" class="picker-chip" data-v="service" onclick="setPick('who','service',this)">🛡️ Қызметкерге (ІІМ, ҰҚК, ҚР ҚК)</button>
-        </div>
-      </div>
-      <div class="picker-row">
-        <div class="picker-label">Бюджет:</div>
-        <div class="picker-chips" id="pickBudget">
-          <button type="button" class="picker-chip" data-v="t1" onclick="setPick('budget','t1',this)">30 000 ₸ дейін</button>
-          <button type="button" class="picker-chip" data-v="t2" onclick="setPick('budget','t2',this)">30 000 – 40 000 ₸</button>
-          <button type="button" class="picker-chip" data-v="t3" onclick="setPick('budget','t3',this)">40 000 – 55 000 ₸</button>
-          <button type="button" class="picker-chip" data-v="t4" onclick="setPick('budget','t4',this)">55 000 ₸ бастап</button>
-        </div>
-      </div>
-      <div class="picker-results" id="pickResults" aria-live="polite"></div>
-      <div class="picker-foot">
-        <button type="button" class="picker-btn dark" id="pickAll" onclick="applyPickToCatalog()">Барлық үлгілерді қарау</button>
-        <a class="picker-btn wa" id="pickWa" target="_blank" rel="noopener" href="https://wa.me/{WA}">Таңдауға көмектесіңіздер (WhatsApp)</a>
-      </div>
-    </div>
-  </section>
+  {PICKER_SECTION}
 
   {HOLIDAY_SECTION}
 
@@ -3273,6 +3247,10 @@ def generate():
       <div>Сайт Apple стилінде жеке тапсырыспен әзірленген.</div>
     </div>
   </footer>
+
+  {DOCK_HTML}
+
+  {CART_HTML}
 
   <!-- ───────── ENTRY OFFER ───────── -->
   <div class="offer-overlay" id="offerOverlay" onclick="closeOffer()">
@@ -3832,6 +3810,7 @@ def generate():
 </html>'''
 
     soup, unmapped = i18n_engine.localize(html_content, all_products_sorted)
+    i18n_engine.apply_dark(soup)
     i18n_engine.reorder(soup, ["hero", "story", "picks", "holidays", "catalog", "bonus", "customizer", "reviews", "socials", "contact"])
     if unmapped:
         print("UNMAPPED Kazakh strings:", len(unmapped))

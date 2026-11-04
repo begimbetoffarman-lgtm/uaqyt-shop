@@ -134,3 +134,128 @@ def reorder(soup, order):
     for n in reversed(nodes):
         marker.insert_after(n)
     marker.decompose()
+
+
+# ───────────────────────── dark theme ─────────────────────────
+DARK_ROOT = """:root {
+      --bg: #0c1120;
+      --bg-alt: #111829;
+      --bg-card: #161e33;
+      --border: #26304a;
+      --border-focus: #d4af37;
+      --border-gold: rgba(212, 175, 55, 0.4);
+      --text: #f5f6f8;
+      --text-muted: #a3acc2;
+      --accent-gold: #d4af37;
+      --accent-gold-soft: #1f1c12;
+      --accent-gold-dark: #e6c65c;
+      --accent-green: #15803d;
+      --accent-green-dark: #128C7E;
+      --accent-red: #e11d48;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.5);
+      --shadow-md: 0 10px 30px rgba(0,0,0,0.5);
+      --shadow-lg: 0 20px 45px rgba(0,0,0,0.6);
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --nav-height: 70px;
+      --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }"""
+
+_SOLID_BG = {
+    "#fff": "var(--bg-card)", "#ffffff": "var(--bg-card)", "white": "var(--bg-card)",
+    "#fafafa": "var(--bg-alt)", "#f8f9fa": "var(--bg-alt)", "#f9fafb": "var(--bg-alt)", "#f8fafc": "var(--bg-alt)",
+    "#f1f5f9": "var(--bg-alt)", "#f3f4f6": "var(--bg-alt)", "#f4f4f5": "var(--bg-alt)", "#e2e8f0": "var(--bg-alt)",
+    "#fdfaf3": "var(--accent-gold-soft)", "#fdfbf7": "var(--accent-gold-soft)", "#fffdf8": "var(--accent-gold-soft)",
+    "#fffbeb": "var(--accent-gold-soft)", "#fdf8ef": "var(--accent-gold-soft)", "#fbf7ee": "var(--accent-gold-soft)",
+    "#f0f9ff": "rgba(14,165,233,.14)", "#f0fdf4": "rgba(34,197,94,.14)", "#ecfdf5": "rgba(34,197,94,.14)",
+    "#fff1f2": "rgba(225,29,72,.16)", "#fef2f2": "rgba(225,29,72,.16)", "#fdf2f8": "rgba(236,72,153,.16)", "#fce7f3": "rgba(236,72,153,.16)",
+    "#fee2e2": "rgba(225,29,72,.2)", "#fef3c7": "rgba(212,175,55,.18)",
+}
+_TEXT = {
+    "#111827": "var(--text)", "#1f2937": "var(--text)", "#374151": "var(--text)", "#4b5563": "var(--text-muted)",
+    "#6b7280": "var(--text-muted)", "#9ca3af": "var(--text-muted)", "#000": "var(--text)",
+    "#166534": "#86efac", "#047857": "#6ee7b7", "#0284c7": "#7dd3fc", "#92400e": "#e6c65c", "#724c16": "#e6c65c",
+    "#be185d": "#f9a8d4", "#9f1239": "#fda4af", "#881337": "#fda4af", "#b91c1c": "#fca5a5", "#9a3412": "#fdba74",
+}
+_BORDER = {"#bae6fd", "#bbf7d0", "#a7f3d0", "#fecdd3", "#fde68a", "#fbcfe8", "#e5e7eb", "#e9ecef", "#cbd5e1", "#f3f4f6", "#fef3c7"}
+_LIGHT = re.compile(r"#(?:f[0-9a-f]{5}|f[0-9a-f]{2}|e[5-9a-f][0-9a-f]{4})\b|#fff\b|white", re.I)
+_SKIP_SEL = ("dial", "hand", "center-pin", "tick", "lang-btn", "holiday-ribbon", "story-", "offer-btn", "holiday-btn", "pick-card-btn")
+
+
+def _decl(prop, val, sel):
+    p = prop.strip().lower()
+    v = val.strip()
+    vl = v.lower()
+    if p in ("background", "background-color"):
+        if "gradient" in vl:
+            if _LIGHT.search(v) and not re.search(r"#(?:e11d48|833ab4|be123c|25d366|d4af37)", vl):
+                if re.search(r"#(?:fef2f2|fff1f2|fdf2f8|fce7f3)", vl):
+                    return p, "rgba(225,29,72,.14)"
+                if re.search(r"#(?:fdf8ef|f6e8d2|fffbeb|fef3c7|fdfaf3)", vl):
+                    return p, "var(--accent-gold-soft)"
+                return p, "var(--bg-card)"
+            return p, v
+        if vl in _SOLID_BG:
+            return p, _SOLID_BG[vl]
+        mh = re.fullmatch(r"#([0-9a-f]{6})", vl)
+        if mh:
+            r, g, b = (int(mh.group(1)[i:i + 2], 16) for i in (0, 2, 4))
+            if (0.2126 * r + 0.7152 * g + 0.0722 * b) > 225:
+                return p, "var(--accent-gold-soft)" if r > b + 6 else "var(--bg-alt)"
+        if vl in ("#111827", "var(--text)", "#1e293b", "#0f172a"):
+            if "footer" in sel:
+                return p, "#080c18"
+            if "tiktok" in sel:
+                return p, "#141b2e"
+            return p, "var(--accent-gold)"
+    if p == "color":
+        if vl in _TEXT:
+            return p, _TEXT[vl]
+    if p in ("border", "border-top", "border-bottom", "border-left", "border-right", "border-color", "outline"):
+        for b in _BORDER:
+            if b in vl:
+                v = re.sub(re.escape(b), "var(--border)", v, flags=re.I)
+        return p, v
+    if p == "background" and vl.startswith("rgba(255, 255, 255"):
+        return p, "rgba(12, 17, 32, 0.92)"
+    return p, v
+
+
+def darken_css(css):
+    def rule(m):
+        sel, body = m.group(1), m.group(2)
+        s = sel.strip().lower()
+        if any(k in s for k in _SKIP_SEL) or s.startswith("@") or s.startswith("from") or s.startswith("to") or "%" in s:
+            return m.group(0)
+        decls = [d for d in body.split(";")]
+        out = []
+        flipped = False
+        for d in decls:
+            if ":" not in d:
+                out.append(d)
+                continue
+            prop, val = d.split(":", 1)
+            np_, nv = _decl(prop, val, s)
+            if np_ in ("background", "background-color") and nv == "var(--accent-gold)" and val.strip().lower() in ("#111827", "var(--text)", "#1e293b", "#0f172a"):
+                flipped = True
+            out.append(f"{prop}: {nv}" if nv != val.strip() else d)
+        if flipped:
+            out = [re.sub(r"color\s*:\s*(#fff(?:fff)?|white)\b", "color: #111", d) if re.match(r"\s*color\s*:", d) else d for d in out]
+            out = [d.replace("border-color: var(--text)", "border-color: var(--accent-gold)") for d in out]
+        return sel + "{" + ";".join(out) + "}"
+
+    css = re.sub(r":root\s*\{[^{}]*\}", DARK_ROOT, css, count=1)
+    css = re.sub(r"([^{}]+)\{([^{}]*)\}", rule, css)
+    css = re.sub(r"background(?:-color)?\s*:\s*rgba\(\s*255\s*,\s*255\s*,\s*255\s*,\s*0?\.9\d*\s*\)", "background: rgba(12, 17, 32, 0.94)", css)
+    return css
+
+
+def apply_dark(soup):
+    style = soup.find("style")
+    if style is not None and style.string:
+        marker = "/*__DARK_STOP__*/"
+        css = str(style.string)
+        head, sep, tail = css.partition(marker)
+        style.string = darken_css(head) + sep + tail
+    for m in soup.find_all("meta", attrs={"name": "theme-color"}):
+        m["content"] = "#0c1120"

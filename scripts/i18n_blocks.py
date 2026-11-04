@@ -25,65 +25,60 @@ HOLIDAY_SECTION = f'''<section class="holiday-section" id="holidays">
   </section>'''
 
 STORY_SECTION = f'''<section class="story-section" id="story">
-    <div class="story-banner">
-      <video class="story-main" autoplay muted loop playsinline preload="auto" poster="./video/blue.jpg" aria-label="Крупный план циферблата часов"><source src="./video/blue.mp4" type="video/mp4"></video>
-      <button type="button" class="story-play" aria-label="Play" hidden>▶</button>
-      <div class="story-overlay">
-        {bi("Время, которое дарят", "Сыйлыққа берілетін уақыт", "h2", "story-title")}
-        {bi("Часы остаются с человеком на годы. Имя и дата на циферблате превращают их в личную память.", "Сағат адаммен жылдар бойы бірге жүреді. Циферблаттағы есім мен күн оны жеке естелікке айналдырады.", "p", "story-text")}
-        <div class="story-actions">
-          <a class="story-btn red" href="#picks">{bi("Подобрать подарок", "Сыйлық таңдау")}</a>
-          <a class="story-btn light" href="#customizer">{bi("Создать свои часы", "Өз сағатыңызды жасау")}</a>
-        </div>
-      </div>
+    <div class="holiday-head">
+      {bi("Наши часы вживую", "Біздің сағаттар тікелей", "h2", "picker-title")}
+      {bi("Посмотрите, как выглядят часы с гравировкой на руке и в коробке. Имя и дата на циферблате превращают их в личную память.", "Гравировкалы сағаттардың қолда және қорапта қалай көрінетінін қараңыз. Циферблаттағы есім мен күн оны жеке естелікке айналдырады.", "p", "picker-sub")}
     </div>
-    <div class="story-row">
-      <figure class="story-v"><video autoplay muted loop playsinline preload="auto" poster="./video/moon.jpg" aria-label="Крупный план циферблата"><source src="./video/moon.mp4" type="video/mp4"></video></figure>
-      <figure class="story-v"><video autoplay muted loop playsinline preload="auto" poster="./video/skel.jpg" aria-label="Крупный план механизма часов"><source src="./video/skel.mp4" type="video/mp4"></video></figure>
+    <div class="story-reel">
+      <figure class="story-v"><video autoplay muted loop playsinline preload="metadata" poster="./video/w1.jpg" aria-label="Часы UAQYT, видео 1"><source src="./video/w1.mp4" type="video/mp4"></video></figure>
+      <figure class="story-v"><video autoplay muted loop playsinline preload="metadata" poster="./video/w2.jpg" aria-label="Часы UAQYT, видео 2"><source src="./video/w2.mp4" type="video/mp4"></video></figure>
+      <figure class="story-v"><video autoplay muted loop playsinline preload="metadata" poster="./video/w3.jpg" aria-label="Часы UAQYT, видео 3"><source src="./video/w3.mp4" type="video/mp4"></video></figure>
+      <figure class="story-v"><video autoplay muted loop playsinline preload="metadata" poster="./video/w4.jpg" aria-label="Часы UAQYT, видео 4"><source src="./video/w4.mp4" type="video/mp4"></video></figure>
+      <figure class="story-v"><video autoplay muted loop playsinline preload="metadata" poster="./video/w5.jpg" aria-label="Часы UAQYT, видео 5"><source src="./video/w5.mp4" type="video/mp4"></video></figure>
+    </div>
+    <div class="story-cta">
+      <a class="story-btn red" href="#picks">{bi("Подобрать подарок", "Сыйлық таңдау")}</a>
+      <a class="story-btn light" href="#customizer">{bi("Создать свои часы", "Өз сағатыңызды жасау")}</a>
     </div>
   </section>'''
 
 CSS_EXTRA = '''
     /* ───────── language switch ───────── */
-    .lang-switch { display: inline-flex; background: #f1f5f9; border: 1px solid var(--border); border-radius: 22px; padding: 3px; gap: 2px; }
+    .lang-switch { display: inline-flex; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 22px; padding: 3px; gap: 2px; }
     .lang-btn { border: none; background: transparent; padding: 7px 12px; border-radius: 18px; font-size: 13px; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: var(--transition); font-family: inherit; }
-    .lang-btn.active { background: var(--text); color: #fff; }
+    .lang-btn.active { background: var(--accent-gold); color: #111; }
 
     /* ───────── holiday ribbon + calendar ───────── */
-    .holiday-ribbon { background: #111827; color: #fff; text-align: center; font-size: 14.5px; font-weight: 600; padding: 9px 16px; }
-    .holiday-ribbon a { color: #fff; text-decoration: none; }
-    .holiday-ribbon a b { color: #fbbf24; }
+    .holiday-ribbon { background: var(--accent-gold); color: #111; text-align: center; font-size: 14.5px; font-weight: 600; padding: 9px 16px; }
+    .holiday-ribbon a { color: #111; text-decoration: none; }
+    .holiday-ribbon a b { color: #111; }
     .holiday-section, .story-section { padding: 64px 32px 8px; max-width: 1240px; margin: 0 auto; }
     .holiday-head { text-align: center; margin-bottom: 28px; }
     .holiday-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-    .holiday-card { background: #fff; border: 1px solid var(--border); border-radius: 24px; padding: 22px 20px 20px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow-sm, 0 2px 10px rgba(0,0,0,.04)); transition: var(--transition); }
+    .holiday-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 22px 20px 20px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow-sm, 0 2px 10px rgba(0,0,0,.04)); transition: var(--transition); }
     .holiday-card:hover { transform: translateY(-4px); border-color: var(--accent-gold); }
-    .holiday-card.first { background: linear-gradient(160deg, #fffbeb 0%, #fff 70%); border-color: #fde68a; }
+    .holiday-card.first { background: var(--accent-gold-soft); border-color: var(--border-gold); }
     .holiday-date { display: flex; align-items: baseline; gap: 8px; color: var(--accent-gold-dark, #8a6a2f); font-weight: 800; }
     .holiday-day { font-family: var(--font-serif); font-size: 44px; line-height: 1; }
     .holiday-mon { font-size: 15px; text-transform: uppercase; letter-spacing: 1px; }
     .holiday-name { font-family: var(--font-serif); font-size: 22px; font-weight: 700; line-height: 1.2; color: var(--text); }
-    .holiday-left { display: inline-block; align-self: flex-start; padding: 5px 12px; border-radius: 16px; background: #fee2e2; color: #b91c1c; font-size: 13.5px; font-weight: 700; }
+    .holiday-left { display: inline-block; align-self: flex-start; padding: 5px 12px; border-radius: 16px; background: rgba(225,29,72,.18); color: #fca5a5; font-size: 13.5px; font-weight: 700; }
     .holiday-tip { color: var(--text); font-size: 15px; flex: 1; }
     .holiday-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
     .holiday-btn { padding: 11px 14px; border-radius: 14px; border: none; font-weight: 700; font-size: 14.5px; cursor: pointer; text-align: center; text-decoration: none; font-family: inherit; }
-    .holiday-btn.dark { background: var(--text); color: #fff; }
+    .holiday-remind { text-align: center; color: var(--text-muted); font-size: 13.5px; text-decoration: underline; padding-top: 2px; }
+    .holiday-btn.dark { background: var(--accent-gold); color: #111; }
     .holiday-btn.wa { background: var(--accent-green); color: #fff; }
 
-    /* ───────── video story ───────── */
-    .story-banner { position: relative; border-radius: 28px; overflow: hidden; min-height: 460px; background: #111827; display: flex; align-items: flex-end; }
-    .story-banner video.story-main { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .story-overlay { position: relative; z-index: 2; margin: 28px; max-width: 520px; background: rgba(17, 24, 39, .62); border-radius: 22px; padding: 24px 26px; color: #fff; }
-    .story-title { font-family: var(--font-serif); font-size: 38px; line-height: 1.1; font-weight: 700; color: #fff; margin: 0 0 10px; }
-    .story-text { font-size: 16px; color: #e5e7eb; margin: 0 0 18px; }
-    .story-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-    .story-btn { padding: 13px 20px; border-radius: 14px; font-weight: 700; font-size: 15px; text-decoration: none; }
+    /* ───────── video reel (own watch videos) ───────── */
+    .story-reel { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+    .story-v { margin: 0; overflow: hidden; background: #111827; border-radius: 22px; aspect-ratio: 464 / 832; position: relative; cursor: pointer; }
+    .story-v video { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s cubic-bezier(.2,.7,.1,1); }
+    .story-v:hover video { transform: scale(1.04); }
+    .story-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 24px; }
+    .story-btn { padding: 14px 24px; border-radius: 16px; font-weight: 700; font-size: 16px; text-decoration: none; }
     .story-btn.red { background: var(--accent-red); color: #fff; }
     .story-btn.light { background: #fff; color: #111827; }
-    .story-play { position: absolute; top: 18px; right: 18px; z-index: 3; width: 52px; height: 52px; border-radius: 50%; border: none; background: rgba(255,255,255,.9); color: #111827; font-size: 18px; cursor: pointer; }
-    .story-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
-    .story-v { margin: 0; overflow: hidden; background: #111827; border-radius: 24px; aspect-ratio: 16 / 9; }
-    .story-v video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     /* ───────── motion ───────── */
     .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s cubic-bezier(.2,.7,.1,1), transform .8s cubic-bezier(.2,.7,.1,1); }
@@ -109,6 +104,7 @@ CSS_EXTRA = '''
 
     @media (max-width: 1000px) {
       .holiday-grid { grid-template-columns: repeat(2, 1fr); }
+      .story-reel { grid-template-columns: repeat(3, 1fr); }
     }
     @media (max-width: 768px) {
       .holiday-section, .story-section { padding: 44px 16px 4px; }
@@ -118,10 +114,8 @@ CSS_EXTRA = '''
       .holiday-name { font-size: 18px; }
       .holiday-tip { font-size: 14px; }
       .lang-btn { padding: 6px 9px; }
-      .story-banner { min-height: 400px; }
-      .story-overlay { margin: 12px; padding: 18px; }
-      .story-title { font-size: 28px; }
-      .story-row { grid-template-columns: 1fr; }
+      .story-reel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding-bottom: 8px; margin-right: -16px; padding-right: 16px; }
+      .story-v { flex: 0 0 64%; scroll-snap-align: start; }
       .holiday-ribbon { font-size: 13px; padding: 8px 12px; }
     }
 '''
@@ -138,16 +132,16 @@ JS_EXTRA = r'''
         pick_inst: (m) => 'Kaspi Red: ' + m + ' ₸ в месяц',
         review_cap: 'Отзыв клиента в WhatsApp',
         days_left: (n) => n === 0 ? 'сегодня' : (n === 1 ? 'остался 1 день' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'осталось ' + n + ' дня' : 'осталось ' + n + ' дней')),
-        ribbon: (name, n) => '🎁 ' + (n === 0 ? 'Сегодня ' + name : 'До праздника «' + name + '» ' + (n === 1 ? 'остался 1 день' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'осталось ' + n + ' дня' : 'осталось ' + n + ' дней'))) + '. Закажите гравировку заранее →',
+        ribbon: (name, n) => '🎁 ' + (n === 0 ? 'Сегодня ' + name : 'До праздника ' + qn(name) + ' ' + (n === 1 ? 'остался 1 день' : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 'осталось ' + n + ' дня' : 'осталось ' + n + ' дней'))) + '. Закажите гравировку заранее →',
         h_pick: 'Подобрать часы', h_order: 'Заказать к празднику',
         months: ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'],
         wa_hello: 'Здравствуйте! Пишу с сайта UAQYT. Хочу заказать часы, подскажите, пожалуйста.',
-        wa_product: (name, price) => 'Здравствуйте! Хочу заказать часы «' + name + '»' + (price ? ' (' + price + ')' : '') + ' с сайта UAQYT.',
-        wa_request: (name, tag) => 'Здравствуйте! Хочу узнать цену и срок изготовления часов с сайта UAQYT:\n\n• Модель: «' + name + '»\n• Категория: ' + tag,
+        wa_product: (name, price) => 'Здравствуйте! Хочу заказать часы ' + qn(name) + '' + (price ? ' (' + price + ')' : '') + ' с сайта UAQYT.',
+        wa_request: (name, tag) => 'Здравствуйте! Хочу узнать цену и срок изготовления часов с сайта UAQYT:\n\n• Модель: ' + qn(name) + '\n• Категория: ' + tag,
         wa_engrave: 'Что написать на циферблате', wa_city: 'Город',
-        wa_dial: (name, sub) => 'Здравствуйте! Я собрал(а) свои часы в конструкторе на сайте UAQYT:\n\n• Имя: «' + name + '»\n• Надпись / род: «' + sub + '»\n\nПодскажите цену и сроки.',
+        wa_dial: (name, sub) => 'Здравствуйте! Я собрал(а) свои часы в конструкторе на сайте UAQYT:\n\n• Имя: ' + qn(name) + '\n• Надпись / род: «' + sub + '»\n\nПодскажите цену и сроки.',
         wa_pick: (who, bud) => 'Здравствуйте! Помогите выбрать часы. Кому: ' + who + '. Бюджет: ' + bud + '.',
-        wa_holiday: (name, date) => 'Здравствуйте! Хочу заказать часы с гравировкой к празднику «' + name + '» (' + date + '). Подскажите, что выбрать и успеем ли.',
+        wa_holiday: (name, date) => 'Здравствуйте! Хочу заказать часы с гравировкой к празднику ' + qn(name) + ' (' + date + '). Подскажите, что выбрать и успеем ли.',
         who: { mens: 'мужчине', couples: 'паре (1+1)', service: 'сотруднику', none: 'не выбрано' },
         bud: { t1: 'до 30 000 ₸', t2: '30 000 – 40 000 ₸', t3: '40 000 – 55 000 ₸', t4: 'от 55 000 ₸', none: 'не важен' }
       },
@@ -160,16 +154,16 @@ JS_EXTRA = r'''
         pick_inst: (m) => 'Kaspi Red: айына ' + m + ' ₸',
         review_cap: 'Клиенттің WhatsApp-тағы пікірі',
         days_left: (n) => n === 0 ? 'бүгін' : n + ' күн қалды',
-        ribbon: (name, n) => '🎁 ' + (n === 0 ? 'Бүгін: ' + name : '«' + name + '» мерекесіне ' + n + ' күн қалды') + '. Гравировканы алдын ала тапсырыс беріңіз →',
+        ribbon: (name, n) => '🎁 ' + (n === 0 ? 'Бүгін: ' + name : '' + qn(name) + ' мерекесіне ' + n + ' күн қалды') + '. Гравировканы алдын ала тапсырыс беріңіз →',
         h_pick: 'Сағат таңдау', h_order: 'Мерекеге тапсырыс беру',
         months: ['қаңтар','ақпан','наурыз','сәуір','мамыр','маусым','шілде','тамыз','қыркүйек','қазан','қараша','желтоқсан'],
         wa_hello: 'Сәлеметсіз бе! UAQYT сайтынан жазып отырмын. Сағат тапсырыс бергім келеді, көмектесіңізші.',
-        wa_product: (name, price) => 'Сәлеметсіз бе! UAQYT сайтындағы «' + name + '»' + (price ? ' (' + price + ')' : '') + ' сағатын тапсырыс бергім келеді.',
-        wa_request: (name, tag) => 'Сәлеметсіз бе! UAQYT сайтындағы сағаттың бағасы мен дайындалу мерзімін білгім келеді:\n\n• Үлгі: «' + name + '»\n• Санат: ' + tag,
+        wa_product: (name, price) => 'Сәлеметсіз бе! UAQYT сайтындағы ' + qn(name) + '' + (price ? ' (' + price + ')' : '') + ' сағатын тапсырыс бергім келеді.',
+        wa_request: (name, tag) => 'Сәлеметсіз бе! UAQYT сайтындағы сағаттың бағасы мен дайындалу мерзімін білгім келеді:\n\n• Үлгі: ' + qn(name) + '\n• Санат: ' + tag,
         wa_engrave: 'Циферблатқа жазылатын мәтін', wa_city: 'Қала',
-        wa_dial: (name, sub) => 'Сәлеметсіз бе! UAQYT сайтындағы конструкторда өз сағатымды құрастырдым:\n\n• Есім: «' + name + '»\n• Жазу / ру: «' + sub + '»\n\nБағасы мен мерзімін айтыңызшы.',
+        wa_dial: (name, sub) => 'Сәлеметсіз бе! UAQYT сайтындағы конструкторда өз сағатымды құрастырдым:\n\n• Есім: ' + qn(name) + '\n• Жазу / ру: «' + sub + '»\n\nБағасы мен мерзімін айтыңызшы.',
         wa_pick: (who, bud) => 'Сәлеметсіз бе! Сағат таңдауға көмектесіңізші. Кімге: ' + who + '. Бюджет: ' + bud + '.',
-        wa_holiday: (name, date) => 'Сәлеметсіз бе! «' + name + '» (' + date + ') мерекесіне гравировкалы сағат тапсырыс бергім келеді. Не таңдау керегін айтыңызшы, үлгеріп қаламыз ба?',
+        wa_holiday: (name, date) => 'Сәлеметсіз бе! ' + qn(name) + ' (' + date + ') мерекесіне гравировкалы сағат тапсырыс бергім келеді. Не таңдау керегін айтыңызшы, үлгеріп қаламыз ба?',
         who: { mens: 'ер адамға', couples: 'жұпқа (1+1)', service: 'қызметкерге', none: 'таңдалмаған' },
         bud: { t1: '30 000 ₸ дейін', t2: '30 000 – 40 000 ₸', t3: '40 000 – 55 000 ₸', t4: '55 000 ₸ бастап', none: 'маңызды емес' }
       }
@@ -177,6 +171,7 @@ JS_EXTRA = r'''
     let LANG = 'ru';
     function tt(k) { return (I18N[LANG] && I18N[LANG][k] !== undefined) ? I18N[LANG][k] : I18N.ru[k]; }
     function pf(p, f) { return (LANG === 'ru' && p.ru && p.ru[f]) ? p.ru[f] : p[f]; }
+    function qn(n) { return n.indexOf('«') >= 0 ? n : '«' + n + '»'; }
     function money(n) { return n.toLocaleString('ru-RU') + ' ₸'; }
     function waLink(text) { return 'https://wa.me/__WA__?text=' + encodeURIComponent(text); }
 
@@ -197,6 +192,7 @@ JS_EXTRA = r'''
       filterCatalog();
       renderPicks();
       renderHolidays();
+      renderFeatures();
       if (document.getElementById('productModal').classList.contains('active') && currentModalProduct) openProductModal(currentModalProduct.id);
     }
 
@@ -344,6 +340,7 @@ JS_EXTRA = r'''
           <div class="holiday-actions">
             <button type="button" class="holiday-btn dark" onclick="applyHoliday('${x.h.who}')">${tt('h_pick')}</button>
             <a class="holiday-btn wa" target="_blank" rel="noopener" href="${waLink(tt('wa_holiday')(name, date))}">${tt('h_order')}</a>
+            <a class="holiday-remind" target="_blank" rel="noopener" href="${waLink(tt('wa_remind')(name, date))}">${tt('remind')}</a>
           </div></div>`;
       }).join('');
       const rb = document.getElementById('holidayRibbonText');
