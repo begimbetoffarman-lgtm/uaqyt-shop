@@ -1,0 +1,5 @@
+# Git ignore for Vercel and repository
+uaqyt-single.html
+__pycache__/
+*.pyc
+.system_generated/

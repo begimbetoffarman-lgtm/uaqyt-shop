@@ -1,0 +1,3085 @@
+# -*- coding: utf-8 -*-
+import os, sys, json
+
+sys.path.insert(0, os.path.dirname(__file__))
+sys.stdout.reconfigure(encoding='utf-8')
+
+from compile_data import all_products_sorted, customer_reviews
+
+print(f"Loaded {len(all_products_sorted)} products and {len(customer_reviews)} reviews.")
+
+# JSON dump for frontend interactive search and modal lookup
+products_json = json.dumps(all_products_sorted, ensure_ascii=False)
+reviews_json = json.dumps(customer_reviews, ensure_ascii=False)
+
+def generate():
+    # Generate cards HTML
+    cards_html = []
+    for p in all_products_sorted:
+        is_req = p.get('is_price_on_request', False)
+        pid = p['id']
+        name = p['name']
+        cat = p['cat']
+        tag = p['tag']
+        desc = p['desc']
+        img = p['img']
+        badge = p['badge']
+        
+        if is_req:
+            price_val = 999999
+            price_display = '<span class="price-request-badge">Бағасын нақтылау</span>'
+            installment_html = '''
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>'''
+            btn_html = f'''
+            <button class="btn-card-action btn-req" onclick="openProductModal('{pid}')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>'''
+        else:
+            price_val = p['price']
+            price_str = f"{p['price']:,}".replace(',', ' ')
+            monthly = f"{p['price'] // 12:,}".replace(',', ' ')
+            price_display = f'<span class="card-price">{price_str} ₸</span>'
+            installment_html = f'''
+            <div class="installment-pill" title="Бөліп төлеу мүмкіндігі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              <span>Бөліп төлеу: айына <strong>{monthly} ₸</strong></span>
+            </div>'''
+            btn_html = f'''
+            <button class="btn-card-action" onclick="openProductModal('{pid}')">
+              <span>Толығырақ көру</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>'''
+
+        card = f'''
+        <div class="product-card" data-category="{cat}" data-price="{price_val}" data-id="{pid}" onclick="openProductModal('{pid}')">
+          <div class="card-badge">{badge}</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="{img}" alt="{name}" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">{tag}</div>
+            <h3 class="card-title">{name}</h3>
+            <p class="card-desc">{desc}</p>
+            {installment_html}
+            <div class="card-footer">
+              {price_display}
+              {btn_html}
+            </div>
+          </div>
+        </div>'''
+        cards_html.append(card)
+
+    all_cards_str = "\n".join(cards_html)
+
+    # Generate customer reviews cards HTML
+    review_cards_html = []
+    for idx, r in enumerate(customer_reviews):
+        rev_id = r['id']
+        author = r['author']
+        city = r['city']
+        order = r['order']
+        quote = r['quote']
+        img = r['img']
+        tag = r['tag']
+        badge = r['badge']
+
+        # Determine filter category
+        rev_cat = 'whatsapp'
+        if '1+1' in order or 'жұптық' in order.lower():
+            rev_cat += ' couples'
+        if 'іім' in order.lower() or 'ұқк' in order.lower() or 'қызмет' in order.lower():
+            rev_cat += ' service'
+        if 'ру' in tag.lower() or 'таңба' in tag.lower() or 'руы' in tag.lower():
+            rev_cat += ' ornament'
+
+        rcard = f'''
+        <div class="review-card" data-rev-cat="{rev_cat}" onclick="openReviewLightbox({idx})">
+          <div class="review-status-bar">
+            <span class="status-indicator"></span>
+            <span class="status-text">{badge} • {city}</span>
+            <span class="status-verified">✓ Расталған</span>
+          </div>
+          <div class="review-img-wrapper" title="Үлкейтіп оқу үшін басыңыз">
+            <img src="{img}" alt="UAQYT WhatsApp пікір — {author}" loading="lazy">
+            <div class="review-overlay-hover">
+              <span class="review-read-pill">🔍 Скриншотты толық оқу</span>
+            </div>
+          </div>
+          <div class="review-content">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-quote">{quote}</p>
+            <div class="reviewer-meta-box">
+              <div class="reviewer-avatar">{author[0]}</div>
+              <div class="reviewer-details">
+                <span class="reviewer-name">{author}</span>
+                <span class="reviewer-order">{order}</span>
+              </div>
+            </div>
+          </div>
+        </div>'''
+        review_cards_html.append(rcard)
+
+    all_reviews_str = "\n".join(review_cards_html)
+
+    # Let's write the complete HTML template
+    html_content = f'''<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>UAQYT — Жеке жазуы бар есімді сағаттар бутігі | Сайран Сити 320</title>
+  <meta name="description" content="UAQYT — жеке есім мен шежіре-ру таңбалары, қызметтік органдардың (ІІМ, ҰҚК, ТЖМ, ҚР ҚК) ресми эмблемалары қашалған мәртебелі қол сағаттар бутігі. 1 сатып алсаңыз — 2-ші сағат ТЕГІН!">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {{
+      --bg: #ffffff;
+      --bg-alt: #f8f9fa;
+      --bg-card: #ffffff;
+      --border: #e9ecef;
+      --border-focus: #c5a880;
+      --border-gold: rgba(184, 142, 79, 0.35);
+      --text: #111827;
+      --text-muted: #6b7280;
+      --accent-gold: #b88e4f;
+      --accent-gold-soft: #fbf7ee;
+      --accent-gold-dark: #8c682e;
+      --accent-green: #25D366;
+      --accent-green-dark: #128C7E;
+      --accent-red: #e11d48;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 10px 30px rgba(0,0,0,0.06);
+      --shadow-lg: 0 20px 45px rgba(0,0,0,0.09);
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --nav-height: 70px;
+      --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }}
+
+    * {{
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }}
+
+    html {{
+      scroll-behavior: smooth;
+    }}
+
+    body {{
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }}
+
+    ::selection {{
+      background: var(--accent-gold-soft);
+      color: var(--accent-gold-dark);
+    }}
+
+    a {{
+      color: inherit;
+      text-decoration: none;
+    }}
+
+    /* ───────── TOP BAR: ANNOUNCEMENT & 2GIS ───────── */
+    .pitch-banner {{
+      background: #fdfaf3;
+      border-bottom: 1px solid rgba(184, 142, 79, 0.25);
+      padding: 9px 24px;
+      font-size: 13px;
+      color: var(--accent-gold-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 101;
+      gap: 12px;
+      flex-wrap: wrap;
+    }}
+
+    .pitch-left {{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }}
+
+    .pitch-badge {{
+      background: var(--accent-gold);
+      color: #fff;
+      padding: 3px 9px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }}
+
+    .pitch-text strong {{
+      color: #724c16;
+    }}
+
+    .pitch-right {{
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }}
+
+    .pitch-2gis-link {{
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #0284c7;
+      font-weight: 600;
+      transition: var(--transition);
+      background: #f0f9ff;
+      padding: 3px 10px;
+      border-radius: 12px;
+      border: 1px solid #bae6fd;
+    }}
+
+    .pitch-2gis-link:hover {{
+      background: #e0f2fe;
+      transform: translateY(-1px);
+    }}
+
+    .pitch-social-link {{
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: var(--transition);
+    }}
+
+    .pitch-social-link:hover {{
+      color: var(--accent-gold);
+    }}
+
+    /* ───────── NAVBAR ───────── */
+    .navbar {{
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      transition: var(--transition);
+    }}
+
+    .nav-brand {{
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }}
+
+    .brand-logo-mark {{
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #fdf8ef 0%, #f6e8d2 100%);
+      border: 1.5px solid var(--accent-gold);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-gold);
+      box-shadow: 0 4px 12px rgba(184, 142, 79, 0.15);
+    }}
+
+    .brand-text {{
+      display: flex;
+      flex-direction: column;
+    }}
+
+    .brand-name {{
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--text);
+      line-height: 1;
+    }}
+
+    .brand-sub {{
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent-gold);
+      font-weight: 700;
+      margin-top: 2px;
+    }}
+
+    .nav-links {{
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }}
+
+    .nav-link {{
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      transition: var(--transition);
+      position: relative;
+    }}
+
+    .nav-link:hover {{
+      color: var(--accent-gold);
+    }}
+
+    .nav-link.highlight {{
+      color: var(--accent-red);
+      font-weight: 700;
+    }}
+
+    .nav-actions {{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }}
+
+    .btn-nav-2gis {{
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }}
+
+    .btn-nav-2gis:hover {{
+      background: #dcfce7;
+      transform: translateY(-1px);
+    }}
+
+    .btn-nav-whatsapp {{
+      background: var(--accent-green);
+      color: #fff;
+      padding: 9px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }}
+
+    .btn-nav-whatsapp:hover {{
+      background: var(--accent-green-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    }}
+
+    /* ───────── HERO SECTION ───────── */
+    .hero {{
+      padding: 60px 32px 70px;
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+    }}
+
+    .hero-tag-badge {{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-gold-soft);
+      border: 1px solid var(--border-gold);
+      padding: 6px 14px;
+      border-radius: 20px;
+      color: var(--accent-gold-dark);
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 20px;
+    }}
+
+    .hero-title {{
+      font-family: var(--font-serif);
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      margin-bottom: 20px;
+    }}
+
+    .hero-title span {{
+      color: var(--accent-gold);
+      font-style: italic;
+    }}
+
+    .hero-lead {{
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      max-width: 580px;
+    }}
+
+    .hero-perks-grid {{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 36px;
+    }}
+
+    .perk-card {{
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: left;
+    }}
+
+    .perk-icon {{
+      font-size: 20px;
+      margin-bottom: 6px;
+      display: block;
+    }}
+
+    .perk-title {{
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+    }}
+
+    .perk-desc {{
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }}
+
+    .hero-cta-group {{
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }}
+
+    .btn-hero-primary {{
+      background: var(--text);
+      color: #fff;
+      padding: 15px 30px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+      box-shadow: var(--shadow-md);
+    }}
+
+    .btn-hero-primary:hover {{
+      background: #000;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }}
+
+    .btn-hero-secondary {{
+      background: #fff;
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      padding: 14px 26px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }}
+
+    .btn-hero-secondary:hover {{
+      border-color: var(--accent-gold);
+      color: var(--accent-gold-dark);
+      transform: translateY(-2px);
+    }}
+
+    /* Hero Right: Live Interactive Dial Mockup */
+    .hero-visual-card {{
+      background: linear-gradient(145deg, #ffffff 0%, #faf8f5 100%);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      position: relative;
+    }}
+
+    .hero-promo-badge {{
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+      animation: pulse 2s infinite;
+    }}
+
+    @keyframes pulse {{
+      0%, 100% {{ transform: scale(1); }}
+      50% {{ transform: scale(1.04); }}
+    }}
+
+    /* ───────── EXCLUSIVE 1+1 PROMO SECTION ───────── */
+    .promo-banner-section {{
+      background: linear-gradient(135deg, #fef2f2 0%, #fff1f2 100%);
+      border-top: 1px solid #fecdd3;
+      border-bottom: 1px solid #fecdd3;
+      padding: 50px 32px;
+      margin: 20px 0 60px;
+    }}
+
+    .promo-container {{
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 40px;
+      align-items: center;
+    }}
+
+    .promo-img-box {{
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 16px 36px rgba(225, 29, 72, 0.15);
+      border: 3px solid #fff;
+    }}
+
+    .promo-img-box img {{
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }}
+
+    .promo-img-box:hover img {{
+      transform: scale(1.03);
+    }}
+
+    .promo-tag {{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-red);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }}
+
+    .promo-heading {{
+      font-family: var(--font-serif);
+      font-size: 40px;
+      font-weight: 700;
+      color: #881337;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }}
+
+    .promo-text {{
+      font-size: 16px;
+      color: #9f1239;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }}
+
+    .promo-features {{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 28px;
+    }}
+
+    .promo-feat-item {{
+      background: rgba(255, 255, 255, 0.7);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #881337;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }}
+
+    .btn-promo-action {{
+      background: var(--accent-red);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 6px 18px rgba(225, 29, 72, 0.35);
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }}
+
+    .btn-promo-action:hover {{
+      background: #be123c;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(225, 29, 72, 0.45);
+    }}
+
+    /* ───────── INTERACTIVE DIAL SIMULATOR ───────── */
+    .simulator-section {{
+      padding: 70px 32px;
+      max-width: 1200px;
+      margin: 0 auto 60px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+    }}
+
+    .sim-header {{
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 40px;
+    }}
+
+    .sim-subtitle {{
+      color: var(--accent-gold);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }}
+
+    .sim-title {{
+      font-family: var(--font-serif);
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }}
+
+    .sim-grid {{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }}
+
+    .dial-display-card {{
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }}
+
+    .dial-case {{
+      width: 290px;
+      height: 290px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #f4f4f5 100%);
+      border: 14px solid #d4af37;
+      box-shadow: 0 15px 35px rgba(212, 175, 55, 0.25), inset 0 2px 10px rgba(0,0,0,0.1);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }}
+
+    .dial-ticks {{
+      position: absolute;
+      inset: 6px;
+      border-radius: 50%;
+      border: 1px dashed rgba(0,0,0,0.15);
+    }}
+
+    .dial-center-content {{
+      text-align: center;
+      z-index: 2;
+      width: 180px;
+    }}
+
+    .dial-tamga-icon {{
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 8px;
+      color: #92400e;
+      transition: var(--transition);
+    }}
+
+    .dial-name {{
+      font-family: var(--font-serif);
+      font-size: 21px;
+      font-weight: 700;
+      color: #111827;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }}
+
+    .dial-sub {{
+      font-size: 11px;
+      color: #92400e;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }}
+
+    .dial-date {{
+      font-size: 9.5px;
+      color: #6b7280;
+      letter-spacing: 1px;
+      margin-top: 5px;
+    }}
+
+    /* Clock hands */
+    .hand {{
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      transform-origin: 50% 100%;
+      border-radius: 4px;
+    }}
+
+    .hour-hand {{
+      width: 4px;
+      height: 60px;
+      background: #1e293b;
+      margin-left: -2px;
+      transform: rotate(60deg);
+      z-index: 3;
+    }}
+
+    .min-hand {{
+      width: 3px;
+      height: 85px;
+      background: #1e293b;
+      margin-left: -1.5px;
+      transform: rotate(190deg);
+      z-index: 4;
+    }}
+
+    .sec-hand {{
+      width: 1.5px;
+      height: 98px;
+      background: #e11d48;
+      margin-left: -0.75px;
+      z-index: 5;
+    }}
+
+    .center-pin {{
+      width: 10px;
+      height: 10px;
+      background: #d4af37;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 6;
+    }}
+
+    .sim-controls-form {{
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }}
+
+    .form-group {{
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }}
+
+    .form-label {{
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }}
+
+    .form-input, .form-select {{
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 14px;
+      background: #fff;
+      transition: var(--transition);
+    }}
+
+    .form-input:focus, .form-select:focus {{
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px rgba(184, 142, 79, 0.15);
+    }}
+
+    .btn-apply-sim {{
+      background: var(--accent-gold);
+      color: #fff;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(184, 142, 79, 0.25);
+    }}
+
+    .btn-apply-sim:hover {{
+      background: var(--accent-gold-dark);
+      transform: translateY(-2px);
+    }}
+
+    /* ───────── CATALOG SECTION ───────── */
+    .catalog-section {{
+      padding: 60px 32px 90px;
+      max-width: 1360px;
+      margin: 0 auto;
+    }}
+
+    .catalog-header {{
+      text-align: center;
+      margin-bottom: 36px;
+    }}
+
+    .section-subtitle {{
+      color: var(--accent-gold);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }}
+
+    .section-title {{
+      font-family: var(--font-serif);
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }}
+
+    .section-desc {{
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 620px;
+      margin: 10px auto 0;
+    }}
+
+    /* Search & Filter Toolbar */
+    .catalog-toolbar {{
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 40px;
+    }}
+
+    .search-sort-bar {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }}
+
+    .search-box {{
+      position: relative;
+      flex: 1;
+      max-width: 480px;
+    }}
+
+    .search-box svg {{
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }}
+
+    .search-input {{
+      width: 100%;
+      padding: 12px 18px 12px 46px;
+      border: 1.5px solid var(--border);
+      border-radius: 30px;
+      font-family: inherit;
+      font-size: 14px;
+      background: #fff;
+      transition: var(--transition);
+    }}
+
+    .search-input:focus {{
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px rgba(184, 142, 79, 0.15);
+    }}
+
+    .sort-select {{
+      padding: 12px 20px;
+      border: 1.5px solid var(--border);
+      border-radius: 30px;
+      font-family: inherit;
+      font-size: 13.5px;
+      background: #fff;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+    }}
+
+    .filter-tabs {{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: none;
+    }}
+
+    .filter-tabs::-webkit-scrollbar {{
+      display: none;
+    }}
+
+    .filter-tab {{
+      padding: 9px 18px;
+      border-radius: 24px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+    }}
+
+    .filter-tab:hover {{
+      color: var(--text);
+      border-color: #cbd5e1;
+    }}
+
+    .filter-tab.active {{
+      background: var(--text);
+      color: #fff;
+      border-color: var(--text);
+    }}
+
+    .filter-tab.active-special {{
+      background: var(--accent-red);
+      color: #fff;
+      border-color: var(--accent-red);
+    }}
+
+    /* Products Grid */
+    .products-grid {{
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 28px;
+    }}
+
+    .product-card {{
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: var(--transition);
+      cursor: pointer;
+    }}
+
+    .product-card:hover {{
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--border-gold);
+    }}
+
+    .card-badge {{
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-gold-dark);
+      border: 1px solid rgba(184, 142, 79, 0.25);
+      z-index: 2;
+    }}
+
+    .card-img-box {{
+      width: 100%;
+      height: 290px;
+      background: #fafafa;
+      position: relative;
+      overflow: hidden;
+    }}
+
+    .card-img-box img {{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }}
+
+    .product-card:hover .card-img-box img {{
+      transform: scale(1.05);
+    }}
+
+    .zoom-hint {{
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(6px);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 14px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: var(--transition);
+    }}
+
+    .product-card:hover .zoom-hint {{
+      opacity: 1;
+      transform: translateY(0);
+    }}
+
+    .card-body {{
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }}
+
+    .card-category-tag {{
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }}
+
+    .card-title {{
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }}
+
+    .card-desc {{
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }}
+
+    .installment-pill {{
+      background: #fdfaf3;
+      border: 1px solid rgba(184, 142, 79, 0.25);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 11.5px;
+      color: var(--accent-gold-dark);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+    }}
+
+    .installment-pill.req {{
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+      color: #166534;
+    }}
+
+    .card-footer {{
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }}
+
+    .card-price {{
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }}
+
+    .price-request-badge {{
+      font-size: 13px;
+      font-weight: 700;
+      color: #047857;
+      background: #ecfdf5;
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid #a7f3d0;
+    }}
+
+    .btn-card-action {{
+      background: var(--bg-alt);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+    }}
+
+    .btn-card-action:hover {{
+      background: var(--text);
+      color: #fff;
+      border-color: var(--text);
+    }}
+
+    .btn-card-action.btn-req {{
+      background: #ecfdf5;
+      color: #047857;
+      border-color: #a7f3d0;
+    }}
+
+    .btn-card-action.btn-req:hover {{
+      background: #047857;
+      color: #fff;
+    }}
+
+    /* ───────── SOCIAL MEDIA SHOWCASE (INSTAGRAM & TIKTOK) ───────── */
+    .social-section {{
+      padding: 60px 32px;
+      max-width: 1200px;
+      margin: 0 auto 70px;
+    }}
+
+    .social-grid {{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }}
+
+    .social-card {{
+      border-radius: 24px;
+      padding: 36px;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      transition: var(--transition);
+    }}
+
+    .social-card:hover {{
+      transform: translateY(-5px);
+    }}
+
+    .social-card.instagram {{
+      background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+    }}
+
+    .social-card.tiktok {{
+      background: #000000;
+      border: 1.5px solid #222;
+    }}
+
+    .social-card.tiktok::before {{
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(0, 242, 234, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }}
+
+    .social-card-top {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }}
+
+    .social-icon-box {{
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }}
+
+    .social-handle {{
+      font-size: 15px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      backdrop-filter: blur(6px);
+    }}
+
+    .social-card-title {{
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }}
+
+    .social-card-desc {{
+      font-size: 14.5px;
+      opacity: 0.9;
+      line-height: 1.55;
+      margin-bottom: 28px;
+    }}
+
+    .btn-social-cta {{
+      background: #fff;
+      color: #000;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      align-self: flex-start;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }}
+
+    .btn-social-cta:hover {{
+      background: #f8f9fa;
+      transform: scale(1.03);
+    }}
+
+    /* ───────── VERIFIED CUSTOMER REVIEWS (22 REAL WHATSAPP SCREENSHOTS) ───────── */
+    .reviews-section {{
+      padding: 70px 32px 90px;
+      background: var(--bg-alt);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }}
+
+    .reviews-container {{
+      max-width: 1360px;
+      margin: 0 auto;
+    }}
+
+    .reviews-header {{
+      text-align: center;
+      margin-bottom: 40px;
+    }}
+
+    .rev-filter-tabs {{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }}
+
+    .rev-filter-tab {{
+      padding: 8px 18px;
+      border-radius: 20px;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }}
+
+    .rev-filter-tab.active {{
+      background: var(--accent-gold);
+      color: #fff;
+      border-color: var(--accent-gold);
+    }}
+
+    .reviews-grid {{
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 26px;
+    }}
+
+    .review-card {{
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      cursor: pointer;
+    }}
+
+    .review-card:hover {{
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--accent-gold);
+    }}
+
+    .review-status-bar {{
+      padding: 10px 16px;
+      background: #fdfaf3;
+      border-bottom: 1px solid rgba(184, 142, 79, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--accent-gold-dark);
+      font-weight: 600;
+    }}
+
+    .status-indicator {{
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      display: inline-block;
+      margin-right: 4px;
+    }}
+
+    .review-img-wrapper {{
+      width: 100%;
+      height: 380px;
+      background: #f1f5f9;
+      position: relative;
+      overflow: hidden;
+    }}
+
+    .review-img-wrapper img {{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.4s ease;
+    }}
+
+    .review-card:hover .review-img-wrapper img {{
+      transform: scale(1.03);
+    }}
+
+    .review-overlay-hover {{
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: var(--transition);
+    }}
+
+    .review-card:hover .review-overlay-hover {{
+      opacity: 1;
+    }}
+
+    .review-read-pill {{
+      background: #fff;
+      color: #111827;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 24px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    }}
+
+    .review-content {{
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }}
+
+    .review-stars {{
+      color: #f59e0b;
+      font-size: 14px;
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+    }}
+
+    .review-quote {{
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: var(--text);
+      font-style: italic;
+      margin-bottom: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }}
+
+    .reviewer-meta-box {{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }}
+
+    .reviewer-avatar {{
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--accent-gold-soft);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold-dark);
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }}
+
+    .reviewer-details {{
+      display: flex;
+      flex-direction: column;
+    }}
+
+    .reviewer-name {{
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }}
+
+    .reviewer-order {{
+      font-size: 11px;
+      color: var(--text-muted);
+    }}
+
+    /* ───────── SHOWROOM & 2GIS SECTION ───────── */
+    .showroom-section {{
+      padding: 70px 32px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }}
+
+    .showroom-card {{
+      background: linear-gradient(145deg, #ffffff 0%, #fbfaf8 100%);
+      border: 1.5px solid var(--border-gold);
+      border-radius: 28px;
+      padding: 48px;
+      box-shadow: var(--shadow-lg);
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }}
+
+    .showroom-badge {{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-gold-soft);
+      color: var(--accent-gold-dark);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }}
+
+    .showroom-title {{
+      font-family: var(--font-serif);
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }}
+
+    .showroom-desc {{
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }}
+
+    .info-list {{
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 32px;
+    }}
+
+    .info-item {{
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text);
+    }}
+
+    .info-item svg {{
+      color: var(--accent-gold);
+      flex-shrink: 0;
+      margin-top: 3px;
+    }}
+
+    .showroom-cta-box {{
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }}
+
+    .btn-2gis-primary {{
+      background: #0284c7;
+      color: #fff;
+      padding: 14px 26px;
+      border-radius: 30px;
+      font-size: 14.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.3);
+    }}
+
+    .btn-2gis-primary:hover {{
+      background: #0369a1;
+      transform: translateY(-2px);
+    }}
+
+    .btn-whatsapp-showroom {{
+      background: var(--accent-green);
+      color: #fff;
+      padding: 14px 26px;
+      border-radius: 30px;
+      font-size: 14.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
+    }}
+
+    .btn-whatsapp-showroom:hover {{
+      background: var(--accent-green-dark);
+      transform: translateY(-2px);
+    }}
+
+    .showroom-map-mockup {{
+      background: #e2e8f0;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      position: relative;
+      height: 340px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=800&q=80') center/cover;
+    }}
+
+    .map-overlay {{
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+    }}
+
+    .map-content {{
+      position: relative;
+      z-index: 2;
+      color: #fff;
+    }}
+
+    .map-pin-icon {{
+      width: 48px;
+      height: 48px;
+      background: #ef4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.3);
+    }}
+
+    /* ───────── FOOTER ───────── */
+    .footer {{
+      background: #111827;
+      color: #9ca3af;
+      padding: 60px 32px 30px;
+      border-top: 1px solid #1f2937;
+    }}
+
+    .footer-container {{
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 50px;
+    }}
+
+    .footer-brand {{
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }}
+
+    .footer-logo {{
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 2px;
+    }}
+
+    .footer-links {{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      list-style: none;
+    }}
+
+    .footer-title {{
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      letter-spacing: 0.5px;
+    }}
+
+    .footer-link {{
+      font-size: 13.5px;
+      transition: var(--transition);
+    }}
+
+    .footer-link:hover {{
+      color: var(--accent-gold);
+    }}
+
+    .footer-bottom {{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 24px;
+      border-top: 1px solid #1f2937;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }}
+
+    /* ───────── PRODUCT DETAIL MODAL (APPLE-STYLE) ───────── */
+    .modal-overlay {{
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }}
+
+    .modal-overlay.active {{
+      display: flex;
+      opacity: 1;
+    }}
+
+    .modal-card {{
+      background: #ffffff;
+      border-radius: 28px;
+      max-width: 860px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }}
+
+    .modal-overlay.active .modal-card {{
+      transform: scale(1);
+    }}
+
+    .btn-close-modal {{
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.06);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4b5563;
+      font-size: 18px;
+      transition: var(--transition);
+      z-index: 10;
+    }}
+
+    .btn-close-modal:hover {{
+      background: rgba(0, 0, 0, 0.12);
+      transform: scale(1.05);
+    }}
+
+    .modal-img-col {{
+      background: #fafafa;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }}
+
+    .modal-img-box {{
+      width: 100%;
+      height: 360px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }}
+
+    .modal-img-box img {{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+      cursor: zoom-in;
+    }}
+
+    .modal-img-box:hover img {{
+      transform: scale(1.06);
+    }}
+
+    .modal-info-col {{
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+    }}
+
+    .modal-badge {{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-gold-soft);
+      color: var(--accent-gold-dark);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      align-self: flex-start;
+      margin-bottom: 10px;
+    }}
+
+    .modal-title {{
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }}
+
+    .modal-price-box {{
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 14px;
+    }}
+
+    .modal-price {{
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+    }}
+
+    .modal-installment {{
+      background: #fdfaf3;
+      border: 1px solid rgba(184, 142, 79, 0.3);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--accent-gold-dark);
+      font-weight: 600;
+    }}
+
+    .modal-promo-note {{
+      background: #fff1f2;
+      border: 1px solid #fecdd3;
+      color: #9f1239;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 18px;
+    }}
+
+    .modal-specs-table {{
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 12.5px;
+    }}
+
+    .modal-specs-table tr {{
+      border-bottom: 1px solid var(--border);
+    }}
+
+    .modal-specs-table td {{
+      padding: 8px 4px;
+    }}
+
+    .modal-specs-table td.spec-name {{
+      color: var(--text-muted);
+      width: 40%;
+      font-weight: 600;
+    }}
+
+    .modal-specs-table td.spec-val {{
+      color: var(--text);
+      font-weight: 600;
+    }}
+
+    /* Custom engraving input inside modal */
+    .modal-customizer-box {{
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 20px;
+    }}
+
+    .modal-customizer-label {{
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: block;
+    }}
+
+    .modal-input-engrave {{
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 13.5px;
+      background: #fff;
+    }}
+
+    .modal-cta-group {{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: auto;
+    }}
+
+    .btn-modal-whatsapp {{
+      background: var(--accent-green);
+      color: #fff;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+      transition: var(--transition);
+    }}
+
+    .btn-modal-whatsapp:hover {{
+      background: var(--accent-green-dark);
+      transform: translateY(-2px);
+    }}
+
+    .btn-modal-2gis {{
+      background: #f0f9ff;
+      color: #0284c7;
+      border: 1px solid #bae6fd;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+    }}
+
+    .btn-modal-2gis:hover {{
+      background: #e0f2fe;
+    }}
+
+    /* ───────── REVIEW LIGHTBOX (SWIPER / VIEWER) ───────── */
+    .lightbox-overlay {{
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(12px);
+      z-index: 1100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }}
+
+    .lightbox-overlay.active {{
+      display: flex;
+      opacity: 1;
+    }}
+
+    .lightbox-box {{
+      position: relative;
+      max-width: 520px;
+      width: 100%;
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }}
+
+    .lightbox-img {{
+      max-width: 100%;
+      max-height: 82vh;
+      border-radius: 18px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      border: 2px solid rgba(255,255,255,0.2);
+      object-fit: contain;
+    }}
+
+    .lightbox-caption {{
+      color: #fff;
+      font-size: 13.5px;
+      text-align: center;
+      margin-top: 14px;
+      font-weight: 500;
+    }}
+
+    .btn-lightbox-nav {{
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: var(--transition);
+    }}
+
+    .btn-lightbox-nav:hover {{
+      background: rgba(255, 255, 255, 0.4);
+    }}
+
+    .btn-lightbox-prev {{
+      left: -60px;
+    }}
+
+    .btn-lightbox-next {{
+      right: -60px;
+    }}
+
+    .btn-close-lightbox {{
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: transparent;
+      color: #fff;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+    }}
+
+    /* ───────── MOBILE STICKY BOTTOM BAR ───────── */
+    .mobile-bottom-bar {{
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      padding: 10px 16px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      z-index: 99;
+      box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+    }}
+
+    .btn-mobile-wa {{
+      flex: 1.5;
+      background: var(--accent-green);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }}
+
+    .btn-mobile-2gis {{
+      flex: 1;
+      background: #f0f9ff;
+      color: #0284c7;
+      border: 1px solid #bae6fd;
+      padding: 12px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }}
+
+    /* Responsive Queries */
+    @media (max-width: 992px) {{
+      .hero {{
+        grid-template-columns: 1fr;
+        padding: 40px 20px;
+      }}
+      .promo-container {{
+        grid-template-columns: 1fr;
+      }}
+      .sim-grid {{
+        grid-template-columns: 1fr;
+      }}
+      .showroom-card {{
+        grid-template-columns: 1fr;
+        padding: 32px 24px;
+      }}
+      .social-grid {{
+        grid-template-columns: 1fr;
+      }}
+      .footer-container {{
+        grid-template-columns: 1fr 1fr;
+      }}
+      .modal-card {{
+        grid-template-columns: 1fr;
+        max-height: 85vh;
+      }}
+      .modal-img-col {{
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }}
+      .btn-lightbox-prev {{
+        left: 10px;
+      }}
+      .btn-lightbox-next {{
+        right: 10px;
+      }}
+    }}
+
+    @media (max-width: 768px) {{
+      .pitch-banner {{
+        display: none;
+      }}
+      .navbar {{
+        padding: 0 16px;
+      }}
+      .nav-links {{
+        display: none;
+      }}
+      .hero-title {{
+        font-size: 38px;
+      }}
+      .hero-perks-grid {{
+        grid-template-columns: 1fr;
+      }}
+      .mobile-bottom-bar {{
+        display: flex;
+      }}
+      body {{
+        padding-bottom: 70px;
+      }}
+    }}
+  </style>
+</head>
+<body>
+
+  <!-- ───────── TOP PRESENTATION BAR: ADDRESS & 2GIS ───────── -->
+  <div class="pitch-banner">
+    <div class="pitch-left">
+      <span class="pitch-badge">UAQYT BOUTIQUE</span>
+      <span class="pitch-text">📍 Алматы қ., Өтеген батыр к-сі 11а, БЦ «Сайран Сити», 3-қабат, 320-кеңсе</span>
+      <a href="https://2gis.kz/almaty/search/%D0%A3%D1%82%D0%B5%D0%B3%D0%B5%D0%BD%20%D0%B1%D0%B0%D1%82%D1%8B%D1%80%D0%B0%2011%D0%B0" target="_blank" rel="noopener" class="pitch-2gis-link" title="2GIS картасынан ашу">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        <span>2GIS-те ашу</span>
+      </a>
+    </div>
+    <div class="pitch-right">
+      <a href="https://www.instagram.com/uaqyt.kzt?psln=ZXd3MTI5cmI3NGF6" target="_blank" rel="noopener" class="pitch-social-link">Instagram: @uaqyt.kzt</a>
+      <a href="https://www.tiktok.com/@uaqyt.kzz2?_t=ZM-8uQyLn8Uuxi&_r=1" target="_blank" rel="noopener" class="pitch-social-link">TikTok: @uaqyt.kzz2</a>
+      <span style="color: var(--accent-gold); font-weight: 700;">Тел: +7 707 335 60 59</span>
+    </div>
+  </div>
+
+  <!-- ───────── NAVBAR ───────── -->
+  <header class="navbar">
+    <div class="nav-brand">
+      <div class="brand-logo-mark">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">UAQYT</span>
+        <span class="brand-sub">Есімді сағаттар бутігі</span>
+      </div>
+    </div>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#hero" class="nav-link">Басты бет</a></li>
+        <li><a href="#bonus" class="nav-link highlight">🎁 1+1 Бонус сағат</a></li>
+        <li><a href="#catalog" class="nav-link">Сағаттар каталогы</a></li>
+        <li><a href="#customizer" class="nav-link">Циферблат шебері</a></li>
+        <li><a href="#socials" class="nav-link">Әлеуметтік желілер</a></li>
+        <li><a href="#reviews" class="nav-link">Пікірлер ({len(customer_reviews)})</a></li>
+        <li><a href="#contact" class="nav-link">Шоурум & 2GIS</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="https://2gis.kz/almaty/search/%D0%A3%D1%82%D0%B5%D0%B3%D0%B5%D0%BD%20%D0%B1%D0%B0%D1%82%D1%8B%D1%80%D0%B0%2011%D0%B0" target="_blank" rel="noopener" class="btn-nav-2gis" title="2GIS маршрут">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        <span>2GIS-те көру</span>
+      </a>
+      <a href="https://wa.me/77073356059?text=%D0%A1%D3%99%D0%BB%D0%B5%D0%BC%D0%B5%D1%82%D1%81%D1%96%D0%B7%20%D0%B1%D0%B5!%20UAQYT%20%D1%81%D0%B0%D0%B9%D1%82%D1%8B%D0%BD%D0%B0%D0%BD%20%D1%81%D0%B0%D2%93%D0%B0%D1%82%D2%9B%D0%B0%20%D1%82%D0%B0%D0%BF%D1%81%D1%8B%D1%80%D1%8B%D1%81%20%D0%B1%D0%B5%D1%80%D0%B3%D1%96%D0%BC%20%D0%BA%D0%B5%D0%BB%D0%B5%D0%B4%D1%96" target="_blank" rel="noopener" class="btn-nav-whatsapp">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.777.82 2.791.82 3.181 0 5.768-2.587 5.768-5.767.001-3.18-2.585-5.805-5.768-5.805zm0 10.457c-.888 0-1.656-.25-2.348-.687l-.168-.106-1.57.412.419-1.53-.11-.176c-.469-.747-.716-1.517-.716-2.404 0-2.482 2.019-4.501 4.493-4.501s4.493 2.019 4.493 4.501c0 2.483-2.019 4.491-4.493 4.491z"/></svg>
+        <span>WhatsApp</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ───────── HERO SECTION ───────── -->
+  <section class="hero" id="hero">
+    <div class="hero-left">
+      <div class="hero-tag-badge">
+        <span>✨ ЖЕКЕ ЛАЗЕРЛІК ГРАВЮРА БУТІГІ</span>
+      </div>
+      <h1 class="hero-title">
+        Уақыттан да құнды — <span>өзіңіздің есіміңіз бен ру таңбаңыз</span>
+      </h1>
+      <p class="hero-lead">
+        Жапондық сенімді механизм, 316L тот баспайтын хирургиялық болат және мәңгі өшпейтін лазерлік нақыштау. Әрбір сағат — ұрпаққа жететін асыл мұра.
+      </p>
+
+      <div class="hero-perks-grid">
+        <div class="perk-card">
+          <span class="perk-icon">🛡️</span>
+          <div class="perk-title">6-12 ай кепілдік</div>
+          <div class="perk-desc">Ресми зауыттық кепілдік талонымен</div>
+        </div>
+        <div class="perk-card">
+          <span class="perk-icon">✈️</span>
+          <div class="perk-title">ТЕГІН жеткізу</div>
+          <div class="perk-desc">Қазпошта немесе автобуспен ҚР бойынша</div>
+        </div>
+        <div class="perk-card">
+          <span class="perk-icon">🎁</span>
+          <div class="perk-title">1+1 Бонус сағат</div>
+          <div class="perk-desc">1 сатып алсаңыз — 2-шісі ТЕГІН!</div>
+        </div>
+      </div>
+
+      <div class="hero-cta-group">
+        <a href="#catalog" class="btn-hero-primary">
+          <span>Каталогты қарау ({len(all_products_sorted)} үлгі)</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#customizer" class="btn-hero-secondary">
+          <span>Жеке сағатты құрастыру</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Hero Right: Dynamic Dial Showcase -->
+    <div class="hero-visual-card">
+      <div class="hero-promo-badge">1+1 ТЕГІН БОНУС</div>
+      <div class="dial-case" style="margin: 0 auto 20px;">
+        <div class="dial-ticks"></div>
+        <div class="dial-center-content">
+          <svg class="dial-tamga-icon" viewBox="0 0 60 60" fill="currentColor">
+            <path d="M30 5 L55 25 L45 55 L15 55 L5 25 Z" fill="none" stroke="currentColor" stroke-width="3"/>
+            <circle cx="30" cy="30" r="10" fill="currentColor"/>
+          </svg>
+          <div class="dial-name" id="heroDialName">БАҒЛАН</div>
+          <div class="dial-sub" id="heroDialSub">АДАЙ РУЫ</div>
+          <div class="dial-date">UAQYT KZT • №04812</div>
+        </div>
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand sec-hand" id="liveHeroSecHand"></div>
+        <div class="center-pin"></div>
+      </div>
+      <div style="font-size: 13.5px; color: var(--text-muted); font-weight: 500;">
+        Шежіре ру таңбасы мен жеке есіміңіз циферблатқа мәңгілік қашалады
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── 1+1 PROMO SECTION ───────── -->
+  <section class="promo-banner-section" id="bonus">
+    <div class="promo-container">
+      <div class="promo-img-box">
+        <img src="./images/bonus/bonus-watch-1.jpg" alt="1+1 Бонус сағат UAQYT">
+      </div>
+      <div class="promo-info">
+        <span class="promo-tag">🔥 АРНАЙЫ АКЦИЯ: 1 + 1</span>
+        <h2 class="promo-heading">1 сағат сатып алсаңыз — 2-ші сағат ТЕГІН!</h2>
+        <p class="promo-text">
+          Қазіргі науқан бойынша каталогтан кез келген ерлер немесе рулық сағатын таңдағанда — суреттегі стильді бонус сағатты сыйлық ретінде ТЕГІН аласыз! Жұбайыңызға, досыңызға немесе туысыңызға қосарланған қуаныш сыйлаңыз.
+        </p>
+
+        <div class="promo-features">
+          <div class="promo-feat-item">✓ 2-ші сағат 100% ТЕГІН</div>
+          <div class="promo-feat-item">✓ Екі сағатқа да жеке гравюра</div>
+          <div class="promo-feat-item">✓ Фирмалық сыйлық қорабымен</div>
+          <div class="promo-feat-item">✓ 6 ай толық ресми кепілдік</div>
+        </div>
+
+        <a href="#catalog" class="btn-promo-action">
+          <span>Акция бойынша сағат таңдау</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── INTERACTIVE DIAL CUSTOMIZER ───────── -->
+  <section class="simulator-section" id="customizer">
+    <div class="sim-header">
+      <div class="sim-subtitle">Интерактивті конструктор</div>
+      <h2 class="sim-title">Өз сағатыңыздың дизайнын қазір жасап көріңіз</h2>
+      <p style="color: var(--text-muted); font-size: 15px; margin-top: 8px;">
+        Есіміңізді және руыңызды енгізіп, сағат циферблатында қалай көрінетінін нақты уақытта тамашалаңыз.
+      </p>
+    </div>
+
+    <div class="sim-grid">
+      <!-- Interactive Dial Display -->
+      <div class="dial-display-card">
+        <div class="dial-case">
+          <div class="dial-ticks"></div>
+          <div class="dial-center-content">
+            <div id="simTamgaBox">
+              <svg class="dial-tamga-icon" viewBox="0 0 60 60" fill="currentColor">
+                <circle cx="30" cy="30" r="16" fill="none" stroke="currentColor" stroke-width="3"/>
+                <circle cx="30" cy="30" r="6" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="dial-name" id="simDialName">АРМАН</div>
+            <div class="dial-sub" id="simDialSub">АРҒЫН РУЫ</div>
+            <div class="dial-date" id="simDialDate">UAQYT KZT • 2026</div>
+          </div>
+          <div class="hand hour-hand"></div>
+          <div class="hand min-hand"></div>
+          <div class="hand sec-hand" id="liveSimSecHand"></div>
+          <div class="center-pin"></div>
+        </div>
+        <div style="margin-top: 18px; font-size: 13px; color: var(--accent-gold-dark); font-weight: 700;">
+          ⚡ Нақты уақыттық секунд тілі жүріп тұр
+        </div>
+      </div>
+
+      <!-- Controls Form -->
+      <div class="sim-controls-form">
+        <div class="form-group">
+          <label class="form-label">Циферблатқа жазылатын есім немесе лақап атыңыз:</label>
+          <input type="text" class="form-input" id="inputName" value="Арман" placeholder="Мысалы: Бауыржан, Нұрлан, Қасым-Жомарт" oninput="updateDialPreview()">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Шежіре бойынша ру таңбаңызды таңдаңыз:</label>
+          <select class="form-select" id="selectClan" onchange="updateClanSelection()">
+            <option value="argyn" selected>Арғын (Көз таңбасы ⚯)</option>
+            <option value="nayman">Найман (Бақан / Мүйіз таңбасы Ү)</option>
+            <option value="kipchak">Қыпшақ (Қос алып таңбасы I I)</option>
+            <option value="dulat">Дулат (Дөңгелек таңбасы ◯)</option>
+            <option value="aday">Адай (Жебе / Садақ таңбасы ↑)</option>
+            <option value="shapyrashty">Шапырашты (Ай таңбасы ☽)</option>
+            <option value="alban">Албан (Қоңырау таңбасы ☖)</option>
+            <option value="berish">Беріш (Жұлдыз таңбасы ★)</option>
+            <option value="tortkara">Төртқара (Төртбұрыш / Таразы)</option>
+            <option value="shekti">Шекті (Сүйір таңбасы)</option>
+            <option value="ysty">Ысты (Көсеу таңбасы)</option>
+            <option value="oshakty">Ошақты (Тұмар таңбасы △)</option>
+            <option value="tore">Төре (Шыңғысхан әулетінің Тәжі 👑)</option>
+            <option value="kozha">Қожа (Араб каллиграфиясы ﷽)</option>
+            <option value="service_mvd">ҚР Ішкі Істер Министрлігі (ІІМ)</option>
+            <option value="service_knb">ҚР Ұлттық Қауіпсіздік Комитеті (ҰҚК)</option>
+            <option value="service_arm">ҚР Қарулы Күштері (Әскер)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Қосымша мәтін (ру, шен немесе күн):</label>
+          <input type="text" class="form-input" id="inputSub" value="АРҒЫН РУЫ" placeholder="Мысалы: АРҒЫН, ҰҚК ОФИЦЕРІ, 12.05.2026" oninput="updateDialPreview()">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Төменгі белгі (нөмір / дата):</label>
+          <input type="text" class="form-input" id="inputDate" value="UAQYT KZT • 2026" oninput="updateDialPreview()">
+        </div>
+
+        <button class="btn-apply-sim" onclick="orderCustomizedDial()">
+          <span>Осы дизайн бойынша WhatsApp-қа тапсырыс беру</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── CATALOG SECTION ───────── -->
+  <section class="catalog-section" id="catalog">
+    <div class="catalog-header">
+      <div class="section-subtitle">Бутик топтамасы</div>
+      <h2 class="section-title">Барлық сағаттар топтамасы ({len(all_products_sorted)} үлгі)</h2>
+      <p class="section-desc">
+        Бағасы белгіленген дайын хит үлгілер және клиент сұранысы бойынша жеке бағаланатын эксклюзивті сағаттар.
+      </p>
+    </div>
+
+    <!-- Search & Filter Toolbar -->
+    <div class="catalog-toolbar">
+      <div class="search-sort-bar">
+        <div class="search-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="search-input" id="catalogSearch" placeholder="Ру, есім немесе қызмет бойынша іздеу..." oninput="filterCatalog()">
+        </div>
+
+        <select class="sort-select" id="sortSelect" onchange="sortCatalog()">
+          <option value="default">Сұрыптау: Әдепкі ретпен</option>
+          <option value="price_asc">Бағасы: Арзаннан қымбатқа</option>
+          <option value="price_desc">Бағасы: Қымбаттан арзанға</option>
+          <option value="priced_only">Тек бағасы бар үлгілер</option>
+          <option value="request_only">Бағасын нақтылау үлгілері</option>
+        </select>
+      </div>
+
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all" onclick="setCategoryFilter('all', this)">Барлық сағаттар ({len(all_products_sorted)})</button>
+        <button class="filter-tab active-special" data-filter="promo" onclick="setCategoryFilter('promo', this)">🔥 1+1 Бонус сағаттар</button>
+        <button class="filter-tab" data-filter="priced" onclick="setCategoryFilter('priced', this)">Бағасы нақты үлгілер (26)</button>
+        <button class="filter-tab" data-filter="request" onclick="setCategoryFilter('request', this)">Бағасын нақтылау (WhatsApp)</button>
+        <button class="filter-tab" data-filter="couples" onclick="setCategoryFilter('couples', this)">Жұптық сағаттар (1+1)</button>
+        <button class="filter-tab" data-filter="service" onclick="setCategoryFilter('service', this)">Қызметтік (ІІМ, ҰҚК, ҚР ҚК)</button>
+        <button class="filter-tab" data-filter="ornament" onclick="setCategoryFilter('ornament', this)">Шежіре Ру-Таңбалы</button>
+        <button class="filter-tab" data-filter="mechanic" onclick="setCategoryFilter('mechanic', this)">⚙️ Механика сағаттар</button>
+        <button class="filter-tab" data-filter="woodbox" onclick="setCategoryFilter('woodbox', this)">🪵 Люкс ағаш қорапты</button>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="products-grid" id="productsGrid">
+      {all_cards_str}
+    </div>
+  </section>
+
+  <!-- ───────── SOCIAL MEDIA SHOWCASE (INSTAGRAM & TIKTOK) ───────── -->
+  <section class="social-section" id="socials">
+    <div style="text-align: center; margin-bottom: 36px;">
+      <div class="section-subtitle">Ресми парақшаларымыз</div>
+      <h2 class="section-title">Әлеуметтік желілерде бізбен бірге болыңыз</h2>
+      <p style="color: var(--text-muted); font-size: 15px; margin-top: 8px;">
+        Күнделікті сағат жасау барысы, лазерлік гравюра процесі және тұтынушылардың нақты видео-шолулары.
+      </p>
+    </div>
+
+    <div class="social-grid">
+      <!-- Instagram Card -->
+      <div class="social-card instagram">
+        <div>
+          <div class="social-card-top">
+            <div class="social-icon-box">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </div>
+            <span class="social-handle">@uaqyt.kzt</span>
+          </div>
+          <h3 class="social-card-title">Instagram желісінде 1000+ видео мен фото</h3>
+          <p class="social-card-desc">
+            Күнделікті Stories арқылы шеберханадан тікелей видеолар, клиенттерге жөнелтіліп жатқан сағаттар және жаңа ру таңбаларының жасалу үлгілері.
+          </p>
+        </div>
+        <a href="https://www.instagram.com/uaqyt.kzt?psln=ZXd3MTI5cmI3NGF6" target="_blank" rel="noopener" class="btn-social-cta">
+          <span>Instagram-да парақшаны ашу</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- TikTok Card -->
+      <div class="social-card tiktok">
+        <div>
+          <div class="social-card-top">
+            <div class="social-icon-box" style="background: rgba(255,255,255,0.15);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.49 6.3 6.3 0 0 0 1.87-4.49V8.7a8.28 8.28 0 0 0 4.9 1.57V6.82a4.88 4.88 0 0 1-1-.13z"/></svg>
+            </div>
+            <span class="social-handle">@uaqyt.kzz2</span>
+          </div>
+          <h3 class="social-card-title">TikTok-тағы миллион қаралым жинаған видеолар</h3>
+          <p class="social-card-desc">
+            Лазерлік станоктың сағатқа өрнек қашау процесі, суға батырып тексеру сынақтары және трендтегі бейнероликтер.
+          </p>
+        </div>
+        <a href="https://www.tiktok.com/@uaqyt.kzz2?_t=ZM-8uQyLn8Uuxi&_r=1" target="_blank" rel="noopener" class="btn-social-cta">
+          <span>TikTok-қа жазылу</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── VERIFIED CUSTOMER REVIEWS (22 REAL WHATSAPP SCREENSHOTS) ───────── -->
+  <section class="reviews-section" id="reviews">
+    <div class="reviews-container">
+      <div class="reviews-header">
+        <div class="section-subtitle">Нақты тұтынушылардың фото-есептері</div>
+        <h2 class="section-title">Клиенттеріміздің шынайы WhatsApp пікірлері ({len(customer_reviews)})</h2>
+        <p class="section-desc">
+          Әрбір сағат — нақты адамның қуанышы мен алғысы. Барлық скриншотты басып, толықтай оқып көре аласыз!
+        </p>
+      </div>
+
+      <!-- Review Filter Tabs -->
+      <div class="rev-filter-tabs">
+        <button class="rev-filter-tab active" data-rev-filter="all" onclick="filterReviews('all', this)">Барлық пікірлер ({len(customer_reviews)})</button>
+        <button class="rev-filter-tab" data-rev-filter="couples" onclick="filterReviews('couples', this)">Жұптық сағат алғандар (1+1)</button>
+        <button class="rev-filter-tab" data-rev-filter="ornament" onclick="filterReviews('ornament', this)">Рулық және есімді сағаттар</button>
+        <button class="rev-filter-tab" data-rev-filter="service" onclick="filterReviews('service', this)">Қызметтік сағаттар (ІІМ, ҰҚК)</button>
+      </div>
+
+      <!-- Reviews Grid -->
+      <div class="reviews-grid" id="reviewsGrid">
+        {all_reviews_str}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── SHOWROOM & 2GIS SECTION ───────── -->
+  <section class="showroom-section" id="contact">
+    <div class="showroom-card">
+      <div class="showroom-info">
+        <span class="showroom-badge">ШОУРУМ ЖӘНЕ ШЕБЕРХАНА</span>
+        <h2 class="showroom-title">Алматы қаласындағы ресми бутикке келіңіз</h2>
+        <p class="showroom-desc">
+          Барлық сағатты қолыңызбен ұстап көріп, салмағын байқап, лазерлік гравюра үрдісіне өзіңіз куә бола аласыз. 2GIS картасы арқылы жолды оңай тауып келіңіз!
+        </p>
+
+        <div class="info-list">
+          <div class="info-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div>
+              <strong>Мекен-жайымыз:</strong> Алматы қаласы, Өтеген батыр көшесі 11а, БЦ «Сайран Сити», 3-қабат, 320-кеңсе
+            </div>
+          </div>
+          <div class="info-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div>
+              <strong>Жұмыс уақыты:</strong> Дүйсенбі – Жексенбі, 10:00 – 20:00 (демалыссыз)
+            </div>
+          </div>
+          <div class="info-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            <div>
+              <strong>Төлем тәсілдері:</strong> Kaspi Red, Kaspi 0-0-12 (бөліп төлеу), Halyk, Қолма-қол
+            </div>
+          </div>
+          <div class="info-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <div>
+              <strong>ҚР бойынша жеткізу:</strong> Қазпошта немесе автобуспен барлық қалаға ТЕГІН
+            </div>
+          </div>
+        </div>
+
+        <div class="showroom-cta-box">
+          <a href="https://2gis.kz/almaty/search/%D0%A3%D1%82%D0%B5%D0%B3%D0%B5%D0%BD%20%D0%B1%D0%B0%D1%82%D1%8B%D1%80%D0%B0%2011%D0%B0" target="_blank" rel="noopener" class="btn-2gis-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <span>2GIS маршрутын ашу</span>
+          </a>
+          <a href="https://wa.me/77073356059?text=%D0%A1%D3%99%D0%BB%D0%B5%D0%BC%D0%B5%D1%82%D1%81%D1%96%D0%B7%20%D0%B1%D0%B5!%20%D0%A1%D0%B0%D0%B9%D1%80%D0%B0%D0%BD%20%D0%A1%D0%B8%D1%82%D0%B8%D0%B4%D0%B5%D0%B3%D1%96%20320%20%D0%BA%D0%B5%D2%A3%D1%81%D0%B5%D0%B3%D0%B5%20%D0%BA%D0%B5%D0%BB%D0%B3%D1%96%D0%BC%20%D0%BA%D0%B5%D0%BB%D0%B5%D0%B4%D1%96" target="_blank" rel="noopener" class="btn-whatsapp-showroom">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.777.82 2.791.82 3.181 0 5.768-2.587 5.768-5.767.001-3.18-2.585-5.805-5.768-5.805zm0 10.457c-.888 0-1.656-.25-2.348-.687l-.168-.106-1.57.412.419-1.53-.11-.176c-.469-.747-.716-1.517-.716-2.404 0-2.482 2.019-4.501 4.493-4.501s4.493 2.019 4.493 4.501c0 2.483-2.019 4.491-4.493 4.491z"/></svg>
+            <span>WhatsApp-тан сұрау</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 2GIS Map Mockup -->
+      <div class="showroom-map-mockup">
+        <div class="map-overlay"></div>
+        <div class="map-content">
+          <div class="map-pin-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          </div>
+          <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 6px;">БЦ «Сайран Сити», 320-кеңсе</h3>
+          <p style="font-size: 13px; opacity: 0.85; margin-bottom: 16px;">Өтеген батыр көшесі 11а (Төле би қиылысы маңы)</p>
+          <a href="https://2gis.kz/almaty/search/%D0%A3%D1%82%D0%B5%D0%B3%D0%B5%D0%BD%20%D0%B1%D0%B0%D1%82%D1%8B%D1%80%D0%B0%2011%D0%B0" target="_blank" rel="noopener" class="btn-2gis-primary" style="padding: 10px 20px; font-size: 13px;">
+            2GIS арқылы бару
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── FOOTER ───────── -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="footer-logo">UAQYT</div>
+        <p style="font-size: 13.5px; line-height: 1.6;">
+          Жеке есім, ру таңбасы және ведомстволық эмблема қашалған қол сағаттар бутігі. Қазақстан бойынша 1000-нан астам риза клиент.
+        </p>
+        <div style="margin-top: 10px; font-size: 13px;">
+          📍 Алматы, Өтеген батыр 11а, БЦ Сайран Сити 320
+        </div>
+      </div>
+
+      <div>
+        <h4 class="footer-title">Навигация</h4>
+        <ul class="footer-links">
+          <li><a href="#hero" class="footer-link">Басты бет</a></li>
+          <li><a href="#bonus" class="footer-link">1+1 Бонус сағат</a></li>
+          <li><a href="#catalog" class="footer-link">Сағаттар каталогы</a></li>
+          <li><a href="#customizer" class="footer-link">Интерактивті циферблат</a></li>
+          <li><a href="#reviews" class="footer-link">Клиенттер пікірі</a></li>
+          <li><a href="#contact" class="footer-link">Шоурум мекен-жайы</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-title">Әлеуметтік желілер</h4>
+        <ul class="footer-links">
+          <li><a href="https://www.instagram.com/uaqyt.kzt?psln=ZXd3MTI5cmI3NGF6" target="_blank" rel="noopener" class="footer-link">Instagram: @uaqyt.kzt</a></li>
+          <li><a href="https://www.tiktok.com/@uaqyt.kzz2?_t=ZM-8uQyLn8Uuxi&_r=1" target="_blank" rel="noopener" class="footer-link">TikTok: @uaqyt.kzz2</a></li>
+          <li><a href="https://wa.me/77073356059" target="_blank" rel="noopener" class="footer-link">WhatsApp: +7 707 335 60 59</a></li>
+          <li><a href="https://2gis.kz/almaty/search/%D0%A3%D1%82%D0%B5%D0%B3%D0%B5%D0%BD%20%D0%B1%D0%B0%D1%82%D1%8B%D1%80%D0%B0%2011%D0%B0" target="_blank" rel="noopener" class="footer-link">2GIS: Сайран Сити 320</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-title">Кепілдік және төлем</h4>
+        <p style="font-size: 13px; line-height: 1.6; margin-bottom: 12px;">
+          Барлық сағатқа 6-12 ай ресми зауыттық кепілдік талоны беріледі.
+        </p>
+        <p style="font-size: 13px; line-height: 1.6; color: var(--accent-gold);">
+          Kaspi Red, Kaspi 0-0-12, Halyk арқылы бөліп төлеу қарастырылған.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 UAQYT BOUTIQUE. Барлық құқықтар қорғалған.</div>
+      <div>Сайт Apple стилінде жеке тапсырыспен әзірленген.</div>
+    </div>
+  </footer>
+
+  <!-- ───────── MOBILE STICKY BOTTOM BAR ───────── -->
+  <div class="mobile-bottom-bar">
+    <a href="https://2gis.kz/almaty/search/%D0%A3%D1%82%D0%B5%D0%B3%D0%B5%D0%BD%20%D0%B1%D0%B0%D1%82%D1%8B%D1%80%D0%B0%2011%D0%B0" target="_blank" rel="noopener" class="btn-mobile-2gis">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      <span>2GIS</span>
+    </a>
+    <a href="https://wa.me/77073356059?text=%D0%A1%D3%99%D0%BB%D0%B5%D0%BC%D0%B5%D1%82%D1%81%D1%96%D0%B7%20%D0%B1%D0%B5!%20UAQYT%20%D1%81%D0%B0%D0%B9%D1%82%D1%8B%D0%BD%D0%B0%D0%BD%20%D1%81%D0%B0%D2%93%D0%B0%D1%82%D2%9B%D0%B0%20%D1%82%D0%B0%D0%BF%D1%81%D1%8B%D1%80%D1%8B%D1%81%20%D0%B1%D0%B5%D1%80%D0%B3%D1%96%D0%BC%20%D0%BA%D0%B5%D0%BB%D0%B5%D0%B4%D1%96" target="_blank" rel="noopener" class="btn-mobile-wa">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.777.82 2.791.82 3.181 0 5.768-2.587 5.768-5.767.001-3.18-2.585-5.805-5.768-5.805zm0 10.457c-.888 0-1.656-.25-2.348-.687l-.168-.106-1.57.412.419-1.53-.11-.176c-.469-.747-.716-1.517-.716-2.404 0-2.482 2.019-4.501 4.493-4.501s4.493 2.019 4.493 4.501c0 2.483-2.019 4.491-4.493 4.491z"/></svg>
+      <span>WhatsApp арқылы жазу</span>
+    </a>
+  </div>
+
+  <!-- ───────── APPLE-STYLE PRODUCT DETAIL MODAL ───────── -->
+  <div class="modal-overlay" id="productModal" onclick="closeProductModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <button class="btn-close-modal" onclick="closeProductModal()" title="Жабу">✕</button>
+
+      <div class="modal-img-col">
+        <div class="modal-img-box">
+          <img id="modalImg" src="" alt="" onclick="openLightboxFromModal()">
+        </div>
+        <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 10px;">
+          🔍 Суретті толық экранда көру үшін басыңыз
+        </div>
+      </div>
+
+      <div class="modal-info-col">
+        <span class="modal-badge" id="modalBadge">Хит үлгі</span>
+        <h3 class="modal-title" id="modalTitle">Сағат атауы</h3>
+
+        <div class="modal-price-box">
+          <span class="modal-price" id="modalPrice">34 900 ₸</span>
+          <span class="modal-installment" id="modalInstallment">Бөліп төлеу: айына 2 908 ₸</span>
+        </div>
+
+        <div class="modal-promo-note">
+          <span>🎁</span>
+          <span>Осы сағатты алсаңыз — 2-ші сағат бонуске ТЕГІН беріледі!</span>
+        </div>
+
+        <table class="modal-specs-table">
+          <tr>
+            <td class="spec-name">⚙️ Механизмі:</td>
+            <td class="spec-val" id="modalMech">Жапондық кварц механизмі</td>
+          </tr>
+          <tr>
+            <td class="spec-name">💎 Әйнегі:</td>
+            <td class="spec-val" id="modalGlass">Сызатқа төзімді сапфир / шыңдалған</td>
+          </tr>
+          <tr>
+            <td class="spec-name">🛡️ Корпусы:</td>
+            <td class="spec-val" id="modalCase">316L тот баспайтын хирургиялық болат</td>
+          </tr>
+          <tr>
+            <td class="spec-name">🔗 Бауы:</td>
+            <td class="spec-val" id="modalStrap">Құйылған болат бау</td>
+          </tr>
+          <tr>
+            <td class="spec-name">💧 Су төзімділігі:</td>
+            <td class="spec-val" id="modalWater">3 - 5 ATM (қол жууға, жаңбырға)</td>
+          </tr>
+          <tr>
+            <td class="spec-name">📜 Кепілдік:</td>
+            <td class="spec-val">6 - 12 ай зауыттық кепілдік + төлқұжат</td>
+          </tr>
+          <tr>
+            <td class="spec-name">🎁 Жинақтау:</td>
+            <td class="spec-val">Фирмалық сыйлық қорабы + пакет + талон</td>
+          </tr>
+        </table>
+
+        <!-- Custom Engraving Input -->
+        <div class="modal-customizer-box">
+          <label class="modal-customizer-label">Сағатқа жазылатын жеке есім немесе ру таңбасы:</label>
+          <input type="text" class="modal-input-engrave" id="modalEngraveText" placeholder="Мысалы: Бауыржан / Найман, 15.06.2026">
+        </div>
+
+        <div class="modal-cta-group">
+          <button class="btn-modal-whatsapp" onclick="sendOrderFromModal()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.777.82 2.791.82 3.181 0 5.768-2.587 5.768-5.767.001-3.18-2.585-5.805-5.768-5.805zm0 10.457c-.888 0-1.656-.25-2.348-.687l-.168-.106-1.57.412.419-1.53-.11-.176c-.469-.747-.716-1.517-.716-2.404 0-2.482 2.019-4.501 4.493-4.501s4.493 2.019 4.493 4.501c0 2.483-2.019 4.491-4.493 4.491z"/></svg>
+            <span id="modalOrderBtnText">WhatsApp арқылы тапсырыс беру</span>
+          </button>
+          <a href="https://2gis.kz/almaty/search/%D0%A3%D1%82%D0%B5%D0%B3%D0%B5%D0%BD%20%D0%B1%D0%B0%D1%82%D1%8B%D1%80%D0%B0%2011%D0%B0" target="_blank" rel="noopener" class="btn-modal-2gis">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <span>Сайран Ситидегі шоурумға келіп көру (2GIS)</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── REVIEW LIGHTBOX VIEWER ───────── -->
+  <div class="lightbox-overlay" id="reviewLightbox" onclick="closeReviewLightbox(event)">
+    <div class="lightbox-box" onclick="event.stopPropagation()">
+      <button class="btn-close-lightbox" onclick="closeReviewLightbox()">✕</button>
+      <button class="btn-lightbox-nav btn-lightbox-prev" onclick="changeReviewLightbox(-1)">‹</button>
+      <img class="lightbox-img" id="lightboxReviewImg" src="" alt="WhatsApp пікір">
+      <div class="lightbox-caption" id="lightboxReviewCaption">Клиенттің WhatsApp пікірі</div>
+      <button class="btn-lightbox-nav btn-lightbox-next" onclick="changeReviewLightbox(1)">›</button>
+    </div>
+  </div>
+
+  <!-- ───────── JAVASCRIPT LOGIC ───────── -->
+  <script>
+    // All products compiled data
+    const productsData = {products_json};
+    const reviewsData = {reviews_json};
+
+    let activeFilter = 'all';
+    let activeSort = 'default';
+    let currentModalProduct = null;
+    let currentReviewIndex = 0;
+
+    // Real-time sweeping second hand animation
+    function animateHands() {{
+      const now = new Date();
+      const sec = now.getSeconds() + now.getMilliseconds() / 1000;
+      const deg = sec * 6; // 360 / 60
+      const heroSec = document.getElementById('liveHeroSecHand');
+      const simSec = document.getElementById('liveSimSecHand');
+      if (heroSec) heroSec.style.transform = `rotate(${{deg}}deg)`;
+      if (simSec) simSec.style.transform = `rotate(${{deg}}deg)`;
+      requestAnimationFrame(animateHands);
+    }}
+    requestAnimationFrame(animateHands);
+
+    // Interactive Dial preview updater
+    function updateDialPreview() {{
+      const name = document.getElementById('inputName').value || 'АРМАН';
+      const sub = document.getElementById('inputSub').value || 'АРҒЫН РУЫ';
+      const dt = document.getElementById('inputDate').value || 'UAQYT KZT • 2026';
+
+      const dialName = document.getElementById('simDialName');
+      const dialSub = document.getElementById('simDialSub');
+      const dialDate = document.getElementById('simDialDate');
+
+      if (dialName) dialName.textContent = name.toUpperCase();
+      if (dialSub) dialSub.textContent = sub.toUpperCase();
+      if (dialDate) dialDate.textContent = dt;
+    }}
+
+    function updateClanSelection() {{
+      const sel = document.getElementById('selectClan');
+      const val = sel.value;
+      const subInput = document.getElementById('inputSub');
+      const tamgaBox = document.getElementById('simTamgaBox');
+
+      const clanMap = {{
+        'argyn': {{ name: 'АРҒЫН РУЫ', icon: '<circle cx="20" cy="30" r="10" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="40" cy="30" r="10" fill="none" stroke="currentColor" stroke-width="3"/>' }},
+        'nayman': {{ name: 'НАЙМАН РУЫ', icon: '<path d="M15 15 L30 35 L45 15 M30 35 L30 55" fill="none" stroke="currentColor" stroke-width="4"/>' }},
+        'kipchak': {{ name: 'ҚЫПШАҚ РУЫ', icon: '<line x1="20" y1="10" x2="20" y2="50" stroke="currentColor" stroke-width="4"/><line x1="40" y1="10" x2="40" y2="50" stroke="currentColor" stroke-width="4"/>' }},
+        'dulat': {{ name: 'ДУЛАТ РУЫ', icon: '<circle cx="30" cy="30" r="18" fill="none" stroke="currentColor" stroke-width="4"/>' }},
+        'aday': {{ name: 'АДАЙ РУЫ', icon: '<path d="M30 10 L30 50 M20 20 L30 10 L40 20" fill="none" stroke="currentColor" stroke-width="4"/>' }},
+        'shapyrashty': {{ name: 'ШАПЫРАШТЫ РУЫ', icon: '<path d="M35 15 A15 15 0 1 0 35 45 A10 10 0 1 1 35 15" fill="currentColor"/>' }},
+        'alban': {{ name: 'АЛБАН РУЫ', icon: '<path d="M30 10 L45 35 L15 35 Z M20 35 L20 50 M40 35 L40 50" fill="none" stroke="currentColor" stroke-width="3.5"/>' }},
+        'berish': {{ name: 'БЕРІШ РУЫ', icon: '<polygon points="30,5 37,22 55,22 41,34 46,51 30,40 14,51 19,34 5,22 23,22" fill="currentColor"/>' }},
+        'tortkara': {{ name: 'ТӨРТҚАРА РУЫ', icon: '<rect x="15" y="15" width="30" height="30" fill="none" stroke="currentColor" stroke-width="4"/>' }},
+        'shekti': {{ name: 'ШЕКТІ РУЫ', icon: '<path d="M30 10 L50 45 L10 45 Z" fill="none" stroke="currentColor" stroke-width="4"/>' }},
+        'ysty': {{ name: 'ЫСТЫ РУЫ', icon: '<line x1="15" y1="15" x2="45" y2="45" stroke="currentColor" stroke-width="4"/><circle cx="15" cy="15" r="5" fill="currentColor"/>' }},
+        'oshakty': {{ name: 'ОШАҚТЫ РУЫ', icon: '<polygon points="30,12 48,48 12,48" fill="none" stroke="currentColor" stroke-width="4"/>' }},
+        'tore': {{ name: 'ТӨРЕ ӘУЛЕТІ', icon: '<path d="M10 40 L15 15 L25 30 L30 10 L35 30 L45 15 L50 40 Z" fill="none" stroke="currentColor" stroke-width="3.5"/>' }},
+        'kozha': {{ name: 'ҚОЖА ӘУЛЕТІ', icon: '<circle cx="30" cy="30" r="18" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="30" cy="30" r="8" fill="currentColor"/>' }},
+        'service_mvd': {{ name: 'ҚР ІІМ ПОЛИЦИЯ', icon: '<path d="M30 10 L48 20 L48 35 C48 45 30 52 30 52 C30 52 12 45 12 35 L12 20 Z" fill="none" stroke="currentColor" stroke-width="3"/>' }},
+        'service_knb': {{ name: 'ҚР ҰҚК КНБ', icon: '<path d="M30 8 L46 16 L46 32 C46 44 30 52 30 52 C30 52 14 44 14 32 L14 16 Z" fill="none" stroke="currentColor" stroke-width="3"/><line x1="30" y1="12" x2="30" y2="48" stroke="currentColor" stroke-width="2"/>' }},
+        'service_arm': {{ name: 'ҚР ҚАРУЛЫ КҮШТЕРІ', icon: '<polygon points="30,8 36,22 52,22 39,32 44,48 30,38 16,48 21,32 8,22 24,22" fill="currentColor"/>' }}
+      }};
+
+      const match = clanMap[val];
+      if (match) {{
+        subInput.value = match.name;
+        tamgaBox.innerHTML = `<svg class="dial-tamga-icon" viewBox="0 0 60 60" fill="currentColor">${{match.icon}}</svg>`;
+        updateDialPreview();
+      }}
+    }}
+
+    function orderCustomizedDial() {{
+      const name = document.getElementById('inputName').value || 'Арман';
+      const sub = document.getElementById('inputSub').value || 'Арғын руы';
+      const text = encodeURIComponent(`Сәлеметсіз бе! Мен UAQYT сайтының конструкторынан өз сағатымды құрастырдым:\n\n• Есім: «${{name}}»\n• Таңба/Шен: «${{sub}}»\n• 1+1 Бонус сағат акциясы бойынша тапсырыс бергім келеді.`);
+      window.open(`https://wa.me/77073356059?text=${{text}}`, '_blank');
+    }}
+
+    // Filter catalog
+    function setCategoryFilter(cat, btn) {{
+      activeFilter = cat;
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active', 'active-special'));
+      if (cat === 'promo') {{
+        btn.classList.add('active-special');
+      }} else {{
+        btn.classList.add('active');
+      }}
+      filterCatalog();
+    }}
+
+    function filterCatalog() {{
+      const query = document.getElementById('catalogSearch').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.product-card');
+
+      cards.forEach(card => {{
+        const cardCat = card.getAttribute('data-category') || '';
+        const cardTitle = card.querySelector('.card-title').textContent.toLowerCase();
+        const cardDesc = card.querySelector('.card-desc').textContent.toLowerCase();
+        const cardTag = card.querySelector('.card-category-tag').textContent.toLowerCase();
+
+        let matchesCat = true;
+        if (activeFilter !== 'all') {{
+          if (activeFilter === 'priced') {{
+            matchesCat = cardCat.includes('priced');
+          }} else if (activeFilter === 'request') {{
+            matchesCat = cardCat.includes('request');
+          }} else {{
+            matchesCat = cardCat.includes(activeFilter);
+          }}
+        }}
+
+        let matchesQuery = true;
+        if (query) {{
+          matchesQuery = cardTitle.includes(query) || cardDesc.includes(query) || cardTag.includes(query);
+        }}
+
+        if (matchesCat && matchesQuery) {{
+          card.style.display = 'flex';
+        }} else {{
+          card.style.display = 'none';
+        }}
+      }});
+    }}
+
+    function sortCatalog() {{
+      const sortVal = document.getElementById('sortSelect').value;
+      const grid = document.getElementById('productsGrid');
+      const cards = Array.from(grid.querySelectorAll('.product-card'));
+
+      if (sortVal === 'price_asc') {{
+        cards.sort((a, b) => parseInt(a.getAttribute('data-price')) - parseInt(b.getAttribute('data-price')));
+      }} else if (sortVal === 'price_desc') {{
+        cards.sort((a, b) => parseInt(b.getAttribute('data-price')) - parseInt(a.getAttribute('data-price')));
+      }} else if (sortVal === 'priced_only') {{
+        setCategoryFilter('priced', document.querySelector('[data-filter="priced"]'));
+        return;
+      }} else if (sortVal === 'request_only') {{
+        setCategoryFilter('request', document.querySelector('[data-filter="request"]'));
+        return;
+      }}
+
+      cards.forEach(c => grid.appendChild(c));
+    }}
+
+    // Reviews Filter
+    function filterReviews(filter, btn) {{
+      document.querySelectorAll('.rev-filter-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      const cards = document.querySelectorAll('.review-card');
+
+      cards.forEach(c => {{
+        const cat = c.getAttribute('data-rev-cat') || '';
+        if (filter === 'all' || cat.includes(filter)) {{
+          c.style.display = 'flex';
+        }} else {{
+          c.style.display = 'none';
+        }}
+      }});
+    }}
+
+    // Open Product Modal
+    function openProductModal(productId) {{
+      const p = productsData.find(item => item.id === productId);
+      if (!p) return;
+      currentModalProduct = p;
+
+      document.getElementById('modalImg').src = p.img;
+      document.getElementById('modalImg').alt = p.name;
+      document.getElementById('modalTitle').textContent = p.name;
+      document.getElementById('modalBadge').textContent = p.badge;
+
+      const isReq = p.is_price_on_request;
+      const priceElem = document.getElementById('modalPrice');
+      const instElem = document.getElementById('modalInstallment');
+      const btnText = document.getElementById('modalOrderBtnText');
+
+      if (isReq) {{
+        priceElem.textContent = 'Бағасы жеке нақтыланады';
+        priceElem.style.fontSize = '20px';
+        instElem.textContent = 'WhatsApp-та бағасын нақтылау';
+        btnText.textContent = 'WhatsApp арқылы бағасын білу';
+      }} else {{
+        priceElem.textContent = `${{p.price.toLocaleString('ru-RU')}} ₸`;
+        priceElem.style.fontSize = '28px';
+        const monthly = Math.floor(p.price / 12).toLocaleString('ru-RU');
+        instElem.textContent = `Бөліп төлеу: айына ${{monthly}} ₸`;
+        btnText.textContent = 'WhatsApp арқылы тапсырыс беру';
+      }}
+
+      document.getElementById('modalMech').textContent = p.mech || 'Жапондық кварц механизмі (Miyota)';
+      document.getElementById('modalGlass').textContent = p.glass || 'Сызатқа төзімді шыңдалған минералды / сапфир';
+      document.getElementById('modalCase').textContent = p.case || '316L тот баспайтын болат';
+      document.getElementById('modalStrap').textContent = p.strap || 'Құйылған болат бау';
+      document.getElementById('modalWater').textContent = p.water || '3 ATM';
+
+      const modal = document.getElementById('productModal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }}
+
+    function closeProductModal(e) {{
+      const modal = document.getElementById('productModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }}
+
+    function sendOrderFromModal() {{
+      if (!currentModalProduct) return;
+      const engrave = document.getElementById('modalEngraveText').value.trim();
+      const p = currentModalProduct;
+      let msg = '';
+
+      if (p.is_price_on_request) {{
+        msg = `Сәлеметсіз бе! UAQYT сайтынан мына сағаттың бағасы мен дайындалу мерзімін білгім келеді:\n\n• Үлгі: «${{p.name}}»\n• Категория: ${{p.tag}}`;
+      }} else {{
+        msg = `Сәлеметсіз бе! UAQYT сайтынан сағатқа тапсырыс бергім келеді:\n\n• Үлгі: «${{p.name}}»\n• Бағасы: ${{p.price.toLocaleString('ru-RU')}} ₸\n• 1+1 Бонус сағат акциясы бойынша`;
+      }}
+
+      if (engrave) {{
+        msg += `\n• Нақышталатын мәтін: «${{engrave}}»`;
+      }}
+
+      window.open(`https://wa.me/77073356059?text=${{encodeURIComponent(msg)}}`, '_blank');
+    }}
+
+    function openLightboxFromModal() {{
+      if (!currentModalProduct) return;
+      window.open(currentModalProduct.img, '_blank');
+    }}
+
+    // Review Lightbox Logic
+    function openReviewLightbox(index) {{
+      currentReviewIndex = index;
+      updateLightboxContent();
+      const lb = document.getElementById('reviewLightbox');
+      lb.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }}
+
+    function closeReviewLightbox(e) {{
+      const lb = document.getElementById('reviewLightbox');
+      lb.classList.remove('active');
+      document.body.style.overflow = '';
+    }}
+
+    function changeReviewLightbox(dir) {{
+      currentReviewIndex = (currentReviewIndex + dir + reviewsData.length) % reviewsData.length;
+      updateLightboxContent();
+    }}
+
+    function updateLightboxContent() {{
+      const r = reviewsData[currentReviewIndex];
+      if (!r) return;
+      document.getElementById('lightboxReviewImg').src = r.img;
+      document.getElementById('lightboxReviewCaption').textContent = `${{r.author}} (${{r.city}}) • ${{r.order}}`;
+    }}
+
+    // Keyboard navigation for modals
+    document.addEventListener('keydown', (e) => {{
+      if (e.key === 'Escape') {{
+        closeProductModal();
+        closeReviewLightbox();
+      }} else if (e.key === 'ArrowLeft') {{
+        const lb = document.getElementById('reviewLightbox');
+        if (lb.classList.contains('active')) changeReviewLightbox(-1);
+      }} else if (e.key === 'ArrowRight') {{
+        const lb = document.getElementById('reviewLightbox');
+        if (lb.classList.contains('active')) changeReviewLightbox(1);
+      }}
+    }});
+  </script>
+</body>
+</html>'''
+
+    with open('D:/watch-boutique/index.html', 'w', encoding='utf-8') as f:
+        f.write(html_content)
+
+    print("Successfully built D:/watch-boutique/index.html")
+
+if __name__ == '__main__':
+    generate()
