@@ -135,7 +135,7 @@ base_products = [
     },
     {
         'id': 'p38900_mvd',
-        'name': '«ҚР ІІМ Абдуллин» Офицерлік',
+        'name': '«ҚР ІІМ» Офицерлік',
         'cat': 'service mens priced',
         'price': 38900,
         'tag': 'Қызметтік • ІІМ',
@@ -311,7 +311,7 @@ base_products = [
     },
     {
         'id': 'p56900_mvd',
-        'name': '«ІІМ Генерал-майор Манарбек»',
+        'name': '«ІІМ Генерал-майор»',
         'cat': 'service mens woodbox priced',
         'price': 56900,
         'tag': 'Қызметтік • ІІМ Генерал',
@@ -1025,23 +1025,6 @@ extra_items = [
         'is_price_on_request': True
     },
     {
-        'id': 'extra_19',
-        'name': '«ҚР Қарулы Күштері / Десант» Әскери болат',
-        'cat': 'service mens request',
-        'price': None,
-        'price_str': 'Бағасын нақтылау',
-        'tag': 'Қызметтік • ҚР ҚК',
-        'desc': 'Қорғаныс министрлігі, Десанттық әскер эмблемасы мен қызметкердің жеке нөмірі қашалған сағат.',
-        'img': './images/extra/watch-extra-19.jpg',
-        'badge': 'ҚР ҚК • Әскер',
-        'mech': 'Жапондық кварц калибрі',
-        'glass': 'Сапфир әйнек',
-        'case': '316L соққыға төзімді болат',
-        'strap': 'Әскери болат бау',
-        'water': '5 ATM',
-        'is_price_on_request': True
-    },
-    {
         'id': 'extra_20',
         'name': '«Қуандық / Сарыарқа» Алтын корпус',
         'cat': 'mens ornament request',
@@ -1474,17 +1457,6 @@ customer_reviews = [
         'badge': 'Kaspi Red арқылы'
     },
     {
-        'id': 'rev_20',
-        'author': 'Әлішер мырза',
-        'city': 'Алматы қаласы',
-        'rating': 5,
-        'order': '«Ысты / Жетісу» Алтын сағат',
-        'quote': '«Жетісу Ысты руының таңбасы дәл шежіредегідей. Кепілдік талоны мен пакеті бәрі жинақы. Достарыма міндетті түрде ұсынамын!»',
-        'img': './images/reviews/review-20.jpg',
-        'tag': 'WhatsApp чат • Ысты руы',
-        'badge': 'Алматыға жеткізілді'
-    },
-    {
         'id': 'rev_21',
         'author': 'Сағыныш ханым',
         'city': 'Ақтау қаласы',
@@ -1498,6 +1470,8 @@ customer_reviews = [
 ]
 
 # Combine all products
+from pairs_data import PAIRS
+couple_items = couple_items + PAIRS
 all_products = base_products + couple_items + extra_items + showcase_items
 
 # Grouping: Men's watches FIRST, then Couples, then others (per client request)

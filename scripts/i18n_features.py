@@ -45,14 +45,14 @@ PICKER_SECTION = f'''<section class="picker-section" id="picks">
       <div class="picker-results" id="pickResults" aria-live="polite"></div>
       <div class="picker-foot">
         <button type="button" class="picker-btn dark" id="pickAll" onclick="applyPickToCatalog()">{bi("Смотреть все подходящие", "Барлық лайықтыларын қарау")}</button>
-        <button type="button" class="picker-btn ghost" onclick="addPicksToSel()">{bi("Добавить подборку в мой выбор", "Таңдауды менің таңдауыма қосу")}</button>
+        <button type="button" class="picker-btn ghost" onclick="addPicksToSel()">{bi("Добавить подборку в мой выбор", "Осы таңдауды таңдаулыларға қосу")}</button>
         <a class="picker-btn wa" id="pickWa" target="_blank" rel="noopener" href="https://wa.me/">{bi("Помогите выбрать (WhatsApp)", "Таңдауға көмектесіңіз (WhatsApp)")}</a>
       </div>
     </div>
   </section>'''
 
 DOCK_HTML = f'''<div class="dock" id="dock">
-    <button type="button" class="dock-btn dock-sel" id="dockSel" onclick="openCart()" hidden>♥ {bi("Мой выбор", "Менің таңдауым")} <b id="selCount">0</b></button>
+    <button type="button" class="dock-btn dock-sel" id="dockSel" onclick="openCart()" hidden>♥ {bi("Мой выбор", "Таңдаулылар")} <b id="selCount">0</b></button>
     <div class="ask-menu" id="askMenu" hidden></div>
     <button type="button" class="dock-btn dock-q" id="dockQ" onclick="toggleAsk()">💬 {bi("Вопрос", "Сұрақ")}</button>
   </div>'''
@@ -60,7 +60,7 @@ DOCK_HTML = f'''<div class="dock" id="dock">
 CART_HTML = f'''<div class="cart-overlay" id="cartOverlay" onclick="closeCart()">
     <aside class="cart-panel" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
       <div class="cart-head">
-        {bi("Мой выбор", "Менің таңдауым", "h3", "", 'id="cartTitle"')}
+        {bi("Мой выбор", "Таңдаулылар", "h3", "", 'id="cartTitle"')}
         <button type="button" class="cart-close" onclick="closeCart()" aria-label="Close">✕</button>
       </div>
       <div class="cart-body" id="cartBody"></div>
@@ -166,7 +166,7 @@ JS_FEATURES = r'''
       tips: { bday: 'Гравировка имени и даты рождения запомнится надолго.', jub: 'К юбилею подойдут золотистый корпус и подарочная коробка.', ann: 'На годовщину посмотрите парные часы 1+1.', ny: 'Гравировка делается под заказ: лучше написать заранее.', feb23: 'Классика и имя на циферблате: достойный подарок мужчине.', any: 'Имя на циферблате делает подарок личным даже без повода.' }
     });
     Object.assign(I18N.kk, {
-      sel_add: '♡ Менің таңдауыма', sel_on: '♥ Менің таңдауымда', sel_title: 'Менің таңдауым',
+      sel_add: '♡ Таңдаулыларға қосу', sel_on: '♥ Таңдаулыларда', sel_title: 'Таңдаулылар',
       cart_empty: 'Әзірге ештеңе таңдалмаған. Ұнаған сағатта ♥ батырмасын басыңыз, ол осында пайда болады.',
       cart_engrave: 'Циферблатқа не жазылсын', cart_city: 'Қалаңыз', cart_note: 'Пікір (міндетті емес)',
       cart_total: 'Барлығы', cart_total_note: 'Бағасы сұрау бойынша үлгілер қосындыға кірмейді',
@@ -177,7 +177,7 @@ JS_FEATURES = r'''
       m_ask_price: 'Сәлеметсіз бе! Сағаттың бағасын айтып беріңізші.', m_ask_term: 'Сәлеметсіз бе! Гравировкалы сағаттың дайындалу мерзімін айтыңызшы.',
       m_ask_eng: 'Сәлеметсіз бе! Циферблатқа не ойып жазуға болады және макет қалай келісіледі?', m_ask_del: 'Сәлеметсіз бе! Сағатты менің қалама қалай және неше күнде жеткізесіздер?', m_ask_custom: 'Сәлеметсіз бе! UAQYT сайтындағы сағатқа қатысты сұрағым бар.',
       eng_title: 'Жазу қалай көрінеді', eng_black: 'Қара', eng_white: 'Ақ', eng_note: 'Шамамен көрінісі. Макетті WhatsApp-та келісеміз.', eng_ph: 'ЕСІМІҢІЗ',
-      pk_none: 'жоғарыдан жауап таңдаңыз', add_picks: 'Таңдау «Менің таңдауыма» қосылды', remind: '2 апта бұрын еске салу',
+      pk_none: 'жоғарыдан жауап таңдаңыз', add_picks: 'Таңдау «Таңдаулыларға» қосылды', remind: '2 апта бұрын еске салу',
       wa_remind: (name, date) => 'Сәлеметсіз бе! «' + name + '» (' + date + ') мерекесіне 2 апта қалғанда еске салыңызшы: гравировкалы сағат тапсырыс бергім келеді.',
       wa_pick4: (who, occ, st, bud) => 'Сәлеметсіз бе! Сағат таңдауға көмектесіңізші. Кімге: ' + who + '. Мереке: ' + occ + '. Стиль: ' + st + '. Бюджет: ' + bud + '.',
       pw: { husband: 'күйеуге', dad: 'әкеге', bro: 'ағаға/інісіне', friend: 'досқа немесе әріптеске', couples: 'жұпқа (1+1)', service: 'қызметкерге', none: 'таңдалмаған' },
