@@ -6,6 +6,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 from compile_data import all_products_sorted, customer_reviews, mens_all, couples_all, priced_products, request_products
 from i18n_products import PROD_RU, STRAP_RU, BRAND_SWAP, ru_piece_join
+from i18n_faq import FAQ_SECTION, CSS_FAQ, JS_FAQ
 from i18n_blocks import bi, LANG_SWITCH, RIBBON, HOLIDAY_SECTION, STORY_SECTION, CSS_EXTRA, JS_EXTRA
 from i18n_features import PICKER_SECTION, DOCK_HTML, CART_HTML, CSS_FEATURES, JS_FEATURES
 import i18n_engine
@@ -17,7 +18,7 @@ customer_reviews = [r for r in customer_reviews if not r["img"].endswith(PRIVATE
 # Single source of truth for contact data
 WA = "77079781857"          # WhatsApp number used on every button (change here only)
 WA_DISP = "+7 707 978 18 57"
-JS_EXTRA_WA = JS_EXTRA.replace("    // if the browser blocks autoplay", JS_FEATURES + "\n    // if the browser blocks autoplay", 1).replace("__WA__", WA)
+JS_EXTRA_WA = JS_EXTRA.replace("    // if the browser blocks autoplay", JS_FEATURES + JS_FAQ + "\n    // if the browser blocks autoplay", 1).replace("__WA__", WA)
 
 # Only facts confirmed by the owner's photos are shown on the site
 def _clean_text(t):
@@ -1989,7 +1990,7 @@ def generate():
       justify-content: center;
       text-align: center;
       padding: 24px;
-      background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=800&q=80') center/cover;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
     }}
 
     .map-overlay {{
@@ -2726,6 +2727,7 @@ def generate():
   /*__DARK_STOP__*/
   {CSS_EXTRA}
   {CSS_FEATURES}
+  {CSS_FAQ}
   </style>
 </head>
 <body>
@@ -2897,13 +2899,14 @@ def generate():
       </div>
       <div class="promo-info">
         <span class="promo-tag">🔥 АРНАЙЫ АКЦИЯ: 1 + 1</span>
-        <h2 class="promo-heading">1 сағат сатып алсаңыз — 2-ші сағат ТЕГІН!</h2>
+        <h2 class="promo-heading">25 900 ₸-ден жоғары сағат алсаңыз — 2-ші сағат ТЕГІН!</h2>
         <p class="promo-text">
           Қазіргі науқан бойынша каталогтан кез келген ерлер немесе рулық сағатын таңдағанда — суреттегі стильді бонус сағатты сыйлық ретінде ТЕГІН аласыз! Жұбайыңызға, досыңызға немесе туысыңызға қосарланған қуаныш сыйлаңыз.
         </p>
 
         <div class="promo-features">
           <div class="promo-feat-item">✓ 2-ші сағат 100% ТЕГІН</div>
+          <div class="promo-feat-item">✓ 25 900 ₸-ден жоғары барлық сағатқа жарамды</div>
           <div class="promo-feat-item">✓ Екі сағатқа да жеке гравюра</div>
           <div class="promo-feat-item">✓ Фирмалық сыйлық қорабымен</div>
           <div class="promo-feat-item">✓ 6–12 ай кепілдік</div>
@@ -3125,6 +3128,8 @@ def generate():
   </section>
 
   <!-- ───────── SHOWROOM & 2GIS SECTION ───────── -->
+  {FAQ_SECTION}
+
   <section class="showroom-section" id="contact">
     <div class="showroom-card">
       <div class="showroom-info">
@@ -3144,7 +3149,7 @@ def generate():
           <div class="info-item">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             <div>
-              <strong>Жұмыс уақыты:</strong> Дүйсенбі – Жексенбі, 10:00 – 20:00 (демалыссыз)
+              <strong>Жұмыс уақыты:</strong> Дүйсенбі – Сенбі, 10:00 – 20:00, жексенбі демалыс
             </div>
           </div>
           <div class="info-item">
@@ -3315,7 +3320,7 @@ def generate():
 
         <div class="modal-promo-note">
           <span>🎁</span>
-          <span>Осы сағатты алсаңыз — 2-ші сағат бонуске ТЕГІН беріледі!</span>
+          <span>25 900 ₸-ден жоғары сағатқа — 2-ші сағат бонуске ТЕГІН беріледі!</span>
         </div>
 
         <table class="modal-specs-table">

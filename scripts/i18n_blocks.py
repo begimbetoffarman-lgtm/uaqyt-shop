@@ -266,7 +266,9 @@ JS_EXTRA = r'''
       const engrave = document.getElementById('modalEngraveText').value.trim();
       const city = (document.getElementById('modalCity') || { value: '' }).value.trim();
       let msg = p.is_price_on_request ? tt('wa_request')(pf(p, 'name'), pf(p, 'tag')) : tt('wa_product')(pf(p, 'name'), money(p.price));
-      if (engrave) msg += '\n• ' + tt('wa_engrave') + ': «' + engrave + '»';
+      const e2 = (document.getElementById('modalEngraveText2') || { value: '' }).value.trim();
+      if (/couples/.test(p.cat) && (engrave || e2)) msg += '\n• ' + (LANG === 'kk' ? 'Ерлер сағатындағы есім' : 'Имя на мужских часах') + ': «' + (engrave || '—') + '»\n• ' + (LANG === 'kk' ? 'Әйелдер сағатындағы есім' : 'Имя на женских часах') + ': «' + (e2 || '—') + '»';
+      else if (engrave) msg += '\n• ' + tt('wa_engrave') + ': «' + engrave + '»';
       if (city) msg += '\n• ' + tt('wa_city') + ': ' + city;
       window.open(waLink(msg), '_blank');
     }
