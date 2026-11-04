@@ -57,8 +57,8 @@ html_template = """<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>UAQYT — Жеке жазуы бар есімді қол сағаттар бутігі</title>
-  <meta name="description" content="UAQYT — жеке есім мен шежіре-ру таңбалары, қызметтік органдардың (ІІМ, ҰҚК, ТЖМ, ҚР ҚК) ресми эмблемалары қашалған мәртебелі қол сағаттар бутігі.">
+  <title>UAQYT — Жеке жазуы бар есімді қол сағаттар бутигі</title>
+  <meta name="description" content="UAQYT — жеке есім мен шежіре-ру таңбалары, қызметтік органдардың (ІІМ, ҰҚК, ТЖМ, ҚР ҚК) ресми эмблемалары қашалған мәртебелі қол сағаттар бутигі.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -2358,7 +2358,7 @@ html_template = """<!DOCTYPE html>
     <div class="footer-inner">
       <div class="footer-brand">
         <h3>UAQYT</h3>
-        <p>Жеке жазуы мен қазақи шежіре-ру таңбалары бар есімді қол сағаттар бутігі. Әр бұйым — жоғары шеберлікпен жасалған статус белгісі.</p>
+        <p>Жеке жазуы мен қазақи шежіре-ру таңбалары бар есімді қол сағаттар бутигі. Әр бұйым — жоғары шеберлікпен жасалған статус белгісі.</p>
       </div>
 
       <div class="footer-col">

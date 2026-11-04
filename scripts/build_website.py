@@ -191,8 +191,8 @@ def generate():
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>UAQYT — Жеке жазуы бар есімді сағаттар бутігі | Сайран Сити 320</title>
-  <meta name="description" content="UAQYT — жеке есім мен шежіре-ру таңбалары, қызметтік органдардың (ІІМ, ҰҚК, ТЖМ, ҚР ҚК) ресми эмблемалары қашалған мәртебелі қол сағаттар бутігі. 1 сатып алсаңыз — 2-ші сағат ТЕГІН!">
+  <title>UAQYT — Жеке жазуы бар есімді сағаттар бутигі | Сайран Сити 320</title>
+  <meta name="description" content="UAQYT — жеке есім мен шежіре-ру таңбалары, қызметтік органдардың (ІІМ, ҰҚК, ТЖМ, ҚР ҚК) ресми эмблемалары қашалған мәртебелі қол сағаттар бутигі. 1 сатып алсаңыз — 2-ші сағат ТЕГІН!">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -2755,7 +2755,7 @@ def generate():
       <img src="./images/logo.jpg" alt="UAQYT kzt" class="brand-logo-img">
       <div class="brand-text">
         <span class="brand-name">UAQYT</span>
-        <span class="brand-sub">kzt • Есімді сағаттар бутігі</span>
+        <span class="brand-sub">kzt • Есімді сағаттар бутигі</span>
       </div>
     </a>
 
@@ -2789,7 +2789,7 @@ def generate():
   <section class="hero" id="hero">
     <div class="hero-left">
       <div class="hero-tag-badge">
-        <span>✨ ЖЕКЕ ЛАЗЕРЛІК ГРАВЮРА БУТІГІ</span>
+        <span>✨ ЖЕКЕ ЛАЗЕРЛІК ГРАВЮРА БУТИГІ</span>
       </div>
       <h1 class="hero-title">
         Сағатыңызға <span>өз есіміңізді жазамыз</span>
@@ -2850,7 +2850,7 @@ def generate():
           <img src="./images/logo.jpg" alt="UAQYT kzt" class="hero-showcase-logo-img">
           <div class="hero-showcase-brand-meta">
             <span>UAQYT</span>
-            <small>kzt • Есімді сағаттар бутігі</small>
+            <small>kzt • Есімді сағаттар бутигі</small>
           </div>
         </div>
       </div>
@@ -3202,7 +3202,7 @@ def generate():
           </div>
         </div>
         <p style="font-size: 13.5px; line-height: 1.6;">
-          Жеке есім, ру таңбасы және ведомстволық эмблема қашалған қол сағаттар бутігі. Қазақстан бойынша 1000-нан астам риза клиент.
+          Жеке есім, ру таңбасы және ведомстволық эмблема қашалған қол сағаттар бутигі. Қазақстан бойынша 1000-нан астам риза клиент.
         </p>
         <div style="margin-top: 10px; font-size: 13px;">
           📍 Алматы, Өтеген батыр 11а, БЦ Сайран Сити 320
