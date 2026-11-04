@@ -188,12 +188,27 @@ def generate():
 
     # Let's write the complete HTML template
     html_content = f'''<!DOCTYPE html>
-<html lang="kk">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>UAQYT — Жеке жазуы бар есімді сағаттар бутигі | Сайран Сити 320</title>
   <meta name="description" content="UAQYT — жеке есім мен шежіре-ру таңбалары, қызметтік органдардың (ІІМ, ҰҚК, ТЖМ, ҚР ҚК) ресми эмблемалары қашалған мәртебелі қол сағаттар бутигі. 1 сатып алсаңыз — 2-ші сағат ТЕГІН!">
+  <link rel="icon" href="./favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="./images/favicon-192.png">
+  <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="canonical" href="https://uaqyt-shop.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="UAQYT">
+  <meta property="og:title" content="UAQYT: именные часы с гравировкой в Алматы">
+  <meta property="og:description" content="Имя, дата или родовая тамга на циферблате. Доставка по Казахстану. От 25 900 ₸ вторые часы в подарок.">
+  <meta property="og:url" content="https://uaqyt-shop.vercel.app/">
+  <meta property="og:image" content="https://uaqyt-shop.vercel.app/images/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{{"@context": "https://schema.org", "@type": "Store", "name": "UAQYT", "description": "Именные часы с гравировкой: имя, дата или родовая тамга на циферблате. Алматы, доставка по Казахстану.", "url": "https://uaqyt-shop.vercel.app/", "image": "https://uaqyt-shop.vercel.app/images/og-image.jpg", "telephone": "+77079781857", "address": {{"@type": "PostalAddress", "streetAddress": "ул. Утеген батыра 11а, БЦ «Сайран Сити», офис 320", "addressLocality": "Алматы", "addressCountry": "KZ"}}, "openingHoursSpecification": [{{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "10:00", "closes": "20:00"}}], "sameAs": ["https://www.instagram.com/uaqyt.kzt"]}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">

@@ -30,11 +30,11 @@ STORY_SECTION = f'''<section class="story-section" id="story">
       {bi("Посмотрите, как выглядят часы с гравировкой на руке и в коробке. Имя и дата на циферблате превращают их в личную память.", "Гравировкалы сағаттардың қолда және қорапта қалай көрінетінін қараңыз. Циферблаттағы есім мен күн оны жеке естелікке айналдырады.", "p", "picker-sub")}
     </div>
     <div class="story-reel">
-      <figure class="story-v"><video autoplay muted loop playsinline preload="metadata" poster="./video/w1.jpg" aria-label="Часы UAQYT, видео 1"><source src="./video/w1.mp4" type="video/mp4"></video></figure>
-      <figure class="story-v"><video autoplay muted loop playsinline preload="metadata" poster="./video/w2.jpg" aria-label="Часы UAQYT, видео 2"><source src="./video/w2.mp4" type="video/mp4"></video></figure>
-      <figure class="story-v"><video autoplay muted loop playsinline preload="metadata" poster="./video/w3.jpg" aria-label="Часы UAQYT, видео 3"><source src="./video/w3.mp4" type="video/mp4"></video></figure>
-      <figure class="story-v"><video autoplay muted loop playsinline preload="metadata" poster="./video/w4.jpg" aria-label="Часы UAQYT, видео 4"><source src="./video/w4.mp4" type="video/mp4"></video></figure>
-      <figure class="story-v"><video autoplay muted loop playsinline preload="metadata" poster="./video/w5.jpg" aria-label="Часы UAQYT, видео 5"><source src="./video/w5.mp4" type="video/mp4"></video></figure>
+      <figure class="story-v"><video muted loop playsinline preload="none" poster="./video/w1.jpg" aria-label="Часы UAQYT, видео 1"><source src="./video/w1.mp4" type="video/mp4"></video></figure>
+      <figure class="story-v"><video muted loop playsinline preload="none" poster="./video/w2.jpg" aria-label="Часы UAQYT, видео 2"><source src="./video/w2.mp4" type="video/mp4"></video></figure>
+      <figure class="story-v"><video muted loop playsinline preload="none" poster="./video/w3.jpg" aria-label="Часы UAQYT, видео 3"><source src="./video/w3.mp4" type="video/mp4"></video></figure>
+      <figure class="story-v"><video muted loop playsinline preload="none" poster="./video/w4.jpg" aria-label="Часы UAQYT, видео 4"><source src="./video/w4.mp4" type="video/mp4"></video></figure>
+      <figure class="story-v"><video muted loop playsinline preload="none" poster="./video/w5.jpg" aria-label="Часы UAQYT, видео 5"><source src="./video/w5.mp4" type="video/mp4"></video></figure>
     </div>
     <div class="story-cta">
       <a class="story-btn red" href="#picks">{bi("Подобрать подарок", "Сыйлық таңдау")}</a>
