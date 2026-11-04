@@ -9,8 +9,8 @@ _ITEMS = [
      "1. Үлгіні таңдап, циферблатқа не жазылатынын WhatsApp-қа жазасыз. 2. Алдын ала төлем жасайсыз. 3. Біз дизайн дайындап, сізбен келісіп, өндіріске береміз. 4. Сағат дайын болғанда фото-есеп жібереміз. 5. Фотоны растағаннан кейін ғана сағат оралып, жолға шығады."),
     ("Как работает бонус 1+1?",
      "1+1 бонусы қалай жұмыс істейді?",
-     "При покупке любых часов дороже 25 900 ₸ вторые часы вы получаете в подарок. Подробности и выбор бонусных часов уточните в WhatsApp.",
-     "25 900 ₸-ден жоғары кез келген сағатты алсаңыз, екінші сағат сыйлыққа беріледі. Бонус сағатты таңдау мен толық шарттарды WhatsApp-та нақтылаңыз."),
+     "При покупке любых часов от 25 900 ₸ вторые часы вы получаете в подарок. Подробности и выбор бонусных часов уточните в WhatsApp.",
+     "25 900 ₸-ден бастап кез келген сағатты алсаңыз, екінші сағат сыйлыққа беріледі. Бонус сағатты таңдау мен толық шарттарды WhatsApp-та нақтылаңыз."),
     ("Сколько времени делают часы?",
      "Сағат қанша уақытта жасалады?",
      "2–3 рабочих дня после предоплаты и утверждения дизайна. Каждое изделие собирается вручную. Срочный заказ можно сделать ускоренно, за 1 день: уточняйте в WhatsApp.",
@@ -75,10 +75,37 @@ CSS_FAQ = '''
       .product-card .card-badge { font-size: 10px; padding: 3px 7px; max-width: 90%; }
       .reviews-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
       .review-card { border-radius: 14px; }
+      /* phones: no sideways scroll in the constructor, comfortable tap targets */
+      .simulator-section { padding-left: 12px !important; padding-right: 12px !important; }
+      .sim-grid { grid-template-columns: minmax(0, 1fr) !important; }
+      .dial-display-card { padding: 10px !important; max-width: 100%; }
+      .sim-controls-form, .sim-controls-form .form-group, .form-input { max-width: 100%; min-width: 0; box-sizing: border-box; }
+      .price-chip { min-height: 40px; }
+      .lang-btn { min-height: 34px; padding: 7px 12px; }
+      .product-card .btn-card-action { min-height: 40px; }
     }
 '''
 
 JS_FAQ = '''
+    // dynamic chip counts: price buckets follow the active category and search
+    (function () {
+      const origFilter = filterCatalog;
+      filterCatalog = function () {
+        origFilter();
+        try {
+          const q = (document.getElementById('catalogSearch').value || '').toLowerCase().trim();
+          const b = [0, 0, 0, 0];
+          document.querySelectorAll('.product-card').forEach(card => {
+            const cat = card.getAttribute('data-category') || '';
+            if (activeFilter !== 'all') { const ok = activeFilter === 'mens' ? (cat.includes('mens') && !cat.includes('couples')) : cat.includes(activeFilter); if (!ok) return; }
+            if (q) { const t = (card.querySelector('.card-title').textContent + ' ' + card.querySelector('.card-desc').textContent + ' ' + card.querySelector('.card-category-tag').textContent).toLowerCase(); if (!t.includes(q)) return; }
+            const pr = parseInt(card.getAttribute('data-price')); if (!(pr < 999999)) return;
+            b[pr < 30000 ? 0 : pr < 40000 ? 1 : pr < 55000 ? 2 : 3]++;
+          });
+          document.querySelectorAll('.price-chip').forEach((c, i) => { if (i > 0) c.textContent = c.textContent.replace(/\\(\\d+\\)/, '(' + b[i - 1] + ')'); });
+        } catch (e) {}
+      };
+    })();
     // ═════════ pair products: two names, no bonus note ═════════
     (function () {
       const origOpen = openProductModal;
@@ -105,7 +132,23 @@ JS_FAQ = '''
         if (!pair) i2.value = '';
         lab2.textContent = t.f; lab2.style.display = pair ? '' : 'none';
         const note = document.querySelector('.modal-promo-note');
-        if (note) note.style.display = (pair || (!p.is_price_on_request && p.price <= 25900)) ? 'none' : '';
+        if (note) note.style.display = (pair || (!p.is_price_on_request && p.price < 25900)) ? 'none' : '';
       };
     })();
+'''
+
+
+BONUS_GALLERY = (
+    '<div class="bonus-pick">'
+    + bi("Бонусные женские часы на выбор", "Таңдауға арналған әйелдер бонус сағаттары", "div", "bonus-pick-title")
+    + '<div class="bonus-pick-grid">'
+    + "".join('<img src="./images/bonus/women-%d.jpg" alt="" loading="lazy">' % i for i in range(1, 7))
+    + '</div></div>'
+)
+
+CSS_BONUS = '''
+    .bonus-pick { margin: 18px 0 4px; }
+    .bonus-pick-title { font-weight: 700; font-size: 15px; margin-bottom: 10px; color: var(--text); }
+    .bonus-pick-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .bonus-pick-grid img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 14px; border: 1px solid var(--border); }
 '''

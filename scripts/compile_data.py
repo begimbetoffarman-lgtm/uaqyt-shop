@@ -840,9 +840,8 @@ extra_items = [
     {
         'id': 'extra_8',
         'name': '«Айдос ❤️ Ақерке» Қызыл ағаш қорап',
-        'cat': 'mens promo request',
-        'price': None,
-        'price_str': 'Бағасын нақтылау',
+        'cat': 'mens promo priced',
+        'price': 54900,
         'tag': 'Гравюра • Ағаш қорап',
         'desc': 'Қызыл ағаш қорапта тұрған, жеке есім қашалған сағат.',
         'img': './images/extra/watch-extra-8.jpg',
@@ -852,14 +851,13 @@ extra_items = [
         'case': 'Тот баспайтын болат',
         'strap': 'Былғары бау',
         'water': '3 ATM',
-        'is_price_on_request': True
+        'is_price_on_request': False
     },
     {
         'id': 'extra_9',
         'name': '«Қарақыпшақ Қобыланды» Болат бау',
-        'cat': 'mens ornament request',
-        'price': None,
-        'price_str': 'Бағасын нақтылау',
+        'cat': 'mens ornament priced',
+        'price': 38900,
         'tag': 'Қыпшақ • Батырлар рухы',
         'desc': 'Қос алып таңбасы, болат бау, мықты корпус, сабырлы ерлерге арналған сағат.',
         'img': './images/extra/watch-extra-9.jpg',
@@ -869,14 +867,13 @@ extra_items = [
         'case': '316L болат',
         'strap': 'Болат бау',
         'water': '3 ATM',
-        'is_price_on_request': True
+        'is_price_on_request': False
     },
     {
         'id': 'extra_10',
         'name': '«ІІМ Полковник / ҚР Полициясы» Ақ циферблат',
-        'cat': 'service mens request',
-        'price': None,
-        'price_str': 'Бағасын нақтылау',
+        'cat': 'service mens priced',
+        'price': 25900,
         'tag': 'Қызметтік • ІІМ',
         'desc': 'Полиция ресми эмблемасы, әскери шені, ақ таза классикалық циферблат, болат бау.',
         'img': './images/extra/watch-extra-10.jpg',
@@ -886,14 +883,13 @@ extra_items = [
         'case': '316L тот баспайтын болат',
         'strap': 'Классикалық болат бау',
         'water': '5 ATM',
-        'is_price_on_request': True
+        'is_price_on_request': False
     },
     {
         'id': 'extra_11',
         'name': '«Албан / Райымбек» Jubilee болат',
-        'cat': 'mens ornament request',
-        'price': None,
-        'price_str': 'Бағасын нақтылау',
+        'cat': 'mens ornament priced',
+        'price': 25900,
         'tag': 'Албан • Jubilee',
         'desc': 'Қоңырау таңбасы, Jubilee бес буынды болат бау, сызатқа төзімді сапфирлік әйнек.',
         'img': './images/extra/watch-extra-11.jpg',
@@ -903,14 +899,13 @@ extra_items = [
         'case': '316L болат',
         'strap': 'Jubilee болат бау',
         'water': '3 ATM',
-        'is_price_on_request': True
+        'is_price_on_request': False
     },
     {
         'id': 'extra_12',
         'name': '«Беріш / Сартай батыр» Күміс корпус',
-        'cat': 'mens ornament request',
-        'price': None,
-        'price_str': 'Бағасын нақтылау',
+        'cat': 'mens ornament priced',
+        'price': 18900,
         'tag': 'Беріш • Жұлдыз таңба',
         'desc': 'Кіші жүз Беріш руы, күміс сатинирленген болат корпус, терең қара циферблат.',
         'img': './images/extra/watch-extra-12.jpg',
@@ -920,14 +915,13 @@ extra_items = [
         'case': 'Күміс сатинирленген болат',
         'strap': 'Болат бау',
         'water': '3 ATM',
-        'is_price_on_request': True
+        'is_price_on_request': False
     },
     {
         'id': 'extra_13',
         'name': '«Төре Шыңғысхан ұрпағы» Тәжді сағат',
-        'cat': 'mens ornament request',
-        'price': None,
-        'price_str': 'Бағасын нақтылау',
+        'cat': 'mens ornament priced',
+        'price': 25900,
         'tag': 'Төре • Хан таңбасы',
         'desc': 'Төре әулетінің алтын тәж таңбасы, алтын мен болат үйлесімі, мәртебелі ерлер сағаты.',
         'img': './images/extra/watch-extra-13.jpg',
@@ -937,14 +931,13 @@ extra_items = [
         'case': 'Алтын-болат комби',
         'strap': 'Құйылған болат бау',
         'water': '3 ATM',
-        'is_price_on_request': True
+        'is_price_on_request': False
     },
     {
         'id': 'extra_14',
         'name': '«Қожа / Сұлтан» Алтын-қоңыр былғары бау',
-        'cat': 'mens request',
-        'price': None,
-        'price_str': 'Бағасын нақтылау',
+        'cat': 'mens priced',
+        'price': 41900,
         'tag': 'Қожа • Былғары бау',
         'desc': 'Асыл алтын корпус, қоңыр табиғи былғары бау, классикалық араб өрнектерімен.',
         'img': './images/extra/watch-extra-14.jpg',
@@ -954,14 +947,13 @@ extra_items = [
         'case': 'Алтын жалатылған болат',
         'strap': 'Табиғи былғары',
         'water': '3 ATM',
-        'is_price_on_request': True
+        'is_price_on_request': False
     },
     {
         'id': 'extra_15',
         'name': '«ҰҚК / КНБ Қалқан мен Қылыш» Төзімді болат',
-        'cat': 'service mens request',
-        'price': None,
-        'price_str': 'Бағасын нақтылау',
+        'cat': 'service mens priced',
+        'price': 29900,
         'tag': 'Қызметтік • ҰҚК',
         'desc': 'ҚР ҰҚК қалқан мен қылыш белгісі, қызметкердің тегі, жоғары дәлдіктегі арнайы болат сағат.',
         'img': './images/extra/watch-extra-15.jpg',
@@ -971,14 +963,13 @@ extra_items = [
         'case': '316L хирургиялық болат',
         'strap': 'Төзімді болат бау',
         'water': '5 ATM',
-        'is_price_on_request': True
+        'is_price_on_request': False
     },
     {
         'id': 'extra_16',
         'name': '«Тана / Сырым Датұлы» Оюлы циферблат',
-        'cat': 'mens ornament request',
-        'price': None,
-        'price_str': 'Бағасын нақтылау',
+        'cat': 'mens ornament priced',
+        'price': 29900,
         'tag': 'Тана • Ою-өрнек',
         'desc': 'Тана руының таңбасы, ұлттық қазақи өрнек, алтын мен болаттың үйлесімді жылтыры.',
         'img': './images/extra/watch-extra-16.jpg',
@@ -988,14 +979,13 @@ extra_items = [
         'case': '316L болат',
         'strap': 'Болат бау',
         'water': '3 ATM',
-        'is_price_on_request': True
+        'is_price_on_request': False
     },
     {
         'id': 'extra_17',
         'name': '«Байұлы / Адай» Күміс сатинирленген',
-        'cat': 'mens ornament request',
-        'price': None,
-        'price_str': 'Бағасын нақтылау',
+        'cat': 'mens ornament priced',
+        'price': 29900,
         'tag': 'Адай • Күміс болат',
         'desc': 'Адай таңбасы, күміс сатинирленген безель, күнделікті тағуға өте ыңғайлы төзімді үлгі.',
         'img': './images/extra/watch-extra-17.jpg',
@@ -1005,14 +995,13 @@ extra_items = [
         'case': 'Күміс сатинирленген болат',
         'strap': 'Болат бау',
         'water': '3 ATM',
-        'is_price_on_request': True
+        'is_price_on_request': False
     },
     {
         'id': 'extra_18',
         'name': '«Төртқара / Жалаңтөс батыр» Күміс Jubilee',
-        'cat': 'mens ornament request',
-        'price': None,
-        'price_str': 'Бағасын нақтылау',
+        'cat': 'mens ornament priced',
+        'price': 43900,
         'tag': 'Төртқара • Jubilee',
         'desc': 'Әлімұлы Төртқара таңбасы, күміс бес буынды бау, сапфирлік қорғаныс әйнегі.',
         'img': './images/extra/watch-extra-18.jpg',
@@ -1022,14 +1011,13 @@ extra_items = [
         'case': '316L болат',
         'strap': 'Jubilee болат бау',
         'water': '3 ATM',
-        'is_price_on_request': True
+        'is_price_on_request': False
     },
     {
         'id': 'extra_20',
         'name': '«Қуандық / Сарыарқа» Алтын корпус',
-        'cat': 'mens ornament request',
-        'price': None,
-        'price_str': 'Бағасын нақтылау',
+        'cat': 'mens ornament priced',
+        'price': 75900,
         'tag': 'Арғын-Қуандық • Алтын',
         'desc': 'Арғын ішіндегі Қуандық руының таңбасы, алтын түсті болат, сапфир әйнек, сыйлық қорабымен.',
         'img': './images/extra/watch-extra-20.jpg',
@@ -1039,7 +1027,7 @@ extra_items = [
         'case': 'Алтын жалатылған болат',
         'strap': 'Алтын болат бау',
         'water': '3 ATM',
-        'is_price_on_request': True
+        'is_price_on_request': False
     },
     {
         'id': 'extra_21',

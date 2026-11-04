@@ -6,7 +6,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 from compile_data import all_products_sorted, customer_reviews, mens_all, couples_all, priced_products, request_products
 from i18n_products import PROD_RU, STRAP_RU, BRAND_SWAP, ru_piece_join
-from i18n_faq import FAQ_SECTION, CSS_FAQ, JS_FAQ
+from i18n_faq import FAQ_SECTION, CSS_FAQ, JS_FAQ, BONUS_GALLERY, CSS_BONUS
 from i18n_blocks import bi, LANG_SWITCH, RIBBON, HOLIDAY_SECTION, STORY_SECTION, CSS_EXTRA, JS_EXTRA
 from i18n_features import PICKER_SECTION, DOCK_HTML, CART_HTML, CSS_FEATURES, JS_FEATURES
 import i18n_engine
@@ -2728,6 +2728,7 @@ def generate():
   {CSS_EXTRA}
   {CSS_FEATURES}
   {CSS_FAQ}
+  {CSS_BONUS}
   </style>
 </head>
 <body>
@@ -2791,7 +2792,7 @@ def generate():
   <section class="hero" id="hero">
     <div class="hero-left">
       <div class="hero-tag-badge">
-        <span>✨ ЖЕКЕ ЛАЗЕРЛІК ГРАВЮРА БУТИГІ</span>
+        <span>✨ ЕСІМІҢІЗ ЖАЗЫЛҒАН САҒАТТАР</span>
       </div>
       <h1 class="hero-title">
         Сағатыңызға <span>өз есіміңізді жазамыз</span>
@@ -2899,18 +2900,20 @@ def generate():
       </div>
       <div class="promo-info">
         <span class="promo-tag">🔥 АРНАЙЫ АКЦИЯ: 1 + 1</span>
-        <h2 class="promo-heading">25 900 ₸-ден жоғары сағат алсаңыз — 2-ші сағат ТЕГІН!</h2>
+        <h2 class="promo-heading">25 900 ₸-ден бастап сағат алсаңыз — 2-ші сағат ТЕГІН!</h2>
         <p class="promo-text">
           Қазіргі науқан бойынша каталогтан кез келген ерлер немесе рулық сағатын таңдағанда — суреттегі стильді бонус сағатты сыйлық ретінде ТЕГІН аласыз! Жұбайыңызға, досыңызға немесе туысыңызға қосарланған қуаныш сыйлаңыз.
         </p>
 
         <div class="promo-features">
           <div class="promo-feat-item">✓ 2-ші сағат 100% ТЕГІН</div>
-          <div class="promo-feat-item">✓ 25 900 ₸-ден жоғары барлық сағатқа жарамды</div>
+          <div class="promo-feat-item">✓ 25 900 ₸-ден бастап барлық сағатқа жарамды</div>
           <div class="promo-feat-item">✓ Екі сағатқа да жеке гравюра</div>
           <div class="promo-feat-item">✓ Фирмалық сыйлық қорабымен</div>
           <div class="promo-feat-item">✓ 6–12 ай кепілдік</div>
         </div>
+
+        {BONUS_GALLERY}
 
         <a href="#catalog" class="btn-promo-action">
           <span>Акция бойынша сағат таңдау</span>
@@ -3320,7 +3323,7 @@ def generate():
 
         <div class="modal-promo-note">
           <span>🎁</span>
-          <span>25 900 ₸-ден жоғары сағатқа — 2-ші сағат бонуске ТЕГІН беріледі!</span>
+          <span>25 900 ₸-ден бастап сағатқа — 2-ші сағат бонуске ТЕГІН беріледі!</span>
         </div>
 
         <table class="modal-specs-table">
@@ -3564,10 +3567,20 @@ def generate():
       const grid = document.getElementById('productsGrid');
       const cards = Array.from(grid.querySelectorAll('.product-card'));
 
-      if (sortVal === 'price_asc') {{
-        cards.sort((a, b) => parseInt(a.getAttribute('data-price')) - parseInt(b.getAttribute('data-price')));
-      }} else if (sortVal === 'price_desc') {{
-        cards.sort((a, b) => parseInt(b.getAttribute('data-price')) - parseInt(a.getAttribute('data-price')));
+      if (!grid.dataset.indexed) {{ cards.forEach((c, i) => c.dataset.idx = i); grid.dataset.indexed = '1'; }}
+      const pv = c => {{ const v = parseInt(c.getAttribute('data-price')); return v >= 999999 ? null : v; }};
+      const byIdx = (a, b) => a.dataset.idx - b.dataset.idx;
+      if (sortVal === 'price_asc' || sortVal === 'price_desc') {{
+        const dir = sortVal === 'price_asc' ? 1 : -1;
+        cards.sort((a, b) => {{
+          const x = pv(a), y = pv(b);
+          if (x === null && y === null) return byIdx(a, b);
+          if (x === null) return 1;
+          if (y === null) return -1;
+          return (x - y) * dir || byIdx(a, b);
+        }});
+      }} else {{
+        cards.sort(byIdx);
       }}
 
       cards.forEach(c => grid.appendChild(c));
