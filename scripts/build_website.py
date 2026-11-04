@@ -6,6 +6,36 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 from compile_data import all_products_sorted, customer_reviews, mens_all, couples_all, priced_products, request_products
 
+# Single source of truth for contact data
+WA = "77073356059"          # WhatsApp number used on every button (change here only)
+WA_DISP = "+7 707 335 60 59"
+
+# Only facts confirmed by the owner's photos are shown on the site
+def _clean_text(t):
+    if not isinstance(t, str):
+        return t
+    for a, b in [("316L ", ""), ("316L", "болат"), (" (Miyota)", ""), ("Жапондық дәл ", ""), ("Жапондық ", ""),
+                 ("ресми зауыттық кепілдік", "кепілдік"), ("1000+ видео мен фото", "жаңа жұмыстар мен пікірлер")]:
+        t = t.replace(a, b)
+    return t
+
+for _p in list(all_products_sorted):
+    is_mech = "mechanic" in _p.get("cat", "")
+    _p["mech"] = "Механика" if is_mech else "Кварц"
+    _p["glass"] = "Сапфирлік шыны, соққыға төзімді" if is_mech else "Минералды шыны, сызатқа төзімді"
+    _old_case = (_p.get("case") or "").lower()
+    _p["case"] = "Алтын түсті корпус" if "алтын" in _old_case else "Болат корпус"
+    _p["water"] = "WhatsApp-та нақтылаймыз"
+    for _k in ("desc", "name", "tag", "strap"):
+        if _k in _p:
+            _p[_k] = _clean_text(_p[_k])
+
+_prices = [p["price"] for p in priced_products]
+T1 = sum(1 for x in _prices if x < 30000)
+T2 = sum(1 for x in _prices if 30000 <= x < 40000)
+T3 = sum(1 for x in _prices if 40000 <= x < 55000)
+T4 = sum(1 for x in _prices if x >= 55000)
+
 print(f"Loaded {len(all_products_sorted)} products (Men: {len(mens_all)}, Couples: {len(couples_all)}) and {len(customer_reviews)} reviews.")
 
 # JSON dump for frontend interactive search and modal lookup
@@ -50,7 +80,7 @@ def generate():
             </div>'''
             btn_html = f'''
             <button class="btn-card-action" onclick="openProductModal('{pid}')">
-              <span>Толығырақ көру</span>
+              <span>Сатып алу</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>'''
 
@@ -349,6 +379,7 @@ def generate():
     }}
 
     .nav-link {{
+      white-space: nowrap;
       font-size: 14px;
       font-weight: 500;
       color: var(--text);
@@ -1251,11 +1282,10 @@ def generate():
 
     .filter-tabs {{
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 10px;
-      overflow-x: auto;
       padding-bottom: 6px;
-      scrollbar-width: none;
     }}
 
     .filter-tabs::-webkit-scrollbar {{
@@ -2523,6 +2553,125 @@ def generate():
         padding-bottom: 70px;
       }}
     }}
+
+    /* ───────── CORRECTIONS: tabs, price tiers, offer, mobile menu ───────── */
+    body {{ font-size: 15px; }}
+    .filter-tab {{ font-size: 14.5px; padding: 10px 18px; }}
+    .filter-tab-hot {{ background: #fff1f2; border-color: #fecdd3; color: var(--accent-red); font-weight: 700; }}
+    .filter-tab-hot.active-special {{ background: var(--accent-red); border-color: var(--accent-red); color: #fff; }}
+    .price-tabs {{ display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 14px; }}
+    .price-tabs-label {{ font-size: 14px; font-weight: 700; color: var(--text); margin-right: 4px; }}
+    .price-chip {{ padding: 9px 16px; border-radius: 24px; background: #fffbeb; border: 1px solid #fde68a; color: #92400e; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: var(--transition); }}
+    .price-chip:hover {{ border-color: var(--accent-gold); }}
+    .price-chip.active {{ background: var(--accent-gold-dark, #8a6a2f); border-color: var(--accent-gold-dark, #8a6a2f); color: #fff; }}
+    .catalog-count {{ margin-top: 14px; font-size: 14px; color: var(--text-muted); }}
+    .card-desc {{ font-size: 14.5px; }}
+
+    .nav-burger {{ display: none; width: 42px; height: 42px; border-radius: 12px; border: 1px solid var(--border); background: #fff; cursor: pointer; align-items: center; justify-content: center; flex-direction: column; gap: 5px; padding: 0; }}
+    .nav-burger span {{ display: block; width: 18px; height: 2px; background: var(--text); border-radius: 2px; transition: transform .25s, opacity .2s; }}
+    .navbar.open .nav-burger span:nth-child(1) {{ transform: translateY(7px) rotate(45deg); }}
+    .navbar.open .nav-burger span:nth-child(2) {{ opacity: 0; }}
+    .navbar.open .nav-burger span:nth-child(3) {{ transform: translateY(-7px) rotate(-45deg); }}
+
+    .btn-mobile-soc {{ width: 46px; height: 46px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--border); background: #fff; color: var(--text); flex-shrink: 0; }}
+    .btn-mobile-soc.insta {{ color: #be185d; border-color: #fbcfe8; background: #fdf2f8; }}
+    .btn-mobile-soc.tiktok {{ background: #111827; color: #fff; border-color: #111827; }}
+
+    .offer-overlay {{ position: fixed; inset: 0; background: rgba(17,24,39,.55); z-index: 300; display: none; align-items: center; justify-content: center; padding: 20px; }}
+    .offer-overlay.active {{ display: flex; }}
+    .offer-card {{ position: relative; background: #fff; border-radius: 24px; max-width: 440px; width: 100%; padding: 32px 28px 26px; text-align: center; }}
+    .offer-close {{ position: absolute; top: 12px; right: 14px; border: none; background: transparent; font-size: 24px; cursor: pointer; color: var(--text-muted); }}
+    .offer-title {{ font-family: var(--font-serif); font-size: 28px; line-height: 1.15; font-weight: 700; color: var(--text); margin-bottom: 12px; }}
+    .offer-text {{ font-size: 16px; color: var(--text); margin-bottom: 22px; }}
+    .offer-actions {{ display: flex; flex-direction: column; gap: 10px; }}
+    .offer-btn {{ display: block; padding: 14px 18px; border-radius: 16px; font-weight: 700; font-size: 15px; text-align: center; text-decoration: none; cursor: pointer; border: none; }}
+    .offer-btn.primary {{ background: var(--accent-red); color: #fff; }}
+    .offer-btn.wa {{ background: var(--accent-green); color: #fff; }}
+
+    @media (max-width: 768px) {{
+      .nav-burger {{ display: inline-flex; }}
+      .navbar {{ gap: 8px; }}
+      .navbar.open .nav-links {{ display: flex !important; flex-direction: column; align-items: stretch; gap: 0; position: absolute; top: 100%; left: 0; right: 0; background: #fff; padding: 8px 20px 20px; border-bottom: 1px solid var(--border); max-height: calc(100vh - 70px); overflow-y: auto; }}
+      .navbar.open .nav-links li a {{ display: block; padding: 14px 4px; font-size: 17px; border-bottom: 1px solid var(--border); }}
+      .hero-title {{ font-size: 32px; }}
+      .filter-tab {{ font-size: 14px; padding: 9px 14px; }}
+      .price-chip {{ font-size: 13.5px; padding: 8px 13px; }}
+      .brand-text {{ display: none; }}
+    }}
+
+    /* ───────── COLD-VISITOR FLOW: picker, reviews teaser, offer ───────── */
+    .sort-select {{ max-width: 100%; min-width: 0; }}
+    .search-box {{ max-width: 100%; min-width: 0; }}
+    .picker-section {{ padding: 64px 32px 24px; max-width: 1240px; margin: 0 auto; }}
+    .picker-head {{ text-align: center; margin-bottom: 28px; }}
+    .picker-title {{ font-family: var(--font-serif); font-size: 38px; line-height: 1.12; font-weight: 700; color: var(--text); }}
+    .picker-sub {{ margin-top: 10px; font-size: 16px; color: var(--text-muted); }}
+    .picker-box {{ background: #fff; border: 1px solid var(--border); border-radius: 28px; padding: 28px; box-shadow: var(--shadow-lg); }}
+    .picker-row {{ margin-bottom: 20px; }}
+    .picker-label {{ font-size: 15px; font-weight: 700; margin-bottom: 10px; color: var(--text); }}
+    .picker-chips {{ display: flex; flex-wrap: wrap; gap: 10px; }}
+    .picker-chip {{ padding: 11px 18px; border-radius: 24px; border: 1px solid var(--border); background: var(--bg-alt); font-size: 15px; font-weight: 600; cursor: pointer; color: var(--text); transition: var(--transition); }}
+    .picker-chip:hover {{ border-color: var(--accent-gold); }}
+    .picker-chip.active {{ background: var(--text); border-color: var(--text); color: #fff; }}
+    .picker-results {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 8px; }}
+    .pick-card {{ background: var(--bg-alt); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: var(--transition); }}
+    .pick-card:hover {{ transform: translateY(-3px); border-color: var(--accent-gold); }}
+    .pick-card img {{ width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; }}
+    .pick-card-body {{ padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }}
+    .pick-card-name {{ font-family: var(--font-serif); font-size: 18px; font-weight: 700; line-height: 1.2; color: var(--text); }}
+    .pick-card-price {{ font-size: 20px; font-weight: 800; color: var(--text); }}
+    .pick-card-inst {{ font-size: 13.5px; color: var(--text-muted); }}
+    .pick-card-btn {{ margin-top: auto; padding: 11px 14px; border-radius: 14px; border: none; background: var(--accent-red); color: #fff; font-weight: 700; font-size: 15px; cursor: pointer; }}
+    .picker-empty {{ grid-column: 1 / -1; padding: 24px; text-align: center; color: var(--text-muted); font-size: 16px; }}
+    .picker-foot {{ display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 22px; }}
+    .picker-btn {{ padding: 14px 24px; border-radius: 16px; font-size: 16px; font-weight: 700; border: none; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }}
+    .picker-btn.dark {{ background: var(--text); color: #fff; }}
+    .picker-btn.wa {{ background: var(--accent-green); color: #fff; }}
+
+    .teaser-section {{ padding: 48px 32px 8px; max-width: 1240px; margin: 0 auto; }}
+    .teaser-head {{ display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 20px; margin-bottom: 20px; }}
+    .teaser-title {{ font-family: var(--font-serif); font-size: 32px; font-weight: 700; color: var(--text); }}
+    .teaser-link {{ font-size: 15px; font-weight: 700; color: var(--accent-gold-dark, #8a6a2f); text-decoration: underline; }}
+    .teaser-grid {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }}
+    .teaser-card {{ background: #fff; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; cursor: pointer; transition: var(--transition); }}
+    .teaser-card:hover {{ border-color: var(--accent-gold); transform: translateY(-3px); }}
+    .teaser-card img {{ width: 100%; height: 240px; object-fit: cover; object-position: top; display: block; }}
+    .teaser-cap {{ padding: 12px 16px 14px; font-size: 14.5px; color: var(--text); }}
+    .teaser-cap small {{ display: block; color: var(--text-muted); font-size: 13px; margin-top: 2px; }}
+
+    .offer-list {{ list-style: none; text-align: left; margin: 0 auto 22px; padding: 0; display: grid; gap: 10px; }}
+    .offer-list li {{ font-size: 16px; font-weight: 600; color: var(--text); padding-left: 28px; position: relative; }}
+    .offer-list li::before {{ content: "✓"; position: absolute; left: 0; top: 0; color: var(--accent-green); font-weight: 800; }}
+    .modal-trust {{ display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 12px 0 4px; font-size: 14px; font-weight: 600; color: #166534; }}
+    .modal-city-box {{ margin-top: 10px; }}
+
+    @media (max-width: 900px) {{
+      .picker-results {{ grid-template-columns: repeat(2, 1fr); }}
+      .teaser-grid {{ grid-template-columns: repeat(2, 1fr); }}
+    }}
+    @media (max-width: 768px) {{
+      .hero-perks-grid {{ grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }}
+      .perk-card {{ padding: 12px 8px !important; text-align: center; }}
+      .perk-card .perk-desc {{ display: none; }}
+      .perk-card .perk-title {{ font-size: 13px; line-height: 1.25; }}
+      .perk-icon {{ font-size: 22px; }}
+      .hero {{ padding-top: 24px !important; gap: 28px !important; }}
+      .hero-lead {{ font-size: 17px !important; }}
+    }}
+    @media (max-width: 768px) {{
+      .picker-section {{ padding: 44px 16px 12px; }}
+      .picker-title {{ font-size: 28px; }}
+      .picker-box {{ padding: 18px 14px; border-radius: 22px; }}
+      .teaser-section {{ padding: 36px 16px 4px; }}
+      .teaser-title {{ font-size: 26px; }}
+      .teaser-grid {{ grid-template-columns: repeat(2, 1fr); gap: 10px; }}
+      .teaser-card img {{ height: 190px; }}
+      .mobile-bottom-bar {{ gap: 8px !important; padding: 10px 12px !important; }}
+      .btn-mobile-2gis {{ flex: 0 0 auto !important; padding: 12px !important; }}
+      .btn-mobile-wa {{ flex: 1 1 0 !important; min-width: 0; white-space: nowrap; }}
+      .sort-select {{ width: 100%; }}
+      .search-sort-bar {{ flex-direction: column; align-items: stretch; }}
+    }}
   </style>
 </head>
 <body>
@@ -2540,7 +2689,7 @@ def generate():
     <div class="pitch-right">
       <a href="https://www.instagram.com/uaqyt.kzt?psln=ZXd3MTI5cmI3NGF6" target="_blank" rel="noopener" class="pitch-social-link">Instagram: @uaqyt.kzt</a>
       <a href="https://www.tiktok.com/@uaqyt.kzz2?_t=ZM-8uQyLn8Uuxi&_r=1" target="_blank" rel="noopener" class="pitch-social-link">TikTok: @uaqyt.kzz2</a>
-      <span style="color: var(--accent-gold); font-weight: 700;">Тел: +7 707 335 60 59</span>
+      <span style="color: var(--accent-gold); font-weight: 700;">Тел: {WA_DISP}</span>
     </div>
   </div>
 
@@ -2556,22 +2705,23 @@ def generate():
 
     <nav>
       <ul class="nav-links">
-        <li><a href="#hero" class="nav-link">Басты бет</a></li>
-        <li><a href="#bonus" class="nav-link highlight">🎁 1+1 Бонус сағат</a></li>
-        <li><a href="#catalog" class="nav-link">Сағаттар каталогы</a></li>
-        <li><a href="#customizer" class="nav-link">Циферблат шебері</a></li>
-        <li><a href="#socials" class="nav-link">Әлеуметтік желілер</a></li>
+        <li><a href="#picks" class="nav-link">Сыйлық таңдау</a></li>
+        <li><a href="#bonus" class="nav-link highlight">🎁 1+1 Бонус</a></li>
+        <li><a href="#catalog" class="nav-link">Каталог</a></li>
+        <li><a href="#customizer" class="nav-link">Конструктор</a></li>
         <li><a href="#reviews" class="nav-link">Пікірлер ({len(customer_reviews)})</a></li>
-        <li><a href="#contact" class="nav-link">Шоурум & 2GIS</a></li>
+        <li><a href="#contact" class="nav-link">Шоурум</a></li>
       </ul>
     </nav>
+
+    <button class="nav-burger" id="navBurger" type="button" aria-label="Мәзір" aria-expanded="false" onclick="toggleNav()"><span></span><span></span><span></span></button>
 
     <div class="nav-actions">
       <a href="https://2gis.kz/almaty/search/%D0%A3%D1%82%D0%B5%D0%B3%D0%B5%D0%BD%20%D0%B1%D0%B0%D1%82%D1%8B%D1%80%D0%B0%2011%D0%B0" target="_blank" rel="noopener" class="btn-nav-2gis" title="2GIS маршрут">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
         <span>2GIS-те көру</span>
       </a>
-      <a href="https://wa.me/77073356059?text=%D0%A1%D3%99%D0%BB%D0%B5%D0%BC%D0%B5%D1%82%D1%81%D1%96%D0%B7%20%D0%B1%D0%B5!%20UAQYT%20%D1%81%D0%B0%D0%B9%D1%82%D1%8B%D0%BD%D0%B0%D0%BD%20%D1%81%D0%B0%D2%93%D0%B0%D1%82%D2%9B%D0%B0%20%D1%82%D0%B0%D0%BF%D1%81%D1%8B%D1%80%D1%8B%D1%81%20%D0%B1%D0%B5%D1%80%D0%B3%D1%96%D0%BC%20%D0%BA%D0%B5%D0%BB%D0%B5%D0%B4%D1%96" target="_blank" rel="noopener" class="btn-nav-whatsapp">
+      <a href="https://wa.me/{WA}?text=%D0%A1%D3%99%D0%BB%D0%B5%D0%BC%D0%B5%D1%82%D1%81%D1%96%D0%B7%20%D0%B1%D0%B5!%20UAQYT%20%D1%81%D0%B0%D0%B9%D1%82%D1%8B%D0%BD%D0%B0%D0%BD%20%D1%81%D0%B0%D2%93%D0%B0%D1%82%D2%9B%D0%B0%20%D1%82%D0%B0%D0%BF%D1%81%D1%8B%D1%80%D1%8B%D1%81%20%D0%B1%D0%B5%D1%80%D0%B3%D1%96%D0%BC%20%D0%BA%D0%B5%D0%BB%D0%B5%D0%B4%D1%96" target="_blank" rel="noopener" class="btn-nav-whatsapp">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.777.82 2.791.82 3.181 0 5.768-2.587 5.768-5.767.001-3.18-2.585-5.805-5.768-5.805zm0 10.457c-.888 0-1.656-.25-2.348-.687l-.168-.106-1.57.412.419-1.53-.11-.176c-.469-.747-.716-1.517-.716-2.404 0-2.482 2.019-4.501 4.493-4.501s4.493 2.019 4.493 4.501c0 2.483-2.019 4.491-4.493 4.491z"/></svg>
         <span>WhatsApp</span>
       </a>
@@ -2585,37 +2735,37 @@ def generate():
         <span>✨ ЖЕКЕ ЛАЗЕРЛІК ГРАВЮРА БУТІГІ</span>
       </div>
       <h1 class="hero-title">
-        Уақыттан да құнды — <span>өзіңіздің есіміңіз бен ру таңбаңыз</span>
+        Сағатыңызға <span>өз есіміңізді жазамыз</span>
       </h1>
       <p class="hero-lead">
-        Жапондық сенімді механизм, 316L тот баспайтын хирургиялық болат және мәңгі өшпейтін лазерлік нақыштау. Әрбір сағат — ұрпаққа жететін асыл мұра.
+        Есім, күн немесе ру таңбасы — циферблатқа лазермен. Қазақстан бойынша тегін жеткізу.
       </p>
 
       <div class="hero-perks-grid">
         <div class="perk-card">
           <span class="perk-icon">🛡️</span>
           <div class="perk-title">6-12 ай кепілдік</div>
-          <div class="perk-desc">Ресми зауыттық кепілдік талонымен</div>
+          <div class="perk-desc">Модельге байланысты</div>
         </div>
         <div class="perk-card">
           <span class="perk-icon">✈️</span>
           <div class="perk-title">ТЕГІН жеткізу</div>
-          <div class="perk-desc">Қазпошта немесе автобуспен ҚР бойынша</div>
+          <div class="perk-desc">Пошта немесе автобус</div>
         </div>
         <div class="perk-card">
           <span class="perk-icon">🎁</span>
           <div class="perk-title">1+1 Бонус сағат</div>
-          <div class="perk-desc">1 сатып алсаңыз — 2-шісі ТЕГІН!</div>
+          <div class="perk-desc">Сатып алғанға сыйлық</div>
         </div>
       </div>
 
       <div class="hero-cta-group">
         <a href="#catalog" class="btn-hero-primary">
-          <span>Каталогты қарау ({len(all_products_sorted)} үлгі)</span>
+          <span>Каталогты қарау</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
         <a href="#customizer" class="btn-hero-secondary">
-          <span>Жеке сағатты құрастыру</span>
+          <span>Өз сағатыңызды жасау</span>
         </a>
       </div>
 
@@ -2625,7 +2775,7 @@ def generate():
         <div class="hero-social-links">
           <a href="https://www.instagram.com/uaqyt.kzt?psln=ZXd3MTI5cmI3NGF6" target="_blank" rel="noopener" class="hero-social-badge insta">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-            <span>Instagram: <strong>@uaqyt.kzt</strong> (1000+ видео)</span>
+            <span>Instagram: <strong>@uaqyt.kzt</strong></span>
           </a>
           <a href="https://www.tiktok.com/@uaqyt.kzz2?_t=ZM-8uQyLn8Uuxi&_r=1" target="_blank" rel="noopener" class="hero-social-badge tiktok">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298 0 .591.044.87.13V9.4a6.33 6.33 0 0 0-.87-.06A6.34 6.34 0 0 0 3 15.68a6.34 6.34 0 0 0 9.17 5.65 6.27 6.27 0 0 0 3.51-5.59V8.9a8.18 8.18 0 0 0 4.79 1.54v-3.4a4.85 4.85 0 0 1-.88-.35z"/></svg>
@@ -2657,9 +2807,9 @@ def generate():
       <div class="hero-showcase-info">
         <div class="hero-showcase-tag">✨ ХИТ ҮЛГІ • ЖЕКЕ ГРАВЮРА</div>
         <h3 class="hero-showcase-title" id="heroShowcaseTitle">«Бағлан / Адай» Сегізқырлы алтын сағат</h3>
-        <p class="hero-showcase-desc" id="heroShowcaseDesc">Жапондық механизм • 316L хирургиялық болат • Минералды шыны</p>
+        <p class="hero-showcase-desc" id="heroShowcaseDesc">Лазерлік гравюра • Фирмалық сыйлық қорабы</p>
         <div class="hero-showcase-thumbs">
-          <button type="button" class="hero-thumb-btn active" onclick="switchHeroShowcase('./images/showcase/showcase-baglan-aday-gold.jpg', '«Бағлан / Адай» Сегізқырлы алтын сағат', 'Жапондық механизм • 316L хирургиялық болат • Минералды шыны', this)">
+          <button type="button" class="hero-thumb-btn active" onclick="switchHeroShowcase('./images/showcase/showcase-baglan-aday-gold.jpg', '«Бағлан / Адай» Сегізқырлы алтын сағат', 'Лазерлік гравюра • Фирмалық сыйлық қорабы', this)">
             <img src="./images/showcase/showcase-baglan-aday-gold.jpg" alt="Алтын Адай">
             <span>Алтын Адай</span>
           </button>
@@ -2674,6 +2824,47 @@ def generate():
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- ───────── GIFT PICKER (for cold visitors) ───────── -->
+  <section class="picker-section" id="picks">
+    <div class="picker-head">
+      <h2 class="picker-title">Сағатты 1 минутта таңдаңыз</h2>
+      <p class="picker-sub">Кімге? Қандай бюджет? Қалғанын көрсетеміз: бағасымен, бөліп төлеумен және тегін жеткізумен.</p>
+    </div>
+    <div class="picker-box">
+      <div class="picker-row">
+        <div class="picker-label">Кімге арналған?</div>
+        <div class="picker-chips" id="pickWho">
+          <button type="button" class="picker-chip" data-v="mens" onclick="setPick('who','mens',this)">👨 Ерлерге сыйлық</button>
+          <button type="button" class="picker-chip" data-v="couples" onclick="setPick('who','couples',this)">💑 Жұбайларға (1+1)</button>
+          <button type="button" class="picker-chip" data-v="service" onclick="setPick('who','service',this)">🛡️ Қызметкерге (ІІМ, ҰҚК, ҚР ҚК)</button>
+        </div>
+      </div>
+      <div class="picker-row">
+        <div class="picker-label">Бюджет:</div>
+        <div class="picker-chips" id="pickBudget">
+          <button type="button" class="picker-chip" data-v="t1" onclick="setPick('budget','t1',this)">30 000 ₸ дейін</button>
+          <button type="button" class="picker-chip" data-v="t2" onclick="setPick('budget','t2',this)">30 000 – 40 000 ₸</button>
+          <button type="button" class="picker-chip" data-v="t3" onclick="setPick('budget','t3',this)">40 000 – 55 000 ₸</button>
+          <button type="button" class="picker-chip" data-v="t4" onclick="setPick('budget','t4',this)">55 000 ₸ бастап</button>
+        </div>
+      </div>
+      <div class="picker-results" id="pickResults" aria-live="polite"></div>
+      <div class="picker-foot">
+        <button type="button" class="picker-btn dark" id="pickAll" onclick="applyPickToCatalog()">Барлық үлгілерді қарау</button>
+        <a class="picker-btn wa" id="pickWa" target="_blank" rel="noopener" href="https://wa.me/{WA}">Таңдауға көмектесіңіздер (WhatsApp)</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── REVIEWS TEASER ───────── -->
+  <section class="teaser-section" id="reviewTeaser">
+    <div class="teaser-head">
+      <h2 class="teaser-title">Клиенттер жазады</h2>
+      <a class="teaser-link" href="#reviews">Барлық пікірлерді көру</a>
+    </div>
+    <div class="teaser-grid" id="teaserGrid"></div>
   </section>
 
   <!-- ───────── 1+1 PROMO SECTION ───────── -->
@@ -2693,7 +2884,7 @@ def generate():
           <div class="promo-feat-item">✓ 2-ші сағат 100% ТЕГІН</div>
           <div class="promo-feat-item">✓ Екі сағатқа да жеке гравюра</div>
           <div class="promo-feat-item">✓ Фирмалық сыйлық қорабымен</div>
-          <div class="promo-feat-item">✓ 6 ай толық ресми кепілдік</div>
+          <div class="promo-feat-item">✓ 6–12 ай кепілдік</div>
         </div>
 
         <a href="#catalog" class="btn-promo-action">
@@ -2810,23 +3001,28 @@ def generate():
           <option value="default">Сұрыптау: Әдепкі ретпен (Ерлер сағаттары алдында)</option>
           <option value="price_asc">Бағасы: Арзаннан қымбатқа</option>
           <option value="price_desc">Бағасы: Қымбаттан арзанға</option>
-          <option value="priced_only">Тек бағасы бар үлгілер</option>
-          <option value="request_only">Бағасын нақтылау үлгілері</option>
         </select>
       </div>
 
       <div class="filter-tabs">
-        <button class="filter-tab active" data-filter="all" onclick="setCategoryFilter('all', this)">Барлық сағаттар ({len(all_products_sorted)})</button>
-        <button class="filter-tab" data-filter="mens" onclick="setCategoryFilter('mens', this)">👑 Ерлер сағаттары ({len(mens_all)})</button>
-        <button class="filter-tab" data-filter="couples" onclick="setCategoryFilter('couples', this)">❤️ Жұптық сағаттар ({len(couples_all)})</button>
-        <button class="filter-tab active-special" data-filter="promo" onclick="setCategoryFilter('promo', this)">🔥 1+1 Бонус сағаттар</button>
+        <button class="filter-tab active" data-filter="mens" onclick="setCategoryFilter('mens', this)">👑 Ерлер сағаттары ({len(mens_all)})</button>
+        <button class="filter-tab filter-tab-hot" data-filter="couples" onclick="setCategoryFilter('couples', this)">❤️ 1+1 Жұптық сағаттар ({len(couples_all)})</button>
+        <button class="filter-tab" data-filter="all" onclick="setCategoryFilter('all', this)">Барлығы ({len(all_products_sorted)})</button>
         <button class="filter-tab" data-filter="service" onclick="setCategoryFilter('service', this)">🛡️ Қызметтік (ІІМ, ҰҚК, ҚР ҚК)</button>
-        <button class="filter-tab" data-filter="priced" onclick="setCategoryFilter('priced', this)">Бағасы нақты ({len(priced_products)})</button>
-        <button class="filter-tab" data-filter="request" onclick="setCategoryFilter('request', this)">Бағасын нақтылау ({len(request_products)})</button>
         <button class="filter-tab" data-filter="ornament" onclick="setCategoryFilter('ornament', this)">Шежіре Ру-Таңбалы</button>
         <button class="filter-tab" data-filter="mechanic" onclick="setCategoryFilter('mechanic', this)">⚙️ Механика</button>
         <button class="filter-tab" data-filter="woodbox" onclick="setCategoryFilter('woodbox', this)">🪵 Люкс ағаш қорапты</button>
       </div>
+
+      <div class="price-tabs">
+        <span class="price-tabs-label">Баға бойынша:</span>
+        <button class="price-chip active" onclick="setPriceFilter('all', this)">Барлық баға</button>
+        <button class="price-chip" onclick="setPriceFilter('t1', this)">30 000 ₸ дейін ({T1})</button>
+        <button class="price-chip" onclick="setPriceFilter('t2', this)">30 000 – 40 000 ₸ ({T2})</button>
+        <button class="price-chip" onclick="setPriceFilter('t3', this)">40 000 – 55 000 ₸ ({T3})</button>
+        <button class="price-chip" onclick="setPriceFilter('t4', this)">55 000 ₸ бастап ({T4})</button>
+      </div>
+      <div class="catalog-count" id="catalogCount" aria-live="polite"></div>
     </div>
 
     <!-- Cards Grid -->
@@ -2855,7 +3051,7 @@ def generate():
             </div>
             <span class="social-handle">@uaqyt.kzt</span>
           </div>
-          <h3 class="social-card-title">Instagram желісінде 1000+ видео мен фото</h3>
+          <h3 class="social-card-title">Instagram-да жаңа жұмыстар мен пікірлер</h3>
           <p class="social-card-desc">
             Күнделікті Stories арқылы шеберханадан тікелей видеолар, клиенттерге жөнелтіліп жатқан сағаттар және жаңа ру таңбаларының жасалу үлгілері.
           </p>
@@ -2956,7 +3152,7 @@ def generate():
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
             <span>2GIS маршрутын ашу</span>
           </a>
-          <a href="https://wa.me/77073356059?text=%D0%A1%D3%99%D0%BB%D0%B5%D0%BC%D0%B5%D1%82%D1%81%D1%96%D0%B7%20%D0%B1%D0%B5!%20%D0%A1%D0%B0%D0%B9%D1%80%D0%B0%D0%BD%20%D0%A1%D0%B8%D1%82%D0%B8%D0%B4%D0%B5%D0%B3%D1%96%20320%20%D0%BA%D0%B5%D2%A3%D1%81%D0%B5%D0%B3%D0%B5%20%D0%BA%D0%B5%D0%BB%D0%B3%D1%96%D0%BC%20%D0%BA%D0%B5%D0%BB%D0%B5%D0%B4%D1%96" target="_blank" rel="noopener" class="btn-whatsapp-showroom">
+          <a href="https://wa.me/{WA}?text=%D0%A1%D3%99%D0%BB%D0%B5%D0%BC%D0%B5%D1%82%D1%81%D1%96%D0%B7%20%D0%B1%D0%B5!%20%D0%A1%D0%B0%D0%B9%D1%80%D0%B0%D0%BD%20%D0%A1%D0%B8%D1%82%D0%B8%D0%B4%D0%B5%D0%B3%D1%96%20320%20%D0%BA%D0%B5%D2%A3%D1%81%D0%B5%D0%B3%D0%B5%20%D0%BA%D0%B5%D0%BB%D0%B3%D1%96%D0%BC%20%D0%BA%D0%B5%D0%BB%D0%B5%D0%B4%D1%96" target="_blank" rel="noopener" class="btn-whatsapp-showroom">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.777.82 2.791.82 3.181 0 5.768-2.587 5.768-5.767.001-3.18-2.585-5.805-5.768-5.805zm0 10.457c-.888 0-1.656-.25-2.348-.687l-.168-.106-1.57.412.419-1.53-.11-.176c-.469-.747-.716-1.517-.716-2.404 0-2.482 2.019-4.501 4.493-4.501s4.493 2.019 4.493 4.501c0 2.483-2.019 4.491-4.493 4.491z"/></svg>
             <span>WhatsApp-тан сұрау</span>
           </a>
@@ -3016,7 +3212,7 @@ def generate():
         <ul class="footer-links">
           <li><a href="https://www.instagram.com/uaqyt.kzt?psln=ZXd3MTI5cmI3NGF6" target="_blank" rel="noopener" class="footer-link">Instagram: @uaqyt.kzt</a></li>
           <li><a href="https://www.tiktok.com/@uaqyt.kzz2?_t=ZM-8uQyLn8Uuxi&_r=1" target="_blank" rel="noopener" class="footer-link">TikTok: @uaqyt.kzz2</a></li>
-          <li><a href="https://wa.me/77073356059" target="_blank" rel="noopener" class="footer-link">WhatsApp: +7 707 335 60 59</a></li>
+          <li><a href="https://wa.me/{WA}" target="_blank" rel="noopener" class="footer-link">WhatsApp: +7 707 335 60 59</a></li>
           <li><a href="https://2gis.kz/almaty/search/%D0%A3%D1%82%D0%B5%D0%B3%D0%B5%D0%BD%20%D0%B1%D0%B0%D1%82%D1%8B%D1%80%D0%B0%2011%D0%B0" target="_blank" rel="noopener" class="footer-link">2GIS: Сайран Сити 320</a></li>
         </ul>
       </div>
@@ -3024,7 +3220,7 @@ def generate():
       <div>
         <h4 class="footer-title">Кепілдік және төлем</h4>
         <p style="font-size: 13px; line-height: 1.6; margin-bottom: 12px;">
-          Барлық сағатқа 6-12 ай ресми зауыттық кепілдік талоны беріледі.
+          Барлық сағатқа 6-12 ай кепілдік талоны беріледі.
         </p>
         <p style="font-size: 13px; line-height: 1.6; color: var(--accent-gold);">
           Kaspi Red, Kaspi 0-0-12, Halyk арқылы бөліп төлеу қарастырылған.
@@ -3038,15 +3234,39 @@ def generate():
     </div>
   </footer>
 
+  <!-- ───────── ENTRY OFFER ───────── -->
+  <div class="offer-overlay" id="offerOverlay" onclick="closeOffer()">
+    <div class="offer-card" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="offerTitle">
+      <button class="offer-close" type="button" onclick="closeOffer()" aria-label="Жабу">✕</button>
+      <div class="offer-title" id="offerTitle">Сағатты таңдаңыз, қалғанын өзіміз жасаймыз</div>
+      <ul class="offer-list">
+        <li>Қазақстан бойынша ТЕГІН жеткізу</li>
+        <li>Kaspi Red арқылы бөліп төлеу (0-0-12)</li>
+        <li>Сатып алғанға бонус сағат сыйлыққа</li>
+        <li>6–12 ай кепілдік және сыйлық қорабы</li>
+      </ul>
+      <div class="offer-actions">
+        <a class="offer-btn primary" href="#picks" onclick="closeOffer()">Сағат таңдау</a>
+        <a class="offer-btn wa" target="_blank" rel="noopener" href="https://wa.me/{WA}?text=%D0%A1%D3%99%D0%BB%D0%B5%D0%BC%D0%B5%D1%82%D1%81%D1%96%D0%B7%20%D0%B1%D0%B5!%20%D0%A1%D0%B0%D2%93%D0%B0%D1%82%20%D1%82%D0%B0%D2%A3%D0%B4%D0%B0%D1%83%D2%93%D0%B0%20%D0%BA%D3%A9%D0%BC%D0%B5%D0%BA%D1%82%D0%B5%D1%81%D1%96%D2%A3%D1%96%D0%B7%D1%88%D1%96">WhatsApp-та сұрау</a>
+      </div>
+    </div>
+  </div>
+
   <!-- ───────── MOBILE STICKY BOTTOM BAR ───────── -->
   <div class="mobile-bottom-bar">
     <a href="https://2gis.kz/almaty/search/%D0%A3%D1%82%D0%B5%D0%B3%D0%B5%D0%BD%20%D0%B1%D0%B0%D1%82%D1%8B%D1%80%D0%B0%2011%D0%B0" target="_blank" rel="noopener" class="btn-mobile-2gis">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
       <span>2GIS</span>
     </a>
-    <a href="https://wa.me/77073356059?text=%D0%A1%D3%99%D0%BB%D0%B5%D0%BC%D0%B5%D1%82%D1%81%D1%96%D0%B7%20%D0%B1%D0%B5!%20UAQYT%20%D1%81%D0%B0%D0%B9%D1%82%D1%8B%D0%BD%D0%B0%D0%BD%20%D1%81%D0%B0%D2%93%D0%B0%D1%82%D2%9B%D0%B0%20%D1%82%D0%B0%D0%BF%D1%81%D1%8B%D1%80%D1%8B%D1%81%20%D0%B1%D0%B5%D1%80%D0%B3%D1%96%D0%BC%20%D0%BA%D0%B5%D0%BB%D0%B5%D0%B4%D1%96" target="_blank" rel="noopener" class="btn-mobile-wa">
+    <a href="https://www.instagram.com/uaqyt.kzt?psln=ZXd3MTI5cmI3NGF6" target="_blank" rel="noopener" class="btn-mobile-soc insta" aria-label="Instagram @uaqyt.kzt">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    </a>
+    <a href="https://www.tiktok.com/@uaqyt.kzz2?_t=ZM-8uQyLn8Uuxi&_r=1" target="_blank" rel="noopener" class="btn-mobile-soc tiktok" aria-label="TikTok @uaqyt.kzz2">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298 0 .591.044.87.13V9.4a6.33 6.33 0 0 0-.87-.06A6.34 6.34 0 0 0 3 15.68a6.34 6.34 0 0 0 9.17 5.65 6.27 6.27 0 0 0 3.51-5.59V8.9a8.18 8.18 0 0 0 4.79 1.54v-3.4a4.85 4.85 0 0 1-.88-.35z"/></svg>
+    </a>
+    <a href="https://wa.me/{WA}?text=%D0%A1%D3%99%D0%BB%D0%B5%D0%BC%D0%B5%D1%82%D1%81%D1%96%D0%B7%20%D0%B1%D0%B5!%20UAQYT%20%D1%81%D0%B0%D0%B9%D1%82%D1%8B%D0%BD%D0%B0%D0%BD%20%D1%81%D0%B0%D2%93%D0%B0%D1%82%D2%9B%D0%B0%20%D1%82%D0%B0%D0%BF%D1%81%D1%8B%D1%80%D1%8B%D1%81%20%D0%B1%D0%B5%D1%80%D0%B3%D1%96%D0%BC%20%D0%BA%D0%B5%D0%BB%D0%B5%D0%B4%D1%96" target="_blank" rel="noopener" class="btn-mobile-wa">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.54 1.777.82 2.791.82 3.181 0 5.768-2.587 5.768-5.767.001-3.18-2.585-5.805-5.768-5.805zm0 10.457c-.888 0-1.656-.25-2.348-.687l-.168-.106-1.57.412.419-1.53-.11-.176c-.469-.747-.716-1.517-.716-2.404 0-2.482 2.019-4.501 4.493-4.501s4.493 2.019 4.493 4.501c0 2.483-2.019 4.491-4.493 4.491z"/></svg>
-      <span>WhatsApp арқылы жазу</span>
+      <span>WhatsApp</span>
     </a>
   </div>
 
@@ -3073,6 +3293,8 @@ def generate():
           <span class="modal-installment" id="modalInstallment">Бөліп төлеу: айына 2 908 ₸</span>
         </div>
 
+        <div class="modal-trust"><span>✓ Тегін жеткізу</span><span>✓ Kaspi Red 0-0-12</span><span>✓ Сыйлық қорабы</span></div>
+
         <div class="modal-promo-note">
           <span>🎁</span>
           <span>Осы сағатты алсаңыз — 2-ші сағат бонуске ТЕГІН беріледі!</span>
@@ -3081,7 +3303,7 @@ def generate():
         <table class="modal-specs-table">
           <tr>
             <td class="spec-name">⚙️ Механизмі:</td>
-            <td class="spec-val" id="modalMech">Жапондық кварц механизмі</td>
+            <td class="spec-val" id="modalMech">Кварц</td>
           </tr>
           <tr>
             <td class="spec-name">💎 Әйнегі:</td>
@@ -3089,19 +3311,15 @@ def generate():
           </tr>
           <tr>
             <td class="spec-name">🛡️ Корпусы:</td>
-            <td class="spec-val" id="modalCase">316L тот баспайтын хирургиялық болат</td>
+            <td class="spec-val" id="modalCase">Болат корпус</td>
           </tr>
           <tr>
             <td class="spec-name">🔗 Бауы:</td>
             <td class="spec-val" id="modalStrap">Құйылған болат бау</td>
           </tr>
           <tr>
-            <td class="spec-name">💧 Су төзімділігі:</td>
-            <td class="spec-val" id="modalWater">3 - 5 ATM (қол жууға, жаңбырға)</td>
-          </tr>
-          <tr>
             <td class="spec-name">📜 Кепілдік:</td>
-            <td class="spec-val">6 - 12 ай зауыттық кепілдік + төлқұжат</td>
+            <td class="spec-val">6–12 ай (модельге байланысты)</td>
           </tr>
           <tr>
             <td class="spec-name">🎁 Жинақтау:</td>
@@ -3113,6 +3331,10 @@ def generate():
         <div class="modal-customizer-box">
           <label class="modal-customizer-label">Сағатқа жазылатын жеке есім немесе ру таңбасы:</label>
           <input type="text" class="modal-input-engrave" id="modalEngraveText" placeholder="Мысалы: Бауыржан / Найман, 15.06.2026">
+          <div class="modal-city-box">
+            <label class="modal-customizer-label">Қалаңыз (жеткізу үшін):</label>
+            <input type="text" class="modal-input-engrave" id="modalCity" placeholder="Мысалы: Шымкент">
+          </div>
         </div>
 
         <div class="modal-cta-group">
@@ -3146,7 +3368,8 @@ def generate():
     const productsData = {products_json};
     const reviewsData = {reviews_json};
 
-    let activeFilter = 'all';
+    let activeFilter = 'mens';
+    let activePrice = 'all';
     let activeSort = 'default';
     let currentModalProduct = null;
     let currentReviewIndex = 0;
@@ -3217,7 +3440,7 @@ def generate():
       const name = document.getElementById('inputName').value || 'Арман';
       const sub = document.getElementById('inputSub').value || 'Арғын руы';
       const text = encodeURIComponent(`Сәлеметсіз бе! Мен UAQYT сайтының конструкторынан өз сағатымды құрастырдым:\n\n• Есім: «${{name}}»\n• Таңба/Шен: «${{sub}}»\n• 1+1 Бонус сағат акциясы бойынша тапсырыс бергім келеді.`);
-      window.open(`https://wa.me/77073356059?text=${{text}}`, '_blank');
+      window.open(`https://wa.me/{WA}?text=${{text}}`, '_blank');
     }}
 
     // Hero Showcase Switcher & Lightbox
@@ -3242,7 +3465,7 @@ def generate():
     function setCategoryFilter(cat, btn) {{
       activeFilter = cat;
       document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active', 'active-special'));
-      if (cat === 'promo') {{
+      if (cat === 'couples') {{
         btn.classList.add('active-special');
       }} else {{
         btn.classList.add('active');
@@ -3250,9 +3473,27 @@ def generate():
       filterCatalog();
     }}
 
+    function setPriceFilter(range, btn) {{
+      activePrice = range;
+      document.querySelectorAll('.price-chip').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      filterCatalog();
+    }}
+
+    function priceMatches(price) {{
+      if (activePrice === 'all') return true;
+      if (price >= 999999) return false;
+      if (activePrice === 't1') return price < 30000;
+      if (activePrice === 't2') return price >= 30000 && price < 40000;
+      if (activePrice === 't3') return price >= 40000 && price < 55000;
+      if (activePrice === 't4') return price >= 55000;
+      return true;
+    }}
+
     function filterCatalog() {{
       const query = document.getElementById('catalogSearch').value.toLowerCase().trim();
       const cards = document.querySelectorAll('.product-card');
+      let shown = 0;
 
       cards.forEach(card => {{
         const cardCat = card.getAttribute('data-category') || '';
@@ -3278,12 +3519,17 @@ def generate():
           matchesQuery = cardTitle.includes(query) || cardDesc.includes(query) || cardTag.includes(query);
         }}
 
-        if (matchesCat && matchesQuery) {{
+        const matchesPrice = priceMatches(parseInt(card.getAttribute('data-price')));
+
+        if (matchesCat && matchesQuery && matchesPrice) {{
           card.style.display = 'flex';
+          shown++;
         }} else {{
           card.style.display = 'none';
         }}
       }});
+      const cnt = document.getElementById('catalogCount');
+      if (cnt) cnt.textContent = shown ? ('Табылды: ' + shown + ' сағат') : 'Бұл сүзгі бойынша сағат табылмады. Басқа санатты немесе бағаны таңдаңыз.';
     }}
 
     function sortCatalog() {{
@@ -3295,12 +3541,6 @@ def generate():
         cards.sort((a, b) => parseInt(a.getAttribute('data-price')) - parseInt(b.getAttribute('data-price')));
       }} else if (sortVal === 'price_desc') {{
         cards.sort((a, b) => parseInt(b.getAttribute('data-price')) - parseInt(a.getAttribute('data-price')));
-      }} else if (sortVal === 'priced_only') {{
-        setCategoryFilter('priced', document.querySelector('[data-filter="priced"]'));
-        return;
-      }} else if (sortVal === 'request_only') {{
-        setCategoryFilter('request', document.querySelector('[data-filter="request"]'));
-        return;
       }}
 
       cards.forEach(c => grid.appendChild(c));
@@ -3347,15 +3587,15 @@ def generate():
         priceElem.textContent = `${{p.price.toLocaleString('ru-RU')}} ₸`;
         priceElem.style.fontSize = '28px';
         const monthly = Math.floor(p.price / 12).toLocaleString('ru-RU');
-        instElem.textContent = `Бөліп төлеу: айына ${{monthly}} ₸`;
-        btnText.textContent = 'WhatsApp арқылы тапсырыс беру';
+        instElem.textContent = `Kaspi Red: айына ${{monthly}} ₸ (0-0-12)`;
+        btnText.textContent = 'Сатып алу: WhatsApp-қа жіберу';
       }}
 
-      document.getElementById('modalMech').textContent = p.mech || 'Жапондық кварц механизмі (Miyota)';
+      document.getElementById('modalMech').textContent = p.mech || 'Кварц';
       document.getElementById('modalGlass').textContent = p.glass || 'Сызатқа төзімді шыңдалған минералды / сапфир';
-      document.getElementById('modalCase').textContent = p.case || '316L тот баспайтын болат';
+      document.getElementById('modalCase').textContent = p.case || 'Болат корпус';
       document.getElementById('modalStrap').textContent = p.strap || 'Құйылған болат бау';
-      document.getElementById('modalWater').textContent = p.water || '3 ATM';
+      document.getElementById('modalWater').textContent = p.water || 'WhatsApp-та нақтылаймыз';
 
       const modal = document.getElementById('productModal');
       modal.classList.add('active');
@@ -3380,11 +3620,17 @@ def generate():
         msg = `Сәлеметсіз бе! UAQYT сайтынан сағатқа тапсырыс бергім келеді:\n\n• Үлгі: «${{p.name}}»\n• Бағасы: ${{p.price.toLocaleString('ru-RU')}} ₸\n• 1+1 Бонус сағат акциясы бойынша`;
       }}
 
+      const city = (document.getElementById('modalCity') || {{ value: '' }}).value.trim();
+      if (city) {{
+        msg += `
+• Қала: ${{city}}`;
+      }}
+
       if (engrave) {{
         msg += `\n• Нақышталатын мәтін: «${{engrave}}»`;
       }}
 
-      window.open(`https://wa.me/77073356059?text=${{encodeURIComponent(msg)}}`, '_blank');
+      window.open(`https://wa.me/{WA}?text=${{encodeURIComponent(msg)}}`, '_blank');
     }}
 
     function openLightboxFromModal() {{
@@ -3419,11 +3665,117 @@ def generate():
       document.getElementById('lightboxReviewCaption').textContent = `${{r.author}} (${{r.city}}) • ${{r.order}}`;
     }}
 
+    // ───── Gift picker ─────
+    const PICK_DEFAULT = ['p26900_karakerey', 'p34900_nayman', 'p39900_aday', 'p54900_kishizhuz'];
+    const pick = {{ who: null, budget: null }};
+    const PICK_WHO_TAB = {{ mens: 'mens', couples: 'couples', service: 'service' }};
+
+    function pickBudgetOk(price) {{
+      if (!pick.budget) return true;
+      if (pick.budget === 't1') return price < 30000;
+      if (pick.budget === 't2') return price >= 30000 && price < 40000;
+      if (pick.budget === 't3') return price >= 40000 && price < 55000;
+      return price >= 55000;
+    }}
+
+    function setPick(group, val, btn) {{
+      pick[group] = pick[group] === val ? null : val;
+      btn.parentNode.querySelectorAll('.picker-chip').forEach(b => b.classList.toggle('active', b.dataset.v === pick[group]));
+      renderPicks();
+    }}
+
+    function renderPicks() {{
+      const box = document.getElementById('pickResults');
+      if (!box) return;
+      let list = productsData.filter(p => !p.is_price_on_request);
+      if (pick.who === 'mens') list = list.filter(p => p.cat.includes('mens') && !p.cat.includes('couples'));
+      if (pick.who === 'couples') list = list.filter(p => p.cat.includes('couples'));
+      if (pick.who === 'service') list = list.filter(p => p.cat.includes('service'));
+      list = list.filter(p => pickBudgetOk(p.price));
+      let chosen;
+      if (pick.who || pick.budget) {{
+        chosen = list.slice(0, 4);
+      }} else {{
+        chosen = PICK_DEFAULT.map(id => productsData.find(p => p.id === id)).filter(Boolean);
+      }}
+      if (!chosen.length) {{
+        box.innerHTML = '<div class="picker-empty">Бұл бюджетте дайын бағасы бар үлгі жоқ. Басқа бюджетті таңдаңыз немесе WhatsApp-қа жазыңыз, жеке таңдап береміз.</div>';
+      }} else {{
+        box.innerHTML = chosen.map(p => {{
+          const price = p.price.toLocaleString('ru-RU');
+          const monthly = Math.floor(p.price / 12).toLocaleString('ru-RU');
+          return `<div class="pick-card" onclick="openProductModal('${{p.id}}')">
+            <img src="${{p.img}}" alt="${{p.name}}" loading="lazy">
+            <div class="pick-card-body">
+              <div class="pick-card-name">${{p.name}}</div>
+              <div class="pick-card-price">${{price}} ₸</div>
+              <div class="pick-card-inst">Kaspi Red: айына ${{monthly}} ₸</div>
+              <button type="button" class="pick-card-btn">Сатып алу</button>
+            </div>
+          </div>`;
+        }}).join('');
+      }}
+      const wa = document.getElementById('pickWa');
+      if (wa) {{
+        const who = {{ mens: 'ерлерге сыйлық', couples: 'жұбайларға (1+1)', service: 'қызметкерге' }}[pick.who] || 'таңдалмаған';
+        const bud = {{ t1: '30 000 ₸ дейін', t2: '30 000 – 40 000 ₸', t3: '40 000 – 55 000 ₸', t4: '55 000 ₸ бастап' }}[pick.budget] || 'маңызды емес';
+        wa.href = 'https://wa.me/{WA}?text=' + encodeURIComponent('Сәлеметсіз бе! Сағат таңдауға көмектесіңізші. Кімге: ' + who + '. Бюджет: ' + bud + '.');
+      }}
+    }}
+
+    function applyPickToCatalog() {{
+      const tab = document.querySelector('[data-filter="' + (PICK_WHO_TAB[pick.who] || 'all') + '"]');
+      if (tab) setCategoryFilter(PICK_WHO_TAB[pick.who] || 'all', tab);
+      const chips = document.querySelectorAll('.price-chip');
+      const idx = {{ t1: 1, t2: 2, t3: 3, t4: 4 }}[pick.budget] || 0;
+      if (chips[idx]) setPriceFilter(pick.budget || 'all', chips[idx]);
+      document.getElementById('catalog').scrollIntoView({{ behavior: 'smooth' }});
+    }}
+
+    // ───── Reviews teaser ─────
+    function renderTeaser() {{
+      const g = document.getElementById('teaserGrid');
+      if (!g) return;
+      g.innerHTML = reviewsData.slice(0, 6).map((r, i) => `<div class="teaser-card" onclick="openReviewLightbox(${{i}})">
+        <img src="${{r.img}}" alt="Клиент пікірі" loading="lazy">
+        <div class="teaser-cap">${{r.author}}, ${{r.city.replace(' қаласы', '')}}<small>${{r.order}}</small></div>
+      </div>`).join('');
+    }}
+
+    // Mobile navigation
+    function toggleNav() {{
+      const nb = document.querySelector('.navbar');
+      const open = nb.classList.toggle('open');
+      document.getElementById('navBurger').setAttribute('aria-expanded', open);
+    }}
+    document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => {{
+      document.querySelector('.navbar').classList.remove('open');
+    }}));
+
+    // Entry offer (once per session)
+    function closeOffer() {{
+      document.getElementById('offerOverlay').classList.remove('active');
+    }}
+    try {{
+      if (!sessionStorage.getItem('uaqytOfferSeen')) {{
+        setTimeout(() => {{
+          document.getElementById('offerOverlay').classList.add('active');
+          sessionStorage.setItem('uaqytOfferSeen', '1');
+        }}, 2500);
+      }}
+    }} catch (e) {{}}
+
+    // Initial catalog state: men's watches first
+    filterCatalog();
+    renderPicks();
+    renderTeaser();
+
     // Keyboard navigation for modals
     document.addEventListener('keydown', (e) => {{
       if (e.key === 'Escape') {{
         closeProductModal();
         closeReviewLightbox();
+        closeOffer();
       }} else if (e.key === 'ArrowLeft') {{
         const lb = document.getElementById('reviewLightbox');
         if (lb.classList.contains('active')) changeReviewLightbox(-1);
