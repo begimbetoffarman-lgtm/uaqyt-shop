@@ -1500,11 +1500,24 @@ customer_reviews = [
 # Combine all products
 all_products = base_products + couple_items + extra_items + showcase_items
 
-# Sort: priced items first sorted by price asc, then items on request
+# Grouping: Men's watches FIRST, then Couples, then others (per client request)
 priced_products = sorted([p for p in all_products if not p.get('is_price_on_request')], key=lambda x: x['price'])
 request_products = [p for p in all_products if p.get('is_price_on_request')]
 
-all_products_sorted = priced_products + request_products
+# 1. Men's watches (priced asc, then request)
+mens_priced = [p for p in priced_products if 'mens' in p['cat'] and 'couples' not in p['cat']]
+mens_req = [p for p in request_products if 'mens' in p['cat'] and 'couples' not in p['cat']]
+mens_all = mens_priced + mens_req
+
+# 2. Couples watches (priced asc, then request)
+couples_priced = [p for p in priced_products if 'couples' in p['cat']]
+couples_req = [p for p in request_products if 'couples' in p['cat']]
+couples_all = couples_priced + couples_req
+
+# 3. Remaining (e.g. other service or ornament)
+remaining = [p for p in all_products if p not in mens_all and p not in couples_all]
+
+all_products_sorted = mens_all + couples_all + remaining
 
 print(f'Total products compiled: {len(all_products_sorted)}')
 print(f'Priced products: {len(priced_products)} (from {priced_products[0]["price"]} to {priced_products[-1]["price"]} KZT)')

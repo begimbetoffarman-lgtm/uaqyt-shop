@@ -4,9 +4,9 @@ import os, sys, json
 sys.path.insert(0, os.path.dirname(__file__))
 sys.stdout.reconfigure(encoding='utf-8')
 
-from compile_data import all_products_sorted, customer_reviews
+from compile_data import all_products_sorted, customer_reviews, mens_all, couples_all, priced_products, request_products
 
-print(f"Loaded {len(all_products_sorted)} products and {len(customer_reviews)} reviews.")
+print(f"Loaded {len(all_products_sorted)} products (Men: {len(mens_all)}, Couples: {len(couples_all)}) and {len(customer_reviews)} reviews.")
 
 # JSON dump for frontend interactive search and modal lookup
 products_json = json.dumps(all_products_sorted, ensure_ascii=False)
@@ -286,7 +286,23 @@ def generate():
     .nav-brand {{
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
+      text-decoration: none;
+    }}
+
+    .brand-logo-img {{
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+    }}
+
+    .brand-logo-img:hover {{
+      transform: scale(1.05);
     }}
 
     .brand-logo-mark {{
@@ -526,7 +542,261 @@ def generate():
       transform: translateY(-2px);
     }}
 
-    /* Hero Right: Live Interactive Dial Mockup */
+    /* Hero Left: Prominent Social Strip (Instagram & TikTok) */
+    .hero-social-strip {{
+      margin-top: 26px;
+      padding-top: 20px;
+      border-top: 1px dashed rgba(184, 142, 79, 0.28);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }}
+
+    .hero-social-label {{
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }}
+
+    .hero-social-links {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }}
+
+    .hero-social-badge {{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }}
+
+    .hero-social-badge.insta {{
+      background: linear-gradient(135deg, #fdf2f8 0%, #fff1f2 100%);
+      color: #be185d;
+      border: 1px solid rgba(225, 29, 72, 0.25);
+    }}
+
+    .hero-social-badge.insta:hover {{
+      background: linear-gradient(135deg, #fce7f3 0%, #ffe4e6 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.25);
+    }}
+
+    .hero-social-badge.tiktok {{
+      background: #0f172a;
+      color: #ffffff;
+      border: 1px solid #1e293b;
+    }}
+
+    .hero-social-badge.tiktok:hover {{
+      background: #020617;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.35);
+    }}
+
+    /* Hero Right: Luxury Watch Showcase Card (Replaces CSS clock with genuine photo) */
+    .hero-showcase-card {{
+      background: linear-gradient(160deg, #ffffff 0%, #faf8f5 100%);
+      border: 1px solid rgba(184, 142, 79, 0.25);
+      border-radius: 28px;
+      padding: 22px;
+      box-shadow: 0 20px 45px -15px rgba(184, 142, 79, 0.18), 0 4px 16px rgba(0, 0, 0, 0.04);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: all 0.3s ease;
+    }}
+
+    .hero-showcase-header {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }}
+
+    .hero-showcase-brand {{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }}
+
+    .hero-showcase-logo-img {{
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }}
+
+    .hero-showcase-brand-meta {{
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }}
+
+    .hero-showcase-brand-meta span {{
+      font-family: var(--font-serif);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.1;
+      letter-spacing: 0.5px;
+    }}
+
+    .hero-showcase-brand-meta small {{
+      font-size: 10px;
+      color: var(--accent-gold-dark);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }}
+
+    .hero-showcase-badge {{
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+      animation: pulse 2s infinite;
+      white-space: nowrap;
+    }}
+
+    .hero-showcase-visual {{
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #ffffff 0%, #f3eee7 100%);
+      box-shadow: inset 0 0 0 1px rgba(184, 142, 79, 0.18);
+      max-height: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }}
+
+    .hero-showcase-visual img {{
+      width: 100%;
+      height: 100%;
+      max-height: 360px;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }}
+
+    .hero-showcase-visual:hover img {{
+      transform: scale(1.04);
+    }}
+
+    .hero-showcase-visual-overlay {{
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(17, 24, 39, 0.78);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.9;
+      transition: opacity 0.2s ease;
+      white-space: nowrap;
+    }}
+
+    .hero-showcase-visual:hover .hero-showcase-visual-overlay {{
+      opacity: 1;
+      background: rgba(17, 24, 39, 0.95);
+    }}
+
+    .hero-showcase-info {{
+      text-align: left;
+    }}
+
+    .hero-showcase-tag {{
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-gold-dark);
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }}
+
+    .hero-showcase-title {{
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.25;
+    }}
+
+    .hero-showcase-desc {{
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }}
+
+    .hero-showcase-thumbs {{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }}
+
+    .hero-thumb-btn {{
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }}
+
+    .hero-thumb-btn:hover {{
+      border-color: var(--accent-gold);
+      background: #fdfbf7;
+    }}
+
+    .hero-thumb-btn.active {{
+      border-color: var(--accent-gold);
+      background: #fcf9f2;
+      box-shadow: 0 0 0 2px rgba(184, 142, 79, 0.25);
+    }}
+
+    .hero-thumb-btn img {{
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }}
+
+    .hero-thumb-btn span {{
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+    }}
+
+    /* Old visual card compatibility */
     .hero-visual-card {{
       background: linear-gradient(145deg, #ffffff 0%, #faf8f5 100%);
       border: 1px solid var(--border);
@@ -2200,16 +2470,50 @@ def generate():
       .pitch-banner {{
         display: none;
       }}
+      .btn-nav-2gis {{
+        display: none !important;
+      }}
       .navbar {{
         padding: 0 16px;
+        height: 60px;
       }}
       .nav-links {{
         display: none;
       }}
+      .brand-logo-img {{
+        width: 38px;
+        height: 38px;
+      }}
+      .brand-name {{
+        font-size: 20px;
+      }}
+      .brand-sub {{
+        font-size: 9px;
+      }}
+      .btn-nav-whatsapp {{
+        padding: 7px 14px;
+        font-size: 12.5px;
+      }}
       .hero-title {{
-        font-size: 38px;
+        font-size: 34px;
       }}
       .hero-perks-grid {{
+        grid-template-columns: 1fr;
+      }}
+      .hero-social-links {{
+        flex-direction: column;
+      }}
+      .hero-social-badge {{
+        width: 100%;
+        justify-content: center;
+      }}
+      .hero-showcase-visual {{
+        max-height: 280px;
+      }}
+      .hero-showcase-visual img {{
+        max-height: 280px;
+      }}
+      .hero-showcase-thumbs {{
         grid-template-columns: 1fr;
       }}
       .mobile-bottom-bar {{
@@ -2242,15 +2546,13 @@ def generate():
 
   <!-- ───────── NAVBAR ───────── -->
   <header class="navbar">
-    <div class="nav-brand">
-      <div class="brand-logo-mark">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg>
-      </div>
+    <a href="#hero" class="nav-brand">
+      <img src="./images/logo.jpg" alt="UAQYT kzt" class="brand-logo-img">
       <div class="brand-text">
         <span class="brand-name">UAQYT</span>
-        <span class="brand-sub">Есімді сағаттар бутігі</span>
+        <span class="brand-sub">kzt • Есімді сағаттар бутігі</span>
       </div>
-    </div>
+    </a>
 
     <nav>
       <ul class="nav-links">
@@ -2316,29 +2618,60 @@ def generate():
           <span>Жеке сағатты құрастыру</span>
         </a>
       </div>
+
+      <!-- Hero Social Strip (Instagram & TikTok prominent on screen 1) -->
+      <div class="hero-social-strip">
+        <span class="hero-social-label">Біздің ресми парақшалар:</span>
+        <div class="hero-social-links">
+          <a href="https://www.instagram.com/uaqyt.kzt?psln=ZXd3MTI5cmI3NGF6" target="_blank" rel="noopener" class="hero-social-badge insta">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            <span>Instagram: <strong>@uaqyt.kzt</strong> (1000+ видео)</span>
+          </a>
+          <a href="https://www.tiktok.com/@uaqyt.kzz2?_t=ZM-8uQyLn8Uuxi&_r=1" target="_blank" rel="noopener" class="hero-social-badge tiktok">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298 0 .591.044.87.13V9.4a6.33 6.33 0 0 0-.87-.06A6.34 6.34 0 0 0 3 15.68a6.34 6.34 0 0 0 9.17 5.65 6.27 6.27 0 0 0 3.51-5.59V8.9a8.18 8.18 0 0 0 4.79 1.54v-3.4a4.85 4.85 0 0 1-.88-.35z"/></svg>
+            <span>TikTok: <strong>@uaqyt.kzz2</strong> (Видео шолулар)</span>
+          </a>
+        </div>
+      </div>
     </div>
 
-    <!-- Hero Right: Dynamic Dial Showcase -->
-    <div class="hero-visual-card">
-      <div class="hero-promo-badge">1+1 ТЕГІН БОНУС</div>
-      <div class="dial-case" style="margin: 0 auto 20px;">
-        <div class="dial-ticks"></div>
-        <div class="dial-center-content">
-          <svg class="dial-tamga-icon" viewBox="0 0 60 60" fill="currentColor">
-            <path d="M30 5 L55 25 L45 55 L15 55 L5 25 Z" fill="none" stroke="currentColor" stroke-width="3"/>
-            <circle cx="30" cy="30" r="10" fill="currentColor"/>
-          </svg>
-          <div class="dial-name" id="heroDialName">БАҒЛАН</div>
-          <div class="dial-sub" id="heroDialSub">АДАЙ РУЫ</div>
-          <div class="dial-date">UAQYT KZT • №04812</div>
+    <!-- Hero Right: Real Watch Showcase Photo with Official Logo & Badges -->
+    <div class="hero-showcase-card">
+      <div class="hero-showcase-badge">🔥 1+1 ТЕГІН БОНУС САҒАТ</div>
+      <div class="hero-showcase-header">
+        <div class="hero-showcase-brand">
+          <img src="./images/logo.jpg" alt="UAQYT kzt" class="hero-showcase-logo-img">
+          <div class="hero-showcase-brand-meta">
+            <span>UAQYT</span>
+            <small>kzt • Есімді сағаттар бутігі</small>
+          </div>
         </div>
-        <div class="hand hour-hand"></div>
-        <div class="hand min-hand"></div>
-        <div class="hand sec-hand" id="liveHeroSecHand"></div>
-        <div class="center-pin"></div>
       </div>
-      <div style="font-size: 13.5px; color: var(--text-muted); font-weight: 500;">
-        Шежіре ру таңбасы мен жеке есіміңіз циферблатқа мәңгілік қашалады
+      <div class="hero-showcase-visual" onclick="openShowcaseLightbox('./images/showcase/showcase-baglan-aday-gold.jpg', '«Бағлан / Адай» Сегізқырлы алтын сағат')">
+        <img src="./images/showcase/showcase-baglan-aday-gold.jpg" alt="Бағлан Адай руы сағаты" id="heroShowcaseMainImg">
+        <div class="hero-showcase-visual-overlay">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          <span>Толық өлшемде көру</span>
+        </div>
+      </div>
+      <div class="hero-showcase-info">
+        <div class="hero-showcase-tag">✨ ХИТ ҮЛГІ • ЖЕКЕ ГРАВЮРА</div>
+        <h3 class="hero-showcase-title" id="heroShowcaseTitle">«Бағлан / Адай» Сегізқырлы алтын сағат</h3>
+        <p class="hero-showcase-desc" id="heroShowcaseDesc">Жапондық механизм • 316L хирургиялық болат • Минералды шыны</p>
+        <div class="hero-showcase-thumbs">
+          <button type="button" class="hero-thumb-btn active" onclick="switchHeroShowcase('./images/showcase/showcase-baglan-aday-gold.jpg', '«Бағлан / Адай» Сегізқырлы алтын сағат', 'Жапондық механизм • 316L хирургиялық болат • Минералды шыны', this)">
+            <img src="./images/showcase/showcase-baglan-aday-gold.jpg" alt="Алтын Адай">
+            <span>Алтын Адай</span>
+          </button>
+          <button type="button" class="hero-thumb-btn" onclick="switchHeroShowcase('./images/showcase/showcase-zhangeldi-erketay-black.jpg', '«Жангелді / Еркетай» Қара стиль сағаты', 'Қара стиль • Күңгірт жабын • Айрықша дизайн', this)">
+            <img src="./images/showcase/showcase-zhangeldi-erketay-black.jpg" alt="Қара стиль">
+            <span>Қара стиль</span>
+          </button>
+          <button type="button" class="hero-thumb-btn" onclick="switchHeroShowcase('./images/showcase/showcase-rahat-ardana-woodbox.jpg', '«Рахат / Ардана» Жұптық люкс ағаш қорап', '1+1 Жұптық сағаттар • Эксклюзивті табиғи ағаш қорап', this)">
+            <img src="./images/showcase/showcase-rahat-ardana-woodbox.jpg" alt="Люкс ағаш қорап">
+            <span>Ағаш қорап</span>
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -2461,7 +2794,7 @@ def generate():
       <div class="section-subtitle">Бутик топтамасы</div>
       <h2 class="section-title">Барлық сағаттар топтамасы ({len(all_products_sorted)} үлгі)</h2>
       <p class="section-desc">
-        Бағасы белгіленген дайын хит үлгілер және клиент сұранысы бойынша жеке бағаланатын эксклюзивті сағаттар.
+        Каталогтың басында ерлерге арналған ру-таңбалы үлгілер, одан әрі 1+1 жұптық және қызметтік топтамалар. Дайын бағасы бар хиттер немесе жеке тапсырыспен жасалатын сағаттар.
       </p>
     </div>
 
@@ -2474,7 +2807,7 @@ def generate():
         </div>
 
         <select class="sort-select" id="sortSelect" onchange="sortCatalog()">
-          <option value="default">Сұрыптау: Әдепкі ретпен</option>
+          <option value="default">Сұрыптау: Әдепкі ретпен (Ерлер сағаттары алдында)</option>
           <option value="price_asc">Бағасы: Арзаннан қымбатқа</option>
           <option value="price_desc">Бағасы: Қымбаттан арзанға</option>
           <option value="priced_only">Тек бағасы бар үлгілер</option>
@@ -2484,13 +2817,14 @@ def generate():
 
       <div class="filter-tabs">
         <button class="filter-tab active" data-filter="all" onclick="setCategoryFilter('all', this)">Барлық сағаттар ({len(all_products_sorted)})</button>
+        <button class="filter-tab" data-filter="mens" onclick="setCategoryFilter('mens', this)">👑 Ерлер сағаттары ({len(mens_all)})</button>
+        <button class="filter-tab" data-filter="couples" onclick="setCategoryFilter('couples', this)">❤️ Жұптық сағаттар ({len(couples_all)})</button>
         <button class="filter-tab active-special" data-filter="promo" onclick="setCategoryFilter('promo', this)">🔥 1+1 Бонус сағаттар</button>
-        <button class="filter-tab" data-filter="priced" onclick="setCategoryFilter('priced', this)">Бағасы нақты үлгілер (26)</button>
-        <button class="filter-tab" data-filter="request" onclick="setCategoryFilter('request', this)">Бағасын нақтылау (WhatsApp)</button>
-        <button class="filter-tab" data-filter="couples" onclick="setCategoryFilter('couples', this)">Жұптық сағаттар (1+1)</button>
-        <button class="filter-tab" data-filter="service" onclick="setCategoryFilter('service', this)">Қызметтік (ІІМ, ҰҚК, ҚР ҚК)</button>
+        <button class="filter-tab" data-filter="service" onclick="setCategoryFilter('service', this)">🛡️ Қызметтік (ІІМ, ҰҚК, ҚР ҚК)</button>
+        <button class="filter-tab" data-filter="priced" onclick="setCategoryFilter('priced', this)">Бағасы нақты ({len(priced_products)})</button>
+        <button class="filter-tab" data-filter="request" onclick="setCategoryFilter('request', this)">Бағасын нақтылау ({len(request_products)})</button>
         <button class="filter-tab" data-filter="ornament" onclick="setCategoryFilter('ornament', this)">Шежіре Ру-Таңбалы</button>
-        <button class="filter-tab" data-filter="mechanic" onclick="setCategoryFilter('mechanic', this)">⚙️ Механика сағаттар</button>
+        <button class="filter-tab" data-filter="mechanic" onclick="setCategoryFilter('mechanic', this)">⚙️ Механика</button>
         <button class="filter-tab" data-filter="woodbox" onclick="setCategoryFilter('woodbox', this)">🪵 Люкс ағаш қорапты</button>
       </div>
     </div>
@@ -2650,7 +2984,13 @@ def generate():
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
-        <div class="footer-logo">UAQYT</div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+          <img src="./images/logo.jpg" alt="UAQYT kzt" style="width: 44px; height: 44px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(255,255,255,0.15);">
+          <div>
+            <div class="footer-logo" style="margin: 0; line-height: 1;">UAQYT</div>
+            <small style="color: var(--accent-gold); font-size: 11px; letter-spacing: 1px; font-weight: 700;">kzt boutique</small>
+          </div>
+        </div>
         <p style="font-size: 13.5px; line-height: 1.6;">
           Жеке есім, ру таңбасы және ведомстволық эмблема қашалған қол сағаттар бутігі. Қазақстан бойынша 1000-нан астам риза клиент.
         </p>
@@ -2880,6 +3220,24 @@ def generate():
       window.open(`https://wa.me/77073356059?text=${{text}}`, '_blank');
     }}
 
+    // Hero Showcase Switcher & Lightbox
+    function switchHeroShowcase(imgSrc, title, desc, btn) {{
+      const imgElem = document.getElementById('heroShowcaseMainImg');
+      const titleElem = document.getElementById('heroShowcaseTitle');
+      const descElem = document.getElementById('heroShowcaseDesc');
+      if (imgElem) imgElem.src = imgSrc;
+      if (titleElem) titleElem.textContent = title;
+      if (descElem && desc) descElem.textContent = desc;
+      document.querySelectorAll('.hero-thumb-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+    }}
+
+    function openShowcaseLightbox(imgSrc, title) {{
+      const currentImg = document.getElementById('heroShowcaseMainImg');
+      const src = currentImg ? currentImg.src : imgSrc;
+      window.open(src, '_blank');
+    }}
+
     // Filter catalog
     function setCategoryFilter(cat, btn) {{
       activeFilter = cat;
@@ -2908,6 +3266,8 @@ def generate():
             matchesCat = cardCat.includes('priced');
           }} else if (activeFilter === 'request') {{
             matchesCat = cardCat.includes('request');
+          }} else if (activeFilter === 'mens') {{
+            matchesCat = cardCat.includes('mens') && !cardCat.includes('couples');
           }} else {{
             matchesCat = cardCat.includes(activeFilter);
           }}

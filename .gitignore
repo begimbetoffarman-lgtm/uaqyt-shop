@@ -3,3 +3,5 @@ uaqyt-single.html
 __pycache__/
 *.pyc
 .system_generated/
+
+.vercel

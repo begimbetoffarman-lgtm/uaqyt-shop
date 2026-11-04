@@ -157,7 +157,23 @@
     .nav-brand {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-logo-img {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .brand-logo-img:hover {
+      transform: scale(1.05);
     }
 
     .brand-logo-mark {
@@ -397,7 +413,261 @@
       transform: translateY(-2px);
     }
 
-    /* Hero Right: Live Interactive Dial Mockup */
+    /* Hero Left: Prominent Social Strip (Instagram & TikTok) */
+    .hero-social-strip {
+      margin-top: 26px;
+      padding-top: 20px;
+      border-top: 1px dashed rgba(184, 142, 79, 0.28);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .hero-social-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .hero-social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-social-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .hero-social-badge.insta {
+      background: linear-gradient(135deg, #fdf2f8 0%, #fff1f2 100%);
+      color: #be185d;
+      border: 1px solid rgba(225, 29, 72, 0.25);
+    }
+
+    .hero-social-badge.insta:hover {
+      background: linear-gradient(135deg, #fce7f3 0%, #ffe4e6 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.25);
+    }
+
+    .hero-social-badge.tiktok {
+      background: #0f172a;
+      color: #ffffff;
+      border: 1px solid #1e293b;
+    }
+
+    .hero-social-badge.tiktok:hover {
+      background: #020617;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.35);
+    }
+
+    /* Hero Right: Luxury Watch Showcase Card (Replaces CSS clock with genuine photo) */
+    .hero-showcase-card {
+      background: linear-gradient(160deg, #ffffff 0%, #faf8f5 100%);
+      border: 1px solid rgba(184, 142, 79, 0.25);
+      border-radius: 28px;
+      padding: 22px;
+      box-shadow: 0 20px 45px -15px rgba(184, 142, 79, 0.18), 0 4px 16px rgba(0, 0, 0, 0.04);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .hero-showcase-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .hero-showcase-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-showcase-logo-img {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .hero-showcase-brand-meta {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .hero-showcase-brand-meta span {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.1;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-showcase-brand-meta small {
+      font-size: 10px;
+      color: var(--accent-gold-dark);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-showcase-badge {
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+      animation: pulse 2s infinite;
+      white-space: nowrap;
+    }
+
+    .hero-showcase-visual {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #ffffff 0%, #f3eee7 100%);
+      box-shadow: inset 0 0 0 1px rgba(184, 142, 79, 0.18);
+      max-height: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .hero-showcase-visual img {
+      width: 100%;
+      height: 100%;
+      max-height: 360px;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-showcase-visual:hover img {
+      transform: scale(1.04);
+    }
+
+    .hero-showcase-visual-overlay {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(17, 24, 39, 0.78);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.9;
+      transition: opacity 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .hero-showcase-visual:hover .hero-showcase-visual-overlay {
+      opacity: 1;
+      background: rgba(17, 24, 39, 0.95);
+    }
+
+    .hero-showcase-info {
+      text-align: left;
+    }
+
+    .hero-showcase-tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-gold-dark);
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .hero-showcase-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.25;
+    }
+
+    .hero-showcase-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .hero-showcase-thumbs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .hero-thumb-btn {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .hero-thumb-btn:hover {
+      border-color: var(--accent-gold);
+      background: #fdfbf7;
+    }
+
+    .hero-thumb-btn.active {
+      border-color: var(--accent-gold);
+      background: #fcf9f2;
+      box-shadow: 0 0 0 2px rgba(184, 142, 79, 0.25);
+    }
+
+    .hero-thumb-btn img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .hero-thumb-btn span {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    /* Old visual card compatibility */
     .hero-visual-card {
       background: linear-gradient(145deg, #ffffff 0%, #faf8f5 100%);
       border: 1px solid var(--border);
@@ -2071,16 +2341,50 @@
       .pitch-banner {
         display: none;
       }
+      .btn-nav-2gis {
+        display: none !important;
+      }
       .navbar {
         padding: 0 16px;
+        height: 60px;
       }
       .nav-links {
         display: none;
       }
+      .brand-logo-img {
+        width: 38px;
+        height: 38px;
+      }
+      .brand-name {
+        font-size: 20px;
+      }
+      .brand-sub {
+        font-size: 9px;
+      }
+      .btn-nav-whatsapp {
+        padding: 7px 14px;
+        font-size: 12.5px;
+      }
       .hero-title {
-        font-size: 38px;
+        font-size: 34px;
       }
       .hero-perks-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-social-links {
+        flex-direction: column;
+      }
+      .hero-social-badge {
+        width: 100%;
+        justify-content: center;
+      }
+      .hero-showcase-visual {
+        max-height: 280px;
+      }
+      .hero-showcase-visual img {
+        max-height: 280px;
+      }
+      .hero-showcase-thumbs {
         grid-template-columns: 1fr;
       }
       .mobile-bottom-bar {
@@ -2113,15 +2417,13 @@
 
   <!-- ───────── NAVBAR ───────── -->
   <header class="navbar">
-    <div class="nav-brand">
-      <div class="brand-logo-mark">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg>
-      </div>
+    <a href="#hero" class="nav-brand">
+      <img src="./images/logo.jpg" alt="UAQYT kzt" class="brand-logo-img">
       <div class="brand-text">
         <span class="brand-name">UAQYT</span>
-        <span class="brand-sub">Есімді сағаттар бутігі</span>
+        <span class="brand-sub">kzt • Есімді сағаттар бутігі</span>
       </div>
-    </div>
+    </a>
 
     <nav>
       <ul class="nav-links">
@@ -2187,29 +2489,60 @@
           <span>Жеке сағатты құрастыру</span>
         </a>
       </div>
+
+      <!-- Hero Social Strip (Instagram & TikTok prominent on screen 1) -->
+      <div class="hero-social-strip">
+        <span class="hero-social-label">Біздің ресми парақшалар:</span>
+        <div class="hero-social-links">
+          <a href="https://www.instagram.com/uaqyt.kzt?psln=ZXd3MTI5cmI3NGF6" target="_blank" rel="noopener" class="hero-social-badge insta">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            <span>Instagram: <strong>@uaqyt.kzt</strong> (1000+ видео)</span>
+          </a>
+          <a href="https://www.tiktok.com/@uaqyt.kzz2?_t=ZM-8uQyLn8Uuxi&_r=1" target="_blank" rel="noopener" class="hero-social-badge tiktok">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298 0 .591.044.87.13V9.4a6.33 6.33 0 0 0-.87-.06A6.34 6.34 0 0 0 3 15.68a6.34 6.34 0 0 0 9.17 5.65 6.27 6.27 0 0 0 3.51-5.59V8.9a8.18 8.18 0 0 0 4.79 1.54v-3.4a4.85 4.85 0 0 1-.88-.35z"/></svg>
+            <span>TikTok: <strong>@uaqyt.kzz2</strong> (Видео шолулар)</span>
+          </a>
+        </div>
+      </div>
     </div>
 
-    <!-- Hero Right: Dynamic Dial Showcase -->
-    <div class="hero-visual-card">
-      <div class="hero-promo-badge">1+1 ТЕГІН БОНУС</div>
-      <div class="dial-case" style="margin: 0 auto 20px;">
-        <div class="dial-ticks"></div>
-        <div class="dial-center-content">
-          <svg class="dial-tamga-icon" viewBox="0 0 60 60" fill="currentColor">
-            <path d="M30 5 L55 25 L45 55 L15 55 L5 25 Z" fill="none" stroke="currentColor" stroke-width="3"/>
-            <circle cx="30" cy="30" r="10" fill="currentColor"/>
-          </svg>
-          <div class="dial-name" id="heroDialName">БАҒЛАН</div>
-          <div class="dial-sub" id="heroDialSub">АДАЙ РУЫ</div>
-          <div class="dial-date">UAQYT KZT • №04812</div>
+    <!-- Hero Right: Real Watch Showcase Photo with Official Logo & Badges -->
+    <div class="hero-showcase-card">
+      <div class="hero-showcase-badge">🔥 1+1 ТЕГІН БОНУС САҒАТ</div>
+      <div class="hero-showcase-header">
+        <div class="hero-showcase-brand">
+          <img src="./images/logo.jpg" alt="UAQYT kzt" class="hero-showcase-logo-img">
+          <div class="hero-showcase-brand-meta">
+            <span>UAQYT</span>
+            <small>kzt • Есімді сағаттар бутігі</small>
+          </div>
         </div>
-        <div class="hand hour-hand"></div>
-        <div class="hand min-hand"></div>
-        <div class="hand sec-hand" id="liveHeroSecHand"></div>
-        <div class="center-pin"></div>
       </div>
-      <div style="font-size: 13.5px; color: var(--text-muted); font-weight: 500;">
-        Шежіре ру таңбасы мен жеке есіміңіз циферблатқа мәңгілік қашалады
+      <div class="hero-showcase-visual" onclick="openShowcaseLightbox('./images/showcase/showcase-baglan-aday-gold.jpg', '«Бағлан / Адай» Сегізқырлы алтын сағат')">
+        <img src="./images/showcase/showcase-baglan-aday-gold.jpg" alt="Бағлан Адай руы сағаты" id="heroShowcaseMainImg">
+        <div class="hero-showcase-visual-overlay">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          <span>Толық өлшемде көру</span>
+        </div>
+      </div>
+      <div class="hero-showcase-info">
+        <div class="hero-showcase-tag">✨ ХИТ ҮЛГІ • ЖЕКЕ ГРАВЮРА</div>
+        <h3 class="hero-showcase-title" id="heroShowcaseTitle">«Бағлан / Адай» Сегізқырлы алтын сағат</h3>
+        <p class="hero-showcase-desc" id="heroShowcaseDesc">Жапондық механизм • 316L хирургиялық болат • Минералды шыны</p>
+        <div class="hero-showcase-thumbs">
+          <button type="button" class="hero-thumb-btn active" onclick="switchHeroShowcase('./images/showcase/showcase-baglan-aday-gold.jpg', '«Бағлан / Адай» Сегізқырлы алтын сағат', 'Жапондық механизм • 316L хирургиялық болат • Минералды шыны', this)">
+            <img src="./images/showcase/showcase-baglan-aday-gold.jpg" alt="Алтын Адай">
+            <span>Алтын Адай</span>
+          </button>
+          <button type="button" class="hero-thumb-btn" onclick="switchHeroShowcase('./images/showcase/showcase-zhangeldi-erketay-black.jpg', '«Жангелді / Еркетай» Қара стиль сағаты', 'Қара стиль • Күңгірт жабын • Айрықша дизайн', this)">
+            <img src="./images/showcase/showcase-zhangeldi-erketay-black.jpg" alt="Қара стиль">
+            <span>Қара стиль</span>
+          </button>
+          <button type="button" class="hero-thumb-btn" onclick="switchHeroShowcase('./images/showcase/showcase-rahat-ardana-woodbox.jpg', '«Рахат / Ардана» Жұптық люкс ағаш қорап', '1+1 Жұптық сағаттар • Эксклюзивті табиғи ағаш қорап', this)">
+            <img src="./images/showcase/showcase-rahat-ardana-woodbox.jpg" alt="Люкс ағаш қорап">
+            <span>Ағаш қорап</span>
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -2332,7 +2665,7 @@
       <div class="section-subtitle">Бутик топтамасы</div>
       <h2 class="section-title">Барлық сағаттар топтамасы (74 үлгі)</h2>
       <p class="section-desc">
-        Бағасы белгіленген дайын хит үлгілер және клиент сұранысы бойынша жеке бағаланатын эксклюзивті сағаттар.
+        Каталогтың басында ерлерге арналған ру-таңбалы үлгілер, одан әрі 1+1 жұптық және қызметтік топтамалар. Дайын бағасы бар хиттер немесе жеке тапсырыспен жасалатын сағаттар.
       </p>
     </div>
 
@@ -2345,7 +2678,7 @@
         </div>
 
         <select class="sort-select" id="sortSelect" onchange="sortCatalog()">
-          <option value="default">Сұрыптау: Әдепкі ретпен</option>
+          <option value="default">Сұрыптау: Әдепкі ретпен (Ерлер сағаттары алдында)</option>
           <option value="price_asc">Бағасы: Арзаннан қымбатқа</option>
           <option value="price_desc">Бағасы: Қымбаттан арзанға</option>
           <option value="priced_only">Тек бағасы бар үлгілер</option>
@@ -2355,13 +2688,14 @@
 
       <div class="filter-tabs">
         <button class="filter-tab active" data-filter="all" onclick="setCategoryFilter('all', this)">Барлық сағаттар (74)</button>
+        <button class="filter-tab" data-filter="mens" onclick="setCategoryFilter('mens', this)">👑 Ерлер сағаттары (52)</button>
+        <button class="filter-tab" data-filter="couples" onclick="setCategoryFilter('couples', this)">❤️ Жұптық сағаттар (22)</button>
         <button class="filter-tab active-special" data-filter="promo" onclick="setCategoryFilter('promo', this)">🔥 1+1 Бонус сағаттар</button>
-        <button class="filter-tab" data-filter="priced" onclick="setCategoryFilter('priced', this)">Бағасы нақты үлгілер (26)</button>
-        <button class="filter-tab" data-filter="request" onclick="setCategoryFilter('request', this)">Бағасын нақтылау (WhatsApp)</button>
-        <button class="filter-tab" data-filter="couples" onclick="setCategoryFilter('couples', this)">Жұптық сағаттар (1+1)</button>
-        <button class="filter-tab" data-filter="service" onclick="setCategoryFilter('service', this)">Қызметтік (ІІМ, ҰҚК, ҚР ҚК)</button>
+        <button class="filter-tab" data-filter="service" onclick="setCategoryFilter('service', this)">🛡️ Қызметтік (ІІМ, ҰҚК, ҚР ҚК)</button>
+        <button class="filter-tab" data-filter="priced" onclick="setCategoryFilter('priced', this)">Бағасы нақты (26)</button>
+        <button class="filter-tab" data-filter="request" onclick="setCategoryFilter('request', this)">Бағасын нақтылау (48)</button>
         <button class="filter-tab" data-filter="ornament" onclick="setCategoryFilter('ornament', this)">Шежіре Ру-Таңбалы</button>
-        <button class="filter-tab" data-filter="mechanic" onclick="setCategoryFilter('mechanic', this)">⚙️ Механика сағаттар</button>
+        <button class="filter-tab" data-filter="mechanic" onclick="setCategoryFilter('mechanic', this)">⚙️ Механика</button>
         <button class="filter-tab" data-filter="woodbox" onclick="setCategoryFilter('woodbox', this)">🪵 Люкс ағаш қорапты</button>
       </div>
     </div>
@@ -2596,32 +2930,6 @@
               <span class="card-price">38 900 ₸</span>
               
             <button class="btn-card-action" onclick="openProductModal('p38900_mvd')">
-              <span>Толығырақ көру</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo priced" data-price="39900" data-id="p39900_roses" onclick="openProductModal('p39900_roses')">
-          <div class="card-badge">❤️ 1+1 Жұптық</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/watch-39900-couples-roses.jpg" alt="1+1 Жұптық «Раушан гүлді қорап»" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Раушан</div>
-            <h3 class="card-title">1+1 Жұптық «Раушан гүлді қорап»</h3>
-            <p class="card-desc">Ерлер және әйелдер сағаты бір жиынтықта. Қызыл раушан гүлдері мен фирмалық UAQYT қаптамасы.</p>
-            
-            <div class="installment-pill" title="Бөліп төлеу мүмкіндігі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-              <span>Бөліп төлеу: айына <strong>3 325 ₸</strong></span>
-            </div>
-            <div class="card-footer">
-              <span class="card-price">39 900 ₸</span>
-              
-            <button class="btn-card-action" onclick="openProductModal('p39900_roses')">
               <span>Толығырақ көру</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
@@ -2993,32 +3301,6 @@
           </div>
         </div>
 
-        <div class="product-card" data-category="mechanic mens woodbox ornament couples priced" data-price="75900" data-id="p75900_rahat_showcase" onclick="openProductModal('p75900_rahat_showcase')">
-          <div class="card-badge">Люкс Премиум</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/showcase/showcase-rahat-ardana-woodbox.jpg" alt="«Рахат Шекті / Ардана 13.11.1979»" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">⚙️ Механика • Люкс ағаш қорап</div>
-            <h3 class="card-title">«Рахат Шекті / Ардана 13.11.1979»</h3>
-            <p class="card-desc">Көк циферблаттағы күн мен қыран, мерейтойлық жазу, гауһар тасты безель, қымбат вишня шкатулка.</p>
-            
-            <div class="installment-pill" title="Бөліп төлеу мүмкіндігі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-              <span>Бөліп төлеу: айына <strong>6 325 ₸</strong></span>
-            </div>
-            <div class="card-footer">
-              <span class="card-price">75 900 ₸</span>
-              
-            <button class="btn-card-action" onclick="openProductModal('p75900_rahat_showcase')">
-              <span>Толығырақ көру</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
         <div class="product-card" data-category="mechanic mens woodbox ornament priced" data-price="75900" data-id="p75900_sharkesh" onclick="openProductModal('p75900_sharkesh')">
           <div class="card-badge">Флагман Механика</div>
           <div class="card-img-box" title="Толық көру үшін басыңыз">
@@ -3039,448 +3321,6 @@
               
             <button class="btn-card-action" onclick="openProductModal('p75900_sharkesh')">
               <span>Толығырақ көру</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_1" onclick="openProductModal('couple_set_1')">
-          <div class="card-badge">❤️ 1+1 Жұптық</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-1.jpg" alt="1+1 Жұптық «Шынар & Әділбек / Кіші жүз»" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • 6 Раушан</div>
-            <h3 class="card-title">1+1 Жұптық «Шынар & Әділбек / Кіші жүз»</h3>
-            <p class="card-desc">Ерлер мен әйелдер сағаты, 6 қызыл раушан гүлі, жеке ру мен есімдер нақышталған сыйлықтық бокс.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_1')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_2" onclick="openProductModal('couple_set_2')">
-          <div class="card-badge">❤️ 1+1 Жұптық</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-2.jpg" alt="1+1 Жұптық «Мәңгілік Махаббат» Классика" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Болат бау</div>
-            <h3 class="card-title">1+1 Жұптық «Мәңгілік Махаббат» Классика</h3>
-            <p class="card-desc">Классикалық болат баулы ерлер мен ханымдар сағаты, мәңгілік махаббат белгісі мен есімдер.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_2')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_3" onclick="openProductModal('couple_set_3')">
-          <div class="card-badge">❤️ Two-Tone</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-3.jpg" alt="1+1 Жұптық «Нұрлан ❤️ Айдана» Two-Tone" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Two-Tone</div>
-            <h3 class="card-title">1+1 Жұптық «Нұрлан ❤️ Айдана» Two-Tone</h3>
-            <p class="card-desc">Комби түсті алтын мен болат баулы жұптық жиынтық, раушан гүлдер мен фирмалық UAQYT пакеті.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_3')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo woodbox request" data-price="999999" data-id="couple_set_4" onclick="openProductModal('couple_set_4')">
-          <div class="card-badge">❤️ Үйлену тойы</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-4.jpg" alt="1+1 Жұптық «Бақытты Отбасы» Шкатулка" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Премиум бокс</div>
-            <h3 class="card-title">1+1 Жұптық «Бақытты Отбасы» Шкатулка</h3>
-            <p class="card-desc">Мерейтойға, үйлену тойына (Беташар) арналған қос сағат жиынтығы, екі адамға жеке лазерлік гравюрасымен.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_4')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_5" onclick="openProductModal('couple_set_5')">
-          <div class="card-badge">❤️ 1+1 Бонус</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-5.jpg" alt="1+1 Жұптық «Азамат ❤️ Мадина» Күміс болат" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Күміс болат</div>
-            <h3 class="card-title">1+1 Жұптық «Азамат ❤️ Мадина» Күміс болат</h3>
-            <p class="card-desc">Айнадай жылтыратылған қос күміс болат сағат, қара циферблаттағы ақ алтын жазулар.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_5')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_6" onclick="openProductModal('couple_set_6')">
-          <div class="card-badge">❤️ 1+1 Жұптық</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-6.jpg" alt="1+1 Жұптық «Жүректер Үндестігі» Раушан гүлмен" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Романтика</div>
-            <h3 class="card-title">1+1 Жұптық «Жүректер Үндестігі» Раушан гүлмен</h3>
-            <p class="card-desc">Қызыл барқыт қораптағы хош иісті раушан гүлдері, мәңгілік сезім белгісі бар қос сағат.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_6')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_7" onclick="openProductModal('couple_set_7')">
-          <div class="card-badge">❤️ 1+1 Жұптық</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-7.jpg" alt="1+1 Жұптық «Арманым & Махаббатым»" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Жеке гравюра</div>
-            <h3 class="card-title">1+1 Жұптық «Арманым & Махаббатым»</h3>
-            <p class="card-desc">Екі ғашықтың есімдері мен кездескен күні қашалған сағаттар, сыйлықтық пакетімен бірге.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_7')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_8" onclick="openProductModal('couple_set_8')">
-          <div class="card-badge">❤️ Стильді жұп</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-8.jpg" alt="1+1 Жұптық «Қара & Алтын» Contrast Edition" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Контраст</div>
-            <h3 class="card-title">1+1 Жұптық «Қара & Алтын» Contrast Edition</h3>
-            <p class="card-desc">Ерлерге қара сұсты корпус, ханымға нәзік алтын жиекті корпус, тамаша үйлесім.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_8')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_9" onclick="openProductModal('couple_set_9')">
-          <div class="card-badge">❤️ 1+1 Жұптық</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-9.jpg" alt="1+1 Жұптық «Аққулар Үйлесімі» Ақ циферблат" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Ақ циферблат</div>
-            <h3 class="card-title">1+1 Жұптық «Аққулар Үйлесімі» Ақ циферблат</h3>
-            <p class="card-desc">Таза ақ циферблаттағы алтын әріптер, қос аққу секілді нәзік әрі сәнді жинақ.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_9')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_10" onclick="openProductModal('couple_set_10')">
-          <div class="card-badge">❤️ 1+1 Жұптық</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-10.jpg" alt="1+1 Жұптық «Сүйіктіме Арнау» Қызыл бокс" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Сыйлықтық</div>
-            <h3 class="card-title">1+1 Жұптық «Сүйіктіме Арнау» Қызыл бокс</h3>
-            <p class="card-desc">Туған күнге, мерекеге немесе үйлену тойына ең керемет естелік сыйлық жиынтығы.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_10')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_11" onclick="openProductModal('couple_set_11')">
-          <div class="card-badge">❤️ Шаңырақ</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-11.jpg" alt="1+1 Жұптық «Бір шаңырақ астында»" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Шаңырақ</div>
-            <h3 class="card-title">1+1 Жұптық «Бір шаңырақ астында»</h3>
-            <p class="card-desc">Шаңырақ таңбасы мен екі жастың тегі қашалған, отбасылық береке белгісі болатын сағаттар.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_11')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_12" onclick="openProductModal('couple_set_12')">
-          <div class="card-badge">❤️ 1+1 Жұптық</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-12.jpg" alt="1+1 Жұптық «Шексіз Махаббат» Алтын жиекті" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Алтын жиек</div>
-            <h3 class="card-title">1+1 Жұптық «Шексіз Махаббат» Алтын жиекті</h3>
-            <p class="card-desc">Алтын жиекті безель, раушан гүлдермен әрленген қорап, екі сағаттағы жеке нақыш.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_12')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_13" onclick="openProductModal('couple_set_13')">
-          <div class="card-badge">❤️ Jubilee жұп</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-13.jpg" alt="1+1 Жұптық «Қос Ғашық» Jubilee баумен" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Jubilee</div>
-            <h3 class="card-title">1+1 Жұптық «Қос Ғашық» Jubilee баумен</h3>
-            <p class="card-desc">Бес буынды классикалық Jubilee бауы бар екі сағат, қолыңызға өте жайлы орнығады.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_13')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_14" onclick="openProductModal('couple_set_14')">
-          <div class="card-badge">❤️ Мерейтой</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-14.jpg" alt="1+1 Жұптық «Мерейтойлық Сыйлық»" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Мерейтой</div>
-            <h3 class="card-title">1+1 Жұптық «Мерейтойлық Сыйлық»</h3>
-            <p class="card-desc">10, 20, 25 жылдық отау құру мерейтойына арналған естелік жазулары бар жұптық сағаттар.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_14')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_15" onclick="openProductModal('couple_set_15')">
-          <div class="card-badge">❤️ 1+1 Жұптық</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-15.jpg" alt="1+1 Жұптық «Таза Махаббат» Ақ қорапта" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Ақ бокс</div>
-            <h3 class="card-title">1+1 Жұптық «Таза Махаббат» Ақ қорапта</h3>
-            <p class="card-desc">Сәнді ақ сыйлық қорабы, раушан гүлдер композициясы, екі адамға жеке басылған гравюра.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_15')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_16" onclick="openProductModal('couple_set_16')">
-          <div class="card-badge">❤️ Алтын комби</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-16.jpg" alt="1+1 Жұптық «Байлық & Береке» Алтын комби" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Алтын комби</div>
-            <h3 class="card-title">1+1 Жұптық «Байлық & Береке» Алтын комби</h3>
-            <p class="card-desc">Алтын мен болаттың тамаша үйлесімі, циферблаттағы ру таңбасы немесе отбасылық герб.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_16')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_17" onclick="openProductModal('couple_set_17')">
-          <div class="card-badge">❤️ Deep Black</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/couples/couple-17.jpg" alt="1+1 Жұптық «Жұлдызды Түн» Deep Black Dial" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Deep Black</div>
-            <h3 class="card-title">1+1 Жұптық «Жұлдызды Түн» Deep Black Dial</h3>
-            <p class="card-desc">Тұңғиық қара циферблат, алтын жазулар мен жұлдызды өрнек, ең сәнді фотосессияға лайық.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_17')">
-              <span>Бағасын білу</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
             </div>
@@ -3662,32 +3502,6 @@
               <span class="price-request-badge">Бағасын нақтылау</span>
               
             <button class="btn-card-action btn-req" onclick="openProductModal('extra_7')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="extra_8" onclick="openProductModal('extra_8')">
-          <div class="card-badge">❤️ 1+1 Жұптық</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/extra/watch-extra-8.jpg" alt="1+1 Жұптық «Айдос ❤️ Ақерке» Қызыл бокс" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Раушан</div>
-            <h3 class="card-title">1+1 Жұптық «Айдос ❤️ Ақерке» Қызыл бокс</h3>
-            <p class="card-desc">Қызыл қораптағы раушан гүлдермен көмкерілген ерлер мен әйелдер сағаты, жеке гравюрамен.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('extra_8')">
               <span>Бағасын білу</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
@@ -4163,32 +3977,6 @@
           </div>
         </div>
 
-        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="extra_27" onclick="openProductModal('extra_27')">
-          <div class="card-badge">❤️ 1+1 Жұптық</div>
-          <div class="card-img-box" title="Толық көру үшін басыңыз">
-            <img src="./images/extra/watch-extra-27.jpg" alt="1+1 Жұптық «Мәңгілік Махаббат» Розалармен" loading="lazy">
-            <span class="zoom-hint">✨ Толығырақ көру</span>
-          </div>
-          <div class="card-body">
-            <div class="card-category-tag">❤️ 1+1 Жұптық • Раушан</div>
-            <h3 class="card-title">1+1 Жұптық «Мәңгілік Махаббат» Розалармен</h3>
-            <p class="card-desc">Қызыл қорапта 6 раушан гүлі, ерлер және ханымдар сағаты, екі адамның есімі нақышталған.</p>
-            
-            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <span>WhatsApp-та бағасын нақтылау</span>
-            </div>
-            <div class="card-footer">
-              <span class="price-request-badge">Бағасын нақтылау</span>
-              
-            <button class="btn-card-action btn-req" onclick="openProductModal('extra_27')">
-              <span>Бағасын білу</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            </div>
-          </div>
-        </div>
-
         <div class="product-card" data-category="mens ornament showcase request" data-price="999999" data-id="showcase_arman" onclick="openProductModal('showcase_arman')">
           <div class="card-badge">Топ үлгі</div>
           <div class="card-img-box" title="Толық көру үшін басыңыз">
@@ -4260,6 +4048,552 @@
               <span class="price-request-badge">Бағасын нақтылау</span>
               
             <button class="btn-card-action btn-req" onclick="openProductModal('showcase_zhanbolat')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo priced" data-price="39900" data-id="p39900_roses" onclick="openProductModal('p39900_roses')">
+          <div class="card-badge">❤️ 1+1 Жұптық</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/watch-39900-couples-roses.jpg" alt="1+1 Жұптық «Раушан гүлді қорап»" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Раушан</div>
+            <h3 class="card-title">1+1 Жұптық «Раушан гүлді қорап»</h3>
+            <p class="card-desc">Ерлер және әйелдер сағаты бір жиынтықта. Қызыл раушан гүлдері мен фирмалық UAQYT қаптамасы.</p>
+            
+            <div class="installment-pill" title="Бөліп төлеу мүмкіндігі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              <span>Бөліп төлеу: айына <strong>3 325 ₸</strong></span>
+            </div>
+            <div class="card-footer">
+              <span class="card-price">39 900 ₸</span>
+              
+            <button class="btn-card-action" onclick="openProductModal('p39900_roses')">
+              <span>Толығырақ көру</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="mechanic mens woodbox ornament couples priced" data-price="75900" data-id="p75900_rahat_showcase" onclick="openProductModal('p75900_rahat_showcase')">
+          <div class="card-badge">Люкс Премиум</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/showcase/showcase-rahat-ardana-woodbox.jpg" alt="«Рахат Шекті / Ардана 13.11.1979»" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">⚙️ Механика • Люкс ағаш қорап</div>
+            <h3 class="card-title">«Рахат Шекті / Ардана 13.11.1979»</h3>
+            <p class="card-desc">Көк циферблаттағы күн мен қыран, мерейтойлық жазу, гауһар тасты безель, қымбат вишня шкатулка.</p>
+            
+            <div class="installment-pill" title="Бөліп төлеу мүмкіндігі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              <span>Бөліп төлеу: айына <strong>6 325 ₸</strong></span>
+            </div>
+            <div class="card-footer">
+              <span class="card-price">75 900 ₸</span>
+              
+            <button class="btn-card-action" onclick="openProductModal('p75900_rahat_showcase')">
+              <span>Толығырақ көру</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_1" onclick="openProductModal('couple_set_1')">
+          <div class="card-badge">❤️ 1+1 Жұптық</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-1.jpg" alt="1+1 Жұптық «Шынар & Әділбек / Кіші жүз»" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • 6 Раушан</div>
+            <h3 class="card-title">1+1 Жұптық «Шынар & Әділбек / Кіші жүз»</h3>
+            <p class="card-desc">Ерлер мен әйелдер сағаты, 6 қызыл раушан гүлі, жеке ру мен есімдер нақышталған сыйлықтық бокс.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_1')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_2" onclick="openProductModal('couple_set_2')">
+          <div class="card-badge">❤️ 1+1 Жұптық</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-2.jpg" alt="1+1 Жұптық «Мәңгілік Махаббат» Классика" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Болат бау</div>
+            <h3 class="card-title">1+1 Жұптық «Мәңгілік Махаббат» Классика</h3>
+            <p class="card-desc">Классикалық болат баулы ерлер мен ханымдар сағаты, мәңгілік махаббат белгісі мен есімдер.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_2')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_3" onclick="openProductModal('couple_set_3')">
+          <div class="card-badge">❤️ Two-Tone</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-3.jpg" alt="1+1 Жұптық «Нұрлан ❤️ Айдана» Two-Tone" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Two-Tone</div>
+            <h3 class="card-title">1+1 Жұптық «Нұрлан ❤️ Айдана» Two-Tone</h3>
+            <p class="card-desc">Комби түсті алтын мен болат баулы жұптық жиынтық, раушан гүлдер мен фирмалық UAQYT пакеті.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_3')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo woodbox request" data-price="999999" data-id="couple_set_4" onclick="openProductModal('couple_set_4')">
+          <div class="card-badge">❤️ Үйлену тойы</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-4.jpg" alt="1+1 Жұптық «Бақытты Отбасы» Шкатулка" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Премиум бокс</div>
+            <h3 class="card-title">1+1 Жұптық «Бақытты Отбасы» Шкатулка</h3>
+            <p class="card-desc">Мерейтойға, үйлену тойына (Беташар) арналған қос сағат жиынтығы, екі адамға жеке лазерлік гравюрасымен.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_4')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_5" onclick="openProductModal('couple_set_5')">
+          <div class="card-badge">❤️ 1+1 Бонус</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-5.jpg" alt="1+1 Жұптық «Азамат ❤️ Мадина» Күміс болат" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Күміс болат</div>
+            <h3 class="card-title">1+1 Жұптық «Азамат ❤️ Мадина» Күміс болат</h3>
+            <p class="card-desc">Айнадай жылтыратылған қос күміс болат сағат, қара циферблаттағы ақ алтын жазулар.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_5')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_6" onclick="openProductModal('couple_set_6')">
+          <div class="card-badge">❤️ 1+1 Жұптық</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-6.jpg" alt="1+1 Жұптық «Жүректер Үндестігі» Раушан гүлмен" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Романтика</div>
+            <h3 class="card-title">1+1 Жұптық «Жүректер Үндестігі» Раушан гүлмен</h3>
+            <p class="card-desc">Қызыл барқыт қораптағы хош иісті раушан гүлдері, мәңгілік сезім белгісі бар қос сағат.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_6')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_7" onclick="openProductModal('couple_set_7')">
+          <div class="card-badge">❤️ 1+1 Жұптық</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-7.jpg" alt="1+1 Жұптық «Арманым & Махаббатым»" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Жеке гравюра</div>
+            <h3 class="card-title">1+1 Жұптық «Арманым & Махаббатым»</h3>
+            <p class="card-desc">Екі ғашықтың есімдері мен кездескен күні қашалған сағаттар, сыйлықтық пакетімен бірге.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_7')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_8" onclick="openProductModal('couple_set_8')">
+          <div class="card-badge">❤️ Стильді жұп</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-8.jpg" alt="1+1 Жұптық «Қара & Алтын» Contrast Edition" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Контраст</div>
+            <h3 class="card-title">1+1 Жұптық «Қара & Алтын» Contrast Edition</h3>
+            <p class="card-desc">Ерлерге қара сұсты корпус, ханымға нәзік алтын жиекті корпус, тамаша үйлесім.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_8')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_9" onclick="openProductModal('couple_set_9')">
+          <div class="card-badge">❤️ 1+1 Жұптық</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-9.jpg" alt="1+1 Жұптық «Аққулар Үйлесімі» Ақ циферблат" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Ақ циферблат</div>
+            <h3 class="card-title">1+1 Жұптық «Аққулар Үйлесімі» Ақ циферблат</h3>
+            <p class="card-desc">Таза ақ циферблаттағы алтын әріптер, қос аққу секілді нәзік әрі сәнді жинақ.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_9')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_10" onclick="openProductModal('couple_set_10')">
+          <div class="card-badge">❤️ 1+1 Жұптық</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-10.jpg" alt="1+1 Жұптық «Сүйіктіме Арнау» Қызыл бокс" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Сыйлықтық</div>
+            <h3 class="card-title">1+1 Жұптық «Сүйіктіме Арнау» Қызыл бокс</h3>
+            <p class="card-desc">Туған күнге, мерекеге немесе үйлену тойына ең керемет естелік сыйлық жиынтығы.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_10')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_11" onclick="openProductModal('couple_set_11')">
+          <div class="card-badge">❤️ Шаңырақ</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-11.jpg" alt="1+1 Жұптық «Бір шаңырақ астында»" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Шаңырақ</div>
+            <h3 class="card-title">1+1 Жұптық «Бір шаңырақ астында»</h3>
+            <p class="card-desc">Шаңырақ таңбасы мен екі жастың тегі қашалған, отбасылық береке белгісі болатын сағаттар.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_11')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_12" onclick="openProductModal('couple_set_12')">
+          <div class="card-badge">❤️ 1+1 Жұптық</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-12.jpg" alt="1+1 Жұптық «Шексіз Махаббат» Алтын жиекті" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Алтын жиек</div>
+            <h3 class="card-title">1+1 Жұптық «Шексіз Махаббат» Алтын жиекті</h3>
+            <p class="card-desc">Алтын жиекті безель, раушан гүлдермен әрленген қорап, екі сағаттағы жеке нақыш.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_12')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_13" onclick="openProductModal('couple_set_13')">
+          <div class="card-badge">❤️ Jubilee жұп</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-13.jpg" alt="1+1 Жұптық «Қос Ғашық» Jubilee баумен" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Jubilee</div>
+            <h3 class="card-title">1+1 Жұптық «Қос Ғашық» Jubilee баумен</h3>
+            <p class="card-desc">Бес буынды классикалық Jubilee бауы бар екі сағат, қолыңызға өте жайлы орнығады.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_13')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_14" onclick="openProductModal('couple_set_14')">
+          <div class="card-badge">❤️ Мерейтой</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-14.jpg" alt="1+1 Жұптық «Мерейтойлық Сыйлық»" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Мерейтой</div>
+            <h3 class="card-title">1+1 Жұптық «Мерейтойлық Сыйлық»</h3>
+            <p class="card-desc">10, 20, 25 жылдық отау құру мерейтойына арналған естелік жазулары бар жұптық сағаттар.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_14')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_15" onclick="openProductModal('couple_set_15')">
+          <div class="card-badge">❤️ 1+1 Жұптық</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-15.jpg" alt="1+1 Жұптық «Таза Махаббат» Ақ қорапта" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Ақ бокс</div>
+            <h3 class="card-title">1+1 Жұптық «Таза Махаббат» Ақ қорапта</h3>
+            <p class="card-desc">Сәнді ақ сыйлық қорабы, раушан гүлдер композициясы, екі адамға жеке басылған гравюра.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_15')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_16" onclick="openProductModal('couple_set_16')">
+          <div class="card-badge">❤️ Алтын комби</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-16.jpg" alt="1+1 Жұптық «Байлық & Береке» Алтын комби" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Алтын комби</div>
+            <h3 class="card-title">1+1 Жұптық «Байлық & Береке» Алтын комби</h3>
+            <p class="card-desc">Алтын мен болаттың тамаша үйлесімі, циферблаттағы ру таңбасы немесе отбасылық герб.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_16')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="couple_set_17" onclick="openProductModal('couple_set_17')">
+          <div class="card-badge">❤️ Deep Black</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/couples/couple-17.jpg" alt="1+1 Жұптық «Жұлдызды Түн» Deep Black Dial" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Deep Black</div>
+            <h3 class="card-title">1+1 Жұптық «Жұлдызды Түн» Deep Black Dial</h3>
+            <p class="card-desc">Тұңғиық қара циферблат, алтын жазулар мен жұлдызды өрнек, ең сәнді фотосессияға лайық.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('couple_set_17')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="extra_8" onclick="openProductModal('extra_8')">
+          <div class="card-badge">❤️ 1+1 Жұптық</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/extra/watch-extra-8.jpg" alt="1+1 Жұптық «Айдос ❤️ Ақерке» Қызыл бокс" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Раушан</div>
+            <h3 class="card-title">1+1 Жұптық «Айдос ❤️ Ақерке» Қызыл бокс</h3>
+            <p class="card-desc">Қызыл қораптағы раушан гүлдермен көмкерілген ерлер мен әйелдер сағаты, жеке гравюрамен.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('extra_8')">
+              <span>Бағасын білу</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="couples promo request" data-price="999999" data-id="extra_27" onclick="openProductModal('extra_27')">
+          <div class="card-badge">❤️ 1+1 Жұптық</div>
+          <div class="card-img-box" title="Толық көру үшін басыңыз">
+            <img src="./images/extra/watch-extra-27.jpg" alt="1+1 Жұптық «Мәңгілік Махаббат» Розалармен" loading="lazy">
+            <span class="zoom-hint">✨ Толығырақ көру</span>
+          </div>
+          <div class="card-body">
+            <div class="card-category-tag">❤️ 1+1 Жұптық • Раушан</div>
+            <h3 class="card-title">1+1 Жұптық «Мәңгілік Махаббат» Розалармен</h3>
+            <p class="card-desc">Қызыл қорапта 6 раушан гүлі, ерлер және ханымдар сағаты, екі адамның есімі нақышталған.</p>
+            
+            <div class="installment-pill req" title="Жеке жиынтыққа қарай есептеледі">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span>WhatsApp-та бағасын нақтылау</span>
+            </div>
+            <div class="card-footer">
+              <span class="price-request-badge">Бағасын нақтылау</span>
+              
+            <button class="btn-card-action btn-req" onclick="openProductModal('extra_27')">
               <span>Бағасын білу</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
@@ -4993,7 +5327,13 @@
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
-        <div class="footer-logo">UAQYT</div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+          <img src="./images/logo.jpg" alt="UAQYT kzt" style="width: 44px; height: 44px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(255,255,255,0.15);">
+          <div>
+            <div class="footer-logo" style="margin: 0; line-height: 1;">UAQYT</div>
+            <small style="color: var(--accent-gold); font-size: 11px; letter-spacing: 1px; font-weight: 700;">kzt boutique</small>
+          </div>
+        </div>
         <p style="font-size: 13.5px; line-height: 1.6;">
           Жеке есім, ру таңбасы және ведомстволық эмблема қашалған қол сағаттар бутігі. Қазақстан бойынша 1000-нан астам риза клиент.
         </p>
@@ -5146,7 +5486,7 @@
   <!-- ───────── JAVASCRIPT LOGIC ───────── -->
   <script>
     // All products compiled data
-    const productsData = [{"id": "p26900_karakerey", "name": "«Болат / Қаракерей»", "cat": "mens ornament priced", "price": 26900, "tag": "Минералды • Кварц", "desc": "Алтын жалатылған корпус, қоңыр былғары бау, Қаракерей руының қасиетті таңбасы мен есімі.", "img": "./images/watch-26900-karakerey.jpg", "badge": "Бастапқы баға", "mech": "Жапондық кварц механизмі (Miyota)", "glass": "Сызатқа төзімді шыңдалған минералды әйнек", "case": "316L тот баспайтын болат + алтын жалату", "strap": "Табиғи былғары бау (қоңыр)", "water": "3 ATM (су шашырауына төзімді)", "is_price_on_request": false}, {"id": "p27900_shekara", "name": "«ҰҚК Шекара қызметі»", "cat": "service mens priced", "price": 27900, "tag": "Қызметтік • ҰҚК", "desc": "ҚР ҰҚК Шекара қызметінің ресми эмблемасымен жасалған тот баспайтын болат сағат.", "img": "./images/watch-27900-shekara-knb.jpg", "badge": "ҰҚК • КНБ", "mech": "Жапондық кварц механизмі", "glass": "Минералды берік әйнек", "case": "316L хирургиялық болат", "strap": "Классикалық болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p27900_zhasulan", "name": "«Жасұлан» классикалық болат", "cat": "mens priced", "price": 27900, "tag": "Классика • Болат", "desc": "Қара циферблаттағы ақ таңбалы есім, классикалық болат бау, сызатқа төзімді шыны.", "img": "./images/watch-27900-zhasulan.jpg", "badge": "Классика", "mech": "Жапондық кварц механизмі", "glass": "Шыңдалған минералды әйнек", "case": "316L тот баспайтын болат", "strap": "Құйылған болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p34900_nayman", "name": "«Найман / Болатшы» Two-Tone", "cat": "mens ornament priced", "price": 34900, "tag": "Комби • Ою-өрнек", "desc": "Алтын мен күміс үйлесімі (Two-Tone), Найман руының алтын түсті оюлы эмблемасы.", "img": "./images/watch-34900-nayman.jpg", "badge": "Two-Tone", "mech": "Жапондық дәл кварц механизмі", "glass": "Сапфирлік жабыны бар әйнек", "case": "Two-Tone (Алтын + Болат)", "strap": "Комбинирленген болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p34900_mangytay", "name": "«Маңғытай / Марлен» Jubilee", "cat": "mens ornament priced", "price": 34900, "tag": "Юбилейный • Ою", "desc": "Дөңгелек ою-өрнекті циферблат, сызатқа төзімді минералды шыны, Jubilee болат бау.", "img": "./images/watch-34900-mangytay.jpg", "badge": "Хит үлгі", "mech": "Жапондық кварц механизмі", "glass": "Минералды берік әйнек", "case": "316L тот баспайтын болат", "strap": "Jubilee бес буынды болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p36900_azamat", "name": "«Азамат» Араб каллиграфиясы", "cat": "mens priced", "price": 36900, "tag": "Каллиграфия • Изумруд", "desc": "Шығыстық араб өрнектері мен жеке есім, күміс корпус, изумруд сыйлық қорабында.", "img": "./images/watch-36900-azamat-calligraphy.jpg", "badge": "Изумруд бокс", "mech": "Жапондық кварц калибрі", "glass": "Шыңдалған сапфирлік жабын", "case": "Күміс сатинирленген болат", "strap": "Былғары немесе болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p37900_shapyrashty", "name": "«Аймұрат / Шапырашты» Оюлы алтын", "cat": "mens ornament priced", "price": 37900, "tag": "Шапырашты • Алтын ою", "desc": "Ұлы жүз Шапырашты руының таңбасы, алтын оюланған циферблат, алтын жалатылған болат.", "img": "./images/watch-37900-shapyrashty-carved.jpg", "badge": "Шапырашты", "mech": "Жапондық кварц калибрі", "glass": "Минералды шыңдалған шыны", "case": "Алтын жалатылған 316L болат", "strap": "Құйылған болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p37900_tolengit", "name": "«Төлеңгіт» Классикалық күміс", "cat": "mens ornament priced", "price": 37900, "tag": "Төлеңгіт • Күміс болат", "desc": "Төлеңгіт таңбасы мен жеке есім, күміс жылтыратылған корпус, стильді қара циферблат.", "img": "./images/watch-37900-tolengit-silver.jpg", "badge": "Төлеңгіт", "mech": "Жапондық дәл кварц", "glass": "Минералды берік әйнек", "case": "316L сатинирленген болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p38900_mvd", "name": "«ҚР ІІМ Абдуллин» Офицерлік", "cat": "service mens priced", "price": 38900, "tag": "Қызметтік • ІІМ", "desc": "Ішкі істер министрлігінің ресми қыраны мен қалқаны, қызметкердің тегі қашалған офицерлік сағат.", "img": "./images/watch-38900-mvd-abdullin.jpg", "badge": "ІІМ • МВД", "mech": "Жапондық кварц механизмі", "glass": "Сапфирлік жабынды шыны", "case": "316L тот баспайтын болат", "strap": "Құйылған болат бау", "water": "5 ATM (су өткізбейтін)", "is_price_on_request": false}, {"id": "p39900_roses", "name": "1+1 Жұптық «Раушан гүлді қорап»", "cat": "couples promo priced", "price": 39900, "tag": "❤️ 1+1 Жұптық • Раушан", "desc": "Ерлер және әйелдер сағаты бір жиынтықта. Қызыл раушан гүлдері мен фирмалық UAQYT қаптамасы.", "img": "./images/watch-39900-couples-roses.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Жапондық кварц (2 дана)", "glass": "Минералды шыңдалған әйнек", "case": "Тот баспайтын болат (2 сағат)", "strap": "Қос болат немесе былғары бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p39900_aday", "name": "«Бағлан / Адай» Сегізқырлы алтын", "cat": "mens ornament priced", "price": 39900, "tag": "Адай • Сегізқырлы безель", "desc": "Кіші жүз Адай руының жебе таңбасы, Royal Oak сегізқырлы безелі, қара циферблаттағы алтын жазу.", "img": "./images/watch-39900-aday-gold.jpg", "badge": "Адай таңбасы", "mech": "Жапондық кварц механизмі", "glass": "Сапфир әйнек", "case": "Сегізқырлы алтын жалатылған болат", "strap": "Алтын болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p39900_nautilus", "name": "«Баһадүр» Nautilus стилі", "cat": "mens priced", "price": 39900, "tag": "Nautilus • Көк циферблат", "desc": "Patek Philippe Nautilus рухындағы корпус, көлденең сызықты көк циферблат, араб каллиграфиясы.", "img": "./images/watch-39900-nautilus-bakhadur.jpg", "badge": "Nautilus стиль", "mech": "Жапондық кварц механизмі", "glass": "Сапфир жабынды шыны", "case": "316L хирургиялық болат", "strap": "Интеграцияланған болат бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p39900_alshyn", "name": "«Алшын / Самат» Gold Edition", "cat": "mens ornament priced", "price": 39900, "tag": "Алшын • Алтын корпус", "desc": "Алшын руының көне таңбасы, сары алтын жылтыры, классикалық болат бау, премиум қорап.", "img": "./images/watch-39900-alshyn.jpg", "badge": "Алшын таңбасы", "mech": "Жапондық кварц калибрі", "glass": "Шыңдалған минералды әйнек", "case": "Алтын жалатылған 316L болат", "strap": "Алтын болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p41900_lion", "name": "«Арыстан» All-Black Stealth", "cat": "mens priced", "price": 41900, "tag": "Stealth • Қара PVD", "desc": "Күңгірт қара PVD жабыны, арыстан басының алтын гравюрасы, сұсты әрі мәртебелі ерлер дизайны.", "img": "./images/watch-41900-lion-black.jpg", "badge": "All-Black", "mech": "Жапондық дәл кварц", "glass": "Сызатқа төзімді қара шыңдалған шыны", "case": "PVD матовый қара болат", "strap": "Қара болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p52900_alban", "name": "«Албан / Райымбек» Механикалық", "cat": "mechanic mens ornament priced", "price": 52900, "tag": "⚙️ Механика • Албан", "desc": "Ашық балансты (Open Heart) механикалық механизм, Албан руының қасиетті таңбасы, былғары бау.", "img": "./images/watch-52900-alban-mech.jpg", "badge": "⚙️ Механика", "mech": "Автоподзаводты жапондық механика", "glass": "Сапфир шыны", "case": "316L айнадай жылтыратылған болат", "strap": "Табиғи былғары бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p52900_royaloak", "name": "«Айдос» Royal Oak Көк циферблат", "cat": "mens priced", "price": 52900, "tag": "Royal Oak • Сегізқырлы", "desc": "Сегіз бұрандалы безель, терең көк Tapisserie циферблат, алтын есімді нақыштау.", "img": "./images/watch-52900-royaloak-blue.jpg", "badge": "Royal Oak", "mech": "Жапондық кварц механизмі", "glass": "Қос жақты сапфир әйнек", "case": "Сатинирленген 316L болат", "strap": "Интеграцияланған болат бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p54900_kishizhuz", "name": "«Кіші жүз / Тана» Ағаш қорапта", "cat": "mens woodbox ornament priced", "price": 54900, "tag": "Ағаш қорап • Тана", "desc": "Кіші жүз Тана руы, күміс сағат, табиғи лакталған ағаш шкатулкасында жеткізіледі.", "img": "./images/watch-54900-kishizhuz-tana.jpg", "badge": "🪵 Ағаш қорап", "mech": "Жапондық кварц механизмі", "glass": "Сапфир шыны", "case": "316L тот баспайтын болат", "strap": "Классикалық болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p54900_shekti", "name": "«Шекті» Премиум ағаш шкатулка", "cat": "mens woodbox ornament priced", "price": 54900, "tag": "Ағаш шкатулка • Шекті", "desc": "Шекті руының алтын оюлы таңбасы, лакталған вишня ағашынан жасалған қымбат қорап.", "img": "./images/watch-54900-shekti-woodbox.jpg", "badge": "🪵 Ағаш қорап", "mech": "Жапондық дәл кварц", "glass": "Сапфир шыны", "case": "316L болат + алтын жалату", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p55900_tanatbek", "name": "«Таңатбек» Премиум ағаш қорап", "cat": "mens woodbox priced", "price": 55900, "tag": "Ағаш қорап • Күміс сағат", "desc": "Ақ циферблаттағы алтын есім, қымбат махагони ағаш қорабы, мәртебелі сыйлық.", "img": "./images/watch-55900-tanatbek-woodbox.jpg", "badge": "🪵 Ағаш қорап", "mech": "Жапондық кварц", "glass": "Сапфирлік шыны", "case": "316L тот баспайтын болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p56900_mvd", "name": "«ІІМ Генерал-майор Манарбек»", "cat": "service mens woodbox priced", "price": 56900, "tag": "Қызметтік • ІІМ Генерал", "desc": "ІІМ ресми белгісі, генерал жұлдызы, қара циферблат, премиум салтанатты ағаш шкатулка.", "img": "./images/watch-56900-mvd-manarbek.jpg", "badge": "ІІМ • Генерал", "mech": "Жапондық дәл кварц калибрі", "glass": "Сапфир шыны", "case": "316L хирургиялық болат", "strap": "Қара былғары бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p56900_zhangabyl", "name": "«Қуандық / Жанғабыл» Алтын сағат", "cat": "mens woodbox ornament priced", "price": 56900, "tag": "Алтын болат • Ағаш қорап", "desc": "Қуандық руы, алтын түсті болат бау, сапфир әйнек, премиум лакталған ағаш қорап.", "img": "./images/watch-56900-zhangabyl-gold.jpg", "badge": "🪵 Ағаш қорап", "mech": "Жапондық кварц механизмі", "glass": "Сапфир әйнек", "case": "Алтын жалатылған болат", "strap": "Алтын болат бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p66900_tortkara", "name": "«Шыңғыс / Төртқара» Механикалық", "cat": "mechanic mens woodbox ornament priced", "price": 66900, "tag": "⚙️ Механика • Сапфир", "desc": "Әлім Төртқара руы, сегізқырлы сатинирленген қара корпус, автоподзавод механикасы, ағаш қорап.", "img": "./images/watch-66900-tortkara-mech.jpg", "badge": "⚙️ Механика", "mech": "Автоподзаводты механика (Швейцар үлгісі)", "glass": "Нағыз сапфир шыны", "case": "Сегізқырлы қара сатинирленген болат", "strap": "Қара болат бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p69900_iibb", "name": "«ІІББ Ринат» Hublot Style Механика", "cat": "service mechanic mens woodbox priced", "price": 69900, "tag": "⚙️ Механика • Сапфир • ІІББ", "desc": "Ішкі Істер Басқармасы (ГУВД) қалқан мен қылыш эмблемасы, Hublot безелі, механикалық калибр.", "img": "./images/watch-69900-iibb-rinat-mech.jpg", "badge": "ІІББ • Механика", "mech": "Автоподзаводты механикалық калибр", "glass": "Сапфир шыны", "case": "Hublot безельді 316L болат", "strap": "Табиғи былғары / каучук бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p75900_argyn", "name": "«Дархан / Арғын» Флагмандық Механика", "cat": "mechanic mens woodbox ornament priced", "price": 75900, "tag": "⚙️ Механика • Сапфир • Арғын", "desc": "Арғын руы, ҚР қыран бүркіті, швейцар сапасындағы сапфирлік шыны, табиғи ағаш шкатулка.", "img": "./images/watch-75900-argyn-mech.jpg", "badge": "Флагман Механика", "mech": "Премиум автоподзаводты механика", "glass": "Қос жақты сапфир әйнек", "case": "316L айнадай жылтыратылған болат", "strap": "Құйылған болат бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p75900_rahat_showcase", "name": "«Рахат Шекті / Ардана 13.11.1979»", "cat": "mechanic mens woodbox ornament couples priced", "price": 75900, "tag": "⚙️ Механика • Люкс ағаш қорап", "desc": "Көк циферблаттағы күн мен қыран, мерейтойлық жазу, гауһар тасты безель, қымбат вишня шкатулка.", "img": "./images/showcase/showcase-rahat-ardana-woodbox.jpg", "badge": "Люкс Премиум", "mech": "Швейцар типті механика (автоподзавод)", "glass": "Таза сапфир әйнек", "case": "Гауһар тасты безель, вишня ағаш қорабы", "strap": "Табиғи былғары бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p75900_sharkesh", "name": "«Нұркен / Шәркеш» Алтын Механика", "cat": "mechanic mens woodbox ornament priced", "price": 75900, "tag": "⚙️ Механика • Медициналық болат", "desc": "Медициналық болаттан соғылған алтын корпус, Шәркеш руының оюы, автоподзавод калибрі.", "img": "./images/watch-75900-sharkesh-goldmech.jpg", "badge": "Флагман Механика", "mech": "Автоподзаводты механикалық калибр", "glass": "Сапфир шыны", "case": "Медициналық болат + алтын жалату", "strap": "Алтын болат бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "couple_set_1", "name": "1+1 Жұптық «Шынар & Әділбек / Кіші жүз»", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • 6 Раушан", "desc": "Ерлер мен әйелдер сағаты, 6 қызыл раушан гүлі, жеке ру мен есімдер нақышталған сыйлықтық бокс.", "img": "./images/couples/couple-1.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Қос жапондық кварц (2 сағат)", "glass": "Сызатқа төзімді шыны", "case": "Тот баспайтын болат", "strap": "Болат қос бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_2", "name": "1+1 Жұптық «Мәңгілік Махаббат» Классика", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Болат бау", "desc": "Классикалық болат баулы ерлер мен ханымдар сағаты, мәңгілік махаббат белгісі мен есімдер.", "img": "./images/couples/couple-2.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Жапондық кварц (2 сағат)", "glass": "Минералды шыны", "case": "316L болат", "strap": "Қос болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_3", "name": "1+1 Жұптық «Нұрлан ❤️ Айдана» Two-Tone", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Two-Tone", "desc": "Комби түсті алтын мен болат баулы жұптық жиынтық, раушан гүлдер мен фирмалық UAQYT пакеті.", "img": "./images/couples/couple-3.jpg", "badge": "❤️ Two-Tone", "mech": "Жапондық кварц (2 дана)", "glass": "Сапфирлік жабын", "case": "Two-Tone алтын-күміс", "strap": "Комби болат қос бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_4", "name": "1+1 Жұптық «Бақытты Отбасы» Шкатулка", "cat": "couples promo woodbox request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Премиум бокс", "desc": "Мерейтойға, үйлену тойына (Беташар) арналған қос сағат жиынтығы, екі адамға жеке лазерлік гравюрасымен.", "img": "./images/couples/couple-4.jpg", "badge": "❤️ Үйлену тойы", "mech": "Жапондық дәл кварц (2 сағат)", "glass": "Сапфир шыны", "case": "Премиум болат", "strap": "Болат немесе былғары", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_5", "name": "1+1 Жұптық «Азамат ❤️ Мадина» Күміс болат", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Күміс болат", "desc": "Айнадай жылтыратылған қос күміс болат сағат, қара циферблаттағы ақ алтын жазулар.", "img": "./images/couples/couple-5.jpg", "badge": "❤️ 1+1 Бонус", "mech": "Жапондық кварц (2 дана)", "glass": "Минералды шыңдалған", "case": "316L тот баспайтын болат", "strap": "Қос болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_6", "name": "1+1 Жұптық «Жүректер Үндестігі» Раушан гүлмен", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Романтика", "desc": "Қызыл барқыт қораптағы хош иісті раушан гүлдері, мәңгілік сезім белгісі бар қос сағат.", "img": "./images/couples/couple-6.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Жапондық кварц механизмі", "glass": "Сызатқа төзімді шыны", "case": "Болат корпус", "strap": "Қос бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_7", "name": "1+1 Жұптық «Арманым & Махаббатым»", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Жеке гравюра", "desc": "Екі ғашықтың есімдері мен кездескен күні қашалған сағаттар, сыйлықтық пакетімен бірге.", "img": "./images/couples/couple-7.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Қос кварц калибрі", "glass": "Минералды шыны", "case": "316L болат", "strap": "Болат баулар", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_8", "name": "1+1 Жұптық «Қара & Алтын» Contrast Edition", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Контраст", "desc": "Ерлерге қара сұсты корпус, ханымға нәзік алтын жиекті корпус, тамаша үйлесім.", "img": "./images/couples/couple-8.jpg", "badge": "❤️ Стильді жұп", "mech": "Жапондық кварц", "glass": "Сапфирлік жабын", "case": "Тот баспайтын болат", "strap": "Былғары немесе болат", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_9", "name": "1+1 Жұптық «Аққулар Үйлесімі» Ақ циферблат", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Ақ циферблат", "desc": "Таза ақ циферблаттағы алтын әріптер, қос аққу секілді нәзік әрі сәнді жинақ.", "img": "./images/couples/couple-9.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Жапондық кварц (2 дана)", "glass": "Шыңдалған әйнек", "case": "316L болат", "strap": "Құйылған болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_10", "name": "1+1 Жұптық «Сүйіктіме Арнау» Қызыл бокс", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Сыйлықтық", "desc": "Туған күнге, мерекеге немесе үйлену тойына ең керемет естелік сыйлық жиынтығы.", "img": "./images/couples/couple-10.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Жапондық кварц", "glass": "Минералды шыны", "case": "Болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_11", "name": "1+1 Жұптық «Бір шаңырақ астында»", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Шаңырақ", "desc": "Шаңырақ таңбасы мен екі жастың тегі қашалған, отбасылық береке белгісі болатын сағаттар.", "img": "./images/couples/couple-11.jpg", "badge": "❤️ Шаңырақ", "mech": "Қос кварц калибрі", "glass": "Сапфир шыны", "case": "316L болат", "strap": "Болат баулар", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_12", "name": "1+1 Жұптық «Шексіз Махаббат» Алтын жиекті", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Алтын жиек", "desc": "Алтын жиекті безель, раушан гүлдермен әрленген қорап, екі сағаттағы жеке нақыш.", "img": "./images/couples/couple-12.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Жапондық кварц", "glass": "Минералды әйнек", "case": "Алтын жалатылған болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_13", "name": "1+1 Жұптық «Қос Ғашық» Jubilee баумен", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Jubilee", "desc": "Бес буынды классикалық Jubilee бауы бар екі сағат, қолыңызға өте жайлы орнығады.", "img": "./images/couples/couple-13.jpg", "badge": "❤️ Jubilee жұп", "mech": "Жапондық кварц (2 дана)", "glass": "Минералды шыны", "case": "316L болат", "strap": "Jubilee қос болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_14", "name": "1+1 Жұптық «Мерейтойлық Сыйлық»", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Мерейтой", "desc": "10, 20, 25 жылдық отау құру мерейтойына арналған естелік жазулары бар жұптық сағаттар.", "img": "./images/couples/couple-14.jpg", "badge": "❤️ Мерейтой", "mech": "Қос жапондық кварц", "glass": "Сапфирлік жабын", "case": "316L тот баспайтын болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_15", "name": "1+1 Жұптық «Таза Махаббат» Ақ қорапта", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Ақ бокс", "desc": "Сәнді ақ сыйлық қорабы, раушан гүлдер композициясы, екі адамға жеке басылған гравюра.", "img": "./images/couples/couple-15.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Жапондық кварц", "glass": "Минералды әйнек", "case": "Болат", "strap": "Болат қос бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_16", "name": "1+1 Жұптық «Байлық & Береке» Алтын комби", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Алтын комби", "desc": "Алтын мен болаттың тамаша үйлесімі, циферблаттағы ру таңбасы немесе отбасылық герб.", "img": "./images/couples/couple-16.jpg", "badge": "❤️ Алтын комби", "mech": "Жапондық кварц (2 сағат)", "glass": "Сапфир шыны", "case": "Алтын-болат комби", "strap": "Қос болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_17", "name": "1+1 Жұптық «Жұлдызды Түн» Deep Black Dial", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Deep Black", "desc": "Тұңғиық қара циферблат, алтын жазулар мен жұлдызды өрнек, ең сәнді фотосессияға лайық.", "img": "./images/couples/couple-17.jpg", "badge": "❤️ Deep Black", "mech": "Қос дәл кварц", "glass": "Минералды шыңдалған шыны", "case": "316L болат", "strap": "Қара немесе күміс болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_1", "name": "«Арғын / Тобықты» Ақ циферблат", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Арғын • Тобықты", "desc": "Абай елі Тобықты руының көз таңбасы, күміс болат корпус, мінсіз классика.", "img": "./images/extra/watch-extra-1.jpg", "badge": "Арғын таңбасы", "mech": "Жапондық кварц механизмі", "glass": "Минералды шыңдалған әйнек", "case": "316L тот баспайтын болат", "strap": "Классикалық болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_2", "name": "«ҚР ІІМ Полиция Капитан» Офицерлік", "cat": "service mens request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қызметтік • ІІМ Полиция", "desc": "Полиция ресми эмблемасы, әскери шені, ақ таза циферблат, қызметтік сыйлық.", "img": "./images/extra/watch-extra-2.jpg", "badge": "ІІМ • Полиция", "mech": "Жапондық дәл кварц", "glass": "Сапфир шыны", "case": "316L болат", "strap": "Болат бау", "water": "5 ATM", "is_price_on_request": true}, {"id": "extra_3", "name": "«Кіші жүз / Адай» Күміс корпус", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Адай • Жебе таңба", "desc": "Адай таңбасы, қара циферблат, күміс сатинирленген болат корпус пен бау.", "img": "./images/extra/watch-extra-3.jpg", "badge": "Адай таңбасы", "mech": "Жапондық кварц", "glass": "Минералды берік әйнек", "case": "316L болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_4", "name": "«ҚР ҰҚК / КНБ Арнайы жасақ»", "cat": "service mens request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қызметтік • ҰҚК Арнайы жасақ", "desc": "ҰҚК қалқан мен қылыш белгісі, қызметкердің тегі қашалған мықты болат сағат.", "img": "./images/extra/watch-extra-4.jpg", "badge": "ҰҚК • КНБ", "mech": "Жапондық кварц калибрі", "glass": "Сапфир әйнек", "case": "316L хирургиялық болат", "strap": "Төзімді болат бау", "water": "5 ATM", "is_price_on_request": true}, {"id": "extra_5", "name": "«Дулат / Жаныс» Классикалық алтын", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Дулат • Жаныс таңба", "desc": "Ұлы жүз Дулат руының дөңгелек таңбасы, сары алтын жылтыры, табиғи былғары бау.", "img": "./images/extra/watch-extra-5.jpg", "badge": "Дулат таңбасы", "mech": "Жапондық кварц", "glass": "Минералды шыны", "case": "Алтын жалатылған болат", "strap": "Былғары бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_6", "name": "«Қазыбек би / Арғын» Classic Steel", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Классика • Арғын", "desc": "Күміс болат корпус, Арғын руының көз таңбасы, талғампаз классикалық қара циферблат.", "img": "./images/extra/watch-extra-6.jpg", "badge": "Арғын таңбалы", "mech": "Жапондық кварц механизмі", "glass": "Минералды шыңдалған әйнек", "case": "316L тот баспайтын болат", "strap": "Классикалық болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_7", "name": "«Дәулет / Дулат» Stealth Black", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Stealth Black • Дулат", "desc": "Матовый қара PVD болат, Ұлы жүз Дулат руының дөңгелек таңбасы мен жеке есімі.", "img": "./images/extra/watch-extra-7.jpg", "badge": "Дулат таңбалы", "mech": "Жапондық кварц", "glass": "Шыңдалған қара күңгірт әйнек", "case": "Қара PVD болат", "strap": "Қара болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_8", "name": "1+1 Жұптық «Айдос ❤️ Ақерке» Қызыл бокс", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Раушан", "desc": "Қызыл қораптағы раушан гүлдермен көмкерілген ерлер мен әйелдер сағаты, жеке гравюрамен.", "img": "./images/extra/watch-extra-8.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Қос кварц механизмі (2 дана)", "glass": "Сызатқа төзімді шыны", "case": "Тот баспайтын болат", "strap": "Болат баулар", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_9", "name": "«Қарақыпшақ Қобыланды» Болат бау", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қыпшақ • Батырлар рухы", "desc": "Қос алып таңбасы, болат бау, мықты корпус, сабырлы ерлерге арналған сағат.", "img": "./images/extra/watch-extra-9.jpg", "badge": "Қыпшақ таңбалы", "mech": "Жапондық кварц механизмі", "glass": "Минералды әйнек", "case": "316L болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_10", "name": "«ІІМ Полковник / ҚР Полициясы» Ақ циферблат", "cat": "service mens request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қызметтік • ІІМ", "desc": "Полиция ресми эмблемасы, әскери шені, ақ таза классикалық циферблат, болат бау.", "img": "./images/extra/watch-extra-10.jpg", "badge": "ІІМ • МВД", "mech": "Жапондық дәл кварц", "glass": "Сапфирлік шыны", "case": "316L тот баспайтын болат", "strap": "Классикалық болат бау", "water": "5 ATM", "is_price_on_request": true}, {"id": "extra_11", "name": "«Албан / Райымбек» Jubilee болат", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Албан • Jubilee", "desc": "Қоңырау таңбасы, Jubilee бес буынды болат бау, сызатқа төзімді сапфирлік әйнек.", "img": "./images/extra/watch-extra-11.jpg", "badge": "Албан таңбалы", "mech": "Жапондық кварц", "glass": "Сапфирлік әйнек", "case": "316L болат", "strap": "Jubilee болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_12", "name": "«Беріш / Сартай батыр» Күміс корпус", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Беріш • Жұлдыз таңба", "desc": "Кіші жүз Беріш руы, күміс сатинирленген болат корпус, терең қара циферблат.", "img": "./images/extra/watch-extra-12.jpg", "badge": "Беріш таңбалы", "mech": "Жапондық кварц", "glass": "Минералды берік әйнек", "case": "Күміс сатинирленген болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_13", "name": "«Төре Шыңғысхан ұрпағы» Тәжді сағат", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Төре • Хан таңбасы", "desc": "Төре әулетінің алтын тәж таңбасы, алтын мен болат үйлесімі, мәртебелі ерлер сағаты.", "img": "./images/extra/watch-extra-13.jpg", "badge": "Төре таңбасы", "mech": "Жапондық дәл кварц", "glass": "Сапфир әйнек", "case": "Алтын-болат комби", "strap": "Құйылған болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_14", "name": "«Қожа / Сұлтан» Алтын-қоңыр былғары бау", "cat": "mens request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қожа • Былғары бау", "desc": "Асыл алтын корпус, қоңыр табиғи былғары бау, классикалық араб өрнектерімен.", "img": "./images/extra/watch-extra-14.jpg", "badge": "Классика", "mech": "Жапондық кварц", "glass": "Сапфирлік шыны", "case": "Алтын жалатылған болат", "strap": "Табиғи былғары", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_15", "name": "«ҰҚК / КНБ Қалқан мен Қылыш» Төзімді болат", "cat": "service mens request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қызметтік • ҰҚК", "desc": "ҚР ҰҚК қалқан мен қылыш белгісі, қызметкердің тегі, жоғары дәлдіктегі арнайы болат сағат.", "img": "./images/extra/watch-extra-15.jpg", "badge": "ҰҚК • КНБ", "mech": "Жапондық кварц калибрі", "glass": "Сапфир шыны", "case": "316L хирургиялық болат", "strap": "Төзімді болат бау", "water": "5 ATM", "is_price_on_request": true}, {"id": "extra_16", "name": "«Тана / Сырым Датұлы» Оюлы циферблат", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Тана • Ою-өрнек", "desc": "Тана руының таңбасы, ұлттық қазақи өрнек, алтын мен болаттың үйлесімді жылтыры.", "img": "./images/extra/watch-extra-16.jpg", "badge": "Тана таңбалы", "mech": "Жапондық кварц", "glass": "Минералды шыңдалған шыны", "case": "316L болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_17", "name": "«Байұлы / Адай» Күміс сатинирленген", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Адай • Күміс болат", "desc": "Адай таңбасы, күміс сатинирленген безель, күнделікті тағуға өте ыңғайлы төзімді үлгі.", "img": "./images/extra/watch-extra-17.jpg", "badge": "Адай таңбалы", "mech": "Жапондық кварц", "glass": "Минералды шыны", "case": "Күміс сатинирленген болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_18", "name": "«Төртқара / Жалаңтөс батыр» Күміс Jubilee", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Төртқара • Jubilee", "desc": "Әлімұлы Төртқара таңбасы, күміс бес буынды бау, сапфирлік қорғаныс әйнегі.", "img": "./images/extra/watch-extra-18.jpg", "badge": "Төртқара таңбалы", "mech": "Жапондық кварц", "glass": "Сапфир шыны", "case": "316L болат", "strap": "Jubilee болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_19", "name": "«ҚР Қарулы Күштері / Десант» Әскери болат", "cat": "service mens request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қызметтік • ҚР ҚК", "desc": "Қорғаныс министрлігі, Десанттық әскер эмблемасы мен қызметкердің жеке нөмірі қашалған сағат.", "img": "./images/extra/watch-extra-19.jpg", "badge": "ҚР ҚК • Әскер", "mech": "Жапондық кварц калибрі", "glass": "Сапфир әйнек", "case": "316L соққыға төзімді болат", "strap": "Әскери болат бау", "water": "5 ATM", "is_price_on_request": true}, {"id": "extra_20", "name": "«Қуандық / Сарыарқа» Алтын корпус", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Арғын-Қуандық • Алтын", "desc": "Арғын ішіндегі Қуандық руының таңбасы, алтын түсті болат, сапфир әйнек, сыйлық қорабымен.", "img": "./images/extra/watch-extra-20.jpg", "badge": "Алтын үлгі", "mech": "Жапондық кварц", "glass": "Сапфир шыны", "case": "Алтын жалатылған болат", "strap": "Алтын болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_21", "name": "«Бағлан / Адай» Сегізқырлы алтын (Black Dial)", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Адай • Royal Octagon", "desc": "Сегізқырлы безель, терең қара циферблаттағы алтын жазулар мен Адай таңбасы.", "img": "./images/extra/watch-extra-21.jpg", "badge": "Top Choice", "mech": "Жапондық кварц", "glass": "Сапфир әйнек", "case": "Алтын сегізқырлы болат", "strap": "Алтын болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_22", "name": "«Stealth Black / Бүркіт» Қара сағат", "cat": "mens request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Stealth Black • Қыран", "desc": "Қазақстан қыран бүркіті бейнеленген толықтай қара матовый сатинирленген стильді сағат.", "img": "./images/extra/watch-extra-22.jpg", "badge": "Stealth Black", "mech": "Жапондық кварц", "glass": "Шыңдалған қара шыны", "case": "Қара PVD болат", "strap": "Қара болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_23", "name": "«Шекті / Тілеу батыр» Болат сағат", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Әлімұлы • Шекті", "desc": "Шекті руының таңбасы, күміс жылтыратылған болат бау, ақ циферблаттағы таза классика.", "img": "./images/extra/watch-extra-23.jpg", "badge": "Шекті таңбалы", "mech": "Жапондық кварц", "glass": "Минералды шыны", "case": "316L болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_24", "name": "«Ысты / Жетісу» Алтын жалатылған", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Ұлы жүз • Ысты", "desc": "Ұлы жүз Ысты руының таңбасы, алтын түсті болат, фирмалық сыйлық қорабымен бірге.", "img": "./images/extra/watch-extra-24.jpg", "badge": "Ысты таңбалы", "mech": "Жапондық кварц", "glass": "Сапфирлік әйнек", "case": "Алтын жалатылған болат", "strap": "Алтын болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_25", "name": "«Ошақты / Талас» Күміс классика", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Ұлы жүз • Ошақты", "desc": "Ошақты таңбасы, күміс болат бау, қарапайым әрі мәртебелі ерлер сағаты.", "img": "./images/extra/watch-extra-25.jpg", "badge": "Ошақты таңбалы", "mech": "Жапондық кварц", "glass": "Минералды шыны", "case": "316L болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_26", "name": "«Премиум Ақ циферблат / Елтаңба»", "cat": "service mens woodbox request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Елтаңба • Ағаш қорап", "desc": "ҚР мемлекеттік елтаңбасы бейнеленген, ақ таза циферблат, қымбат сыйлық қорабымен.", "img": "./images/extra/watch-extra-26.jpg", "badge": "Елтаңбалы", "mech": "Жапондық кварц калибрі", "glass": "Сапфир шыны", "case": "316L болат", "strap": "Былғары бау", "water": "5 ATM", "is_price_on_request": true}, {"id": "extra_27", "name": "1+1 Жұптық «Мәңгілік Махаббат» Розалармен", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Раушан", "desc": "Қызыл қорапта 6 раушан гүлі, ерлер және ханымдар сағаты, екі адамның есімі нақышталған.", "img": "./images/extra/watch-extra-27.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Қос жапондық кварц", "glass": "Минералды берік әйнек", "case": "Тот баспайтын болат (2 дана)", "strap": "Болат қос бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "showcase_arman", "name": "Two-Tone «Арман / Шапырашты» Шоукейс", "cat": "mens ornament showcase request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Шапырашты • Two-Tone", "desc": "Алтын мен болат үйлесімі, фирмалық UAQYT ақ пакеті мен төлқұжаты бар эксклюзивті үлгі.", "img": "./images/showcase/showcase-arman-shapyrashty-twotone.jpg", "badge": "Топ үлгі", "mech": "Жапондық дәл кварц", "glass": "Сапфирлік шыны", "case": "Two-Tone болат", "strap": "Комби болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "showcase_baglan", "name": "«Бағлан / Адай» Сегізқырлы Алтын Шоукейс", "cat": "mens ornament showcase request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Адай • Royal Octagon", "desc": "Royal Oak сегізқырлы корпусы, алтын таңба, сары алтын жылтыры, фирмалық сыйлық қаптамасы.", "img": "./images/showcase/showcase-baglan-aday-gold.jpg", "badge": "Топ үлгі", "mech": "Жапондық кварц механизмі", "glass": "Сапфир әйнек", "case": "Алтын жалатылған болат", "strap": "Алтын болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "showcase_zhanbolat", "name": "«Темір Жанболат» Офицерлік Болат Шоукейс", "cat": "service mens showcase request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қызметтік • Офицерлік", "desc": "Қызметтік ресми эмблема, айнадай жалтыраған болат бау, фирмалық UAQYT пакетінде.", "img": "./images/showcase/showcase-temir-zhanbolat-service.jpg", "badge": "Қызметтік", "mech": "Жапондық кварц", "glass": "Минералды шыңдалған", "case": "316L тот баспайтын болат", "strap": "Болат бау", "water": "5 ATM", "is_price_on_request": true}, {"id": "showcase_zhangeldi", "name": "«Жангелді ❤️ Еркетай» Stealth Black Шоукейс", "cat": "couples mens showcase request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Stealth Black • Жұптық", "desc": "Күңгірт матовый қара болат, алтын жазулар мен махаббат белгісі қашалған стильді сағат.", "img": "./images/showcase/showcase-zhangeldi-erketay-black.jpg", "badge": "Stealth Black", "mech": "Жапондық дәл кварц", "glass": "Қара шыңдалған шыны", "case": "Қара PVD болат", "strap": "Қара болат бау", "water": "3 ATM", "is_price_on_request": true}];
+    const productsData = [{"id": "p26900_karakerey", "name": "«Болат / Қаракерей»", "cat": "mens ornament priced", "price": 26900, "tag": "Минералды • Кварц", "desc": "Алтын жалатылған корпус, қоңыр былғары бау, Қаракерей руының қасиетті таңбасы мен есімі.", "img": "./images/watch-26900-karakerey.jpg", "badge": "Бастапқы баға", "mech": "Жапондық кварц механизмі (Miyota)", "glass": "Сызатқа төзімді шыңдалған минералды әйнек", "case": "316L тот баспайтын болат + алтын жалату", "strap": "Табиғи былғары бау (қоңыр)", "water": "3 ATM (су шашырауына төзімді)", "is_price_on_request": false}, {"id": "p27900_shekara", "name": "«ҰҚК Шекара қызметі»", "cat": "service mens priced", "price": 27900, "tag": "Қызметтік • ҰҚК", "desc": "ҚР ҰҚК Шекара қызметінің ресми эмблемасымен жасалған тот баспайтын болат сағат.", "img": "./images/watch-27900-shekara-knb.jpg", "badge": "ҰҚК • КНБ", "mech": "Жапондық кварц механизмі", "glass": "Минералды берік әйнек", "case": "316L хирургиялық болат", "strap": "Классикалық болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p27900_zhasulan", "name": "«Жасұлан» классикалық болат", "cat": "mens priced", "price": 27900, "tag": "Классика • Болат", "desc": "Қара циферблаттағы ақ таңбалы есім, классикалық болат бау, сызатқа төзімді шыны.", "img": "./images/watch-27900-zhasulan.jpg", "badge": "Классика", "mech": "Жапондық кварц механизмі", "glass": "Шыңдалған минералды әйнек", "case": "316L тот баспайтын болат", "strap": "Құйылған болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p34900_nayman", "name": "«Найман / Болатшы» Two-Tone", "cat": "mens ornament priced", "price": 34900, "tag": "Комби • Ою-өрнек", "desc": "Алтын мен күміс үйлесімі (Two-Tone), Найман руының алтын түсті оюлы эмблемасы.", "img": "./images/watch-34900-nayman.jpg", "badge": "Two-Tone", "mech": "Жапондық дәл кварц механизмі", "glass": "Сапфирлік жабыны бар әйнек", "case": "Two-Tone (Алтын + Болат)", "strap": "Комбинирленген болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p34900_mangytay", "name": "«Маңғытай / Марлен» Jubilee", "cat": "mens ornament priced", "price": 34900, "tag": "Юбилейный • Ою", "desc": "Дөңгелек ою-өрнекті циферблат, сызатқа төзімді минералды шыны, Jubilee болат бау.", "img": "./images/watch-34900-mangytay.jpg", "badge": "Хит үлгі", "mech": "Жапондық кварц механизмі", "glass": "Минералды берік әйнек", "case": "316L тот баспайтын болат", "strap": "Jubilee бес буынды болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p36900_azamat", "name": "«Азамат» Араб каллиграфиясы", "cat": "mens priced", "price": 36900, "tag": "Каллиграфия • Изумруд", "desc": "Шығыстық араб өрнектері мен жеке есім, күміс корпус, изумруд сыйлық қорабында.", "img": "./images/watch-36900-azamat-calligraphy.jpg", "badge": "Изумруд бокс", "mech": "Жапондық кварц калибрі", "glass": "Шыңдалған сапфирлік жабын", "case": "Күміс сатинирленген болат", "strap": "Былғары немесе болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p37900_shapyrashty", "name": "«Аймұрат / Шапырашты» Оюлы алтын", "cat": "mens ornament priced", "price": 37900, "tag": "Шапырашты • Алтын ою", "desc": "Ұлы жүз Шапырашты руының таңбасы, алтын оюланған циферблат, алтын жалатылған болат.", "img": "./images/watch-37900-shapyrashty-carved.jpg", "badge": "Шапырашты", "mech": "Жапондық кварц калибрі", "glass": "Минералды шыңдалған шыны", "case": "Алтын жалатылған 316L болат", "strap": "Құйылған болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p37900_tolengit", "name": "«Төлеңгіт» Классикалық күміс", "cat": "mens ornament priced", "price": 37900, "tag": "Төлеңгіт • Күміс болат", "desc": "Төлеңгіт таңбасы мен жеке есім, күміс жылтыратылған корпус, стильді қара циферблат.", "img": "./images/watch-37900-tolengit-silver.jpg", "badge": "Төлеңгіт", "mech": "Жапондық дәл кварц", "glass": "Минералды берік әйнек", "case": "316L сатинирленген болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p38900_mvd", "name": "«ҚР ІІМ Абдуллин» Офицерлік", "cat": "service mens priced", "price": 38900, "tag": "Қызметтік • ІІМ", "desc": "Ішкі істер министрлігінің ресми қыраны мен қалқаны, қызметкердің тегі қашалған офицерлік сағат.", "img": "./images/watch-38900-mvd-abdullin.jpg", "badge": "ІІМ • МВД", "mech": "Жапондық кварц механизмі", "glass": "Сапфирлік жабынды шыны", "case": "316L тот баспайтын болат", "strap": "Құйылған болат бау", "water": "5 ATM (су өткізбейтін)", "is_price_on_request": false}, {"id": "p39900_aday", "name": "«Бағлан / Адай» Сегізқырлы алтын", "cat": "mens ornament priced", "price": 39900, "tag": "Адай • Сегізқырлы безель", "desc": "Кіші жүз Адай руының жебе таңбасы, Royal Oak сегізқырлы безелі, қара циферблаттағы алтын жазу.", "img": "./images/watch-39900-aday-gold.jpg", "badge": "Адай таңбасы", "mech": "Жапондық кварц механизмі", "glass": "Сапфир әйнек", "case": "Сегізқырлы алтын жалатылған болат", "strap": "Алтын болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p39900_nautilus", "name": "«Баһадүр» Nautilus стилі", "cat": "mens priced", "price": 39900, "tag": "Nautilus • Көк циферблат", "desc": "Patek Philippe Nautilus рухындағы корпус, көлденең сызықты көк циферблат, араб каллиграфиясы.", "img": "./images/watch-39900-nautilus-bakhadur.jpg", "badge": "Nautilus стиль", "mech": "Жапондық кварц механизмі", "glass": "Сапфир жабынды шыны", "case": "316L хирургиялық болат", "strap": "Интеграцияланған болат бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p39900_alshyn", "name": "«Алшын / Самат» Gold Edition", "cat": "mens ornament priced", "price": 39900, "tag": "Алшын • Алтын корпус", "desc": "Алшын руының көне таңбасы, сары алтын жылтыры, классикалық болат бау, премиум қорап.", "img": "./images/watch-39900-alshyn.jpg", "badge": "Алшын таңбасы", "mech": "Жапондық кварц калибрі", "glass": "Шыңдалған минералды әйнек", "case": "Алтын жалатылған 316L болат", "strap": "Алтын болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p41900_lion", "name": "«Арыстан» All-Black Stealth", "cat": "mens priced", "price": 41900, "tag": "Stealth • Қара PVD", "desc": "Күңгірт қара PVD жабыны, арыстан басының алтын гравюрасы, сұсты әрі мәртебелі ерлер дизайны.", "img": "./images/watch-41900-lion-black.jpg", "badge": "All-Black", "mech": "Жапондық дәл кварц", "glass": "Сызатқа төзімді қара шыңдалған шыны", "case": "PVD матовый қара болат", "strap": "Қара болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p52900_alban", "name": "«Албан / Райымбек» Механикалық", "cat": "mechanic mens ornament priced", "price": 52900, "tag": "⚙️ Механика • Албан", "desc": "Ашық балансты (Open Heart) механикалық механизм, Албан руының қасиетті таңбасы, былғары бау.", "img": "./images/watch-52900-alban-mech.jpg", "badge": "⚙️ Механика", "mech": "Автоподзаводты жапондық механика", "glass": "Сапфир шыны", "case": "316L айнадай жылтыратылған болат", "strap": "Табиғи былғары бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p52900_royaloak", "name": "«Айдос» Royal Oak Көк циферблат", "cat": "mens priced", "price": 52900, "tag": "Royal Oak • Сегізқырлы", "desc": "Сегіз бұрандалы безель, терең көк Tapisserie циферблат, алтын есімді нақыштау.", "img": "./images/watch-52900-royaloak-blue.jpg", "badge": "Royal Oak", "mech": "Жапондық кварц механизмі", "glass": "Қос жақты сапфир әйнек", "case": "Сатинирленген 316L болат", "strap": "Интеграцияланған болат бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p54900_kishizhuz", "name": "«Кіші жүз / Тана» Ағаш қорапта", "cat": "mens woodbox ornament priced", "price": 54900, "tag": "Ағаш қорап • Тана", "desc": "Кіші жүз Тана руы, күміс сағат, табиғи лакталған ағаш шкатулкасында жеткізіледі.", "img": "./images/watch-54900-kishizhuz-tana.jpg", "badge": "🪵 Ағаш қорап", "mech": "Жапондық кварц механизмі", "glass": "Сапфир шыны", "case": "316L тот баспайтын болат", "strap": "Классикалық болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p54900_shekti", "name": "«Шекті» Премиум ағаш шкатулка", "cat": "mens woodbox ornament priced", "price": 54900, "tag": "Ағаш шкатулка • Шекті", "desc": "Шекті руының алтын оюлы таңбасы, лакталған вишня ағашынан жасалған қымбат қорап.", "img": "./images/watch-54900-shekti-woodbox.jpg", "badge": "🪵 Ағаш қорап", "mech": "Жапондық дәл кварц", "glass": "Сапфир шыны", "case": "316L болат + алтын жалату", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p55900_tanatbek", "name": "«Таңатбек» Премиум ағаш қорап", "cat": "mens woodbox priced", "price": 55900, "tag": "Ағаш қорап • Күміс сағат", "desc": "Ақ циферблаттағы алтын есім, қымбат махагони ағаш қорабы, мәртебелі сыйлық.", "img": "./images/watch-55900-tanatbek-woodbox.jpg", "badge": "🪵 Ағаш қорап", "mech": "Жапондық кварц", "glass": "Сапфирлік шыны", "case": "316L тот баспайтын болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p56900_mvd", "name": "«ІІМ Генерал-майор Манарбек»", "cat": "service mens woodbox priced", "price": 56900, "tag": "Қызметтік • ІІМ Генерал", "desc": "ІІМ ресми белгісі, генерал жұлдызы, қара циферблат, премиум салтанатты ағаш шкатулка.", "img": "./images/watch-56900-mvd-manarbek.jpg", "badge": "ІІМ • Генерал", "mech": "Жапондық дәл кварц калибрі", "glass": "Сапфир шыны", "case": "316L хирургиялық болат", "strap": "Қара былғары бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p56900_zhangabyl", "name": "«Қуандық / Жанғабыл» Алтын сағат", "cat": "mens woodbox ornament priced", "price": 56900, "tag": "Алтын болат • Ағаш қорап", "desc": "Қуандық руы, алтын түсті болат бау, сапфир әйнек, премиум лакталған ағаш қорап.", "img": "./images/watch-56900-zhangabyl-gold.jpg", "badge": "🪵 Ағаш қорап", "mech": "Жапондық кварц механизмі", "glass": "Сапфир әйнек", "case": "Алтын жалатылған болат", "strap": "Алтын болат бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p66900_tortkara", "name": "«Шыңғыс / Төртқара» Механикалық", "cat": "mechanic mens woodbox ornament priced", "price": 66900, "tag": "⚙️ Механика • Сапфир", "desc": "Әлім Төртқара руы, сегізқырлы сатинирленген қара корпус, автоподзавод механикасы, ағаш қорап.", "img": "./images/watch-66900-tortkara-mech.jpg", "badge": "⚙️ Механика", "mech": "Автоподзаводты механика (Швейцар үлгісі)", "glass": "Нағыз сапфир шыны", "case": "Сегізқырлы қара сатинирленген болат", "strap": "Қара болат бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p69900_iibb", "name": "«ІІББ Ринат» Hublot Style Механика", "cat": "service mechanic mens woodbox priced", "price": 69900, "tag": "⚙️ Механика • Сапфир • ІІББ", "desc": "Ішкі Істер Басқармасы (ГУВД) қалқан мен қылыш эмблемасы, Hublot безелі, механикалық калибр.", "img": "./images/watch-69900-iibb-rinat-mech.jpg", "badge": "ІІББ • Механика", "mech": "Автоподзаводты механикалық калибр", "glass": "Сапфир шыны", "case": "Hublot безельді 316L болат", "strap": "Табиғи былғары / каучук бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p75900_argyn", "name": "«Дархан / Арғын» Флагмандық Механика", "cat": "mechanic mens woodbox ornament priced", "price": 75900, "tag": "⚙️ Механика • Сапфир • Арғын", "desc": "Арғын руы, ҚР қыран бүркіті, швейцар сапасындағы сапфирлік шыны, табиғи ағаш шкатулка.", "img": "./images/watch-75900-argyn-mech.jpg", "badge": "Флагман Механика", "mech": "Премиум автоподзаводты механика", "glass": "Қос жақты сапфир әйнек", "case": "316L айнадай жылтыратылған болат", "strap": "Құйылған болат бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "p75900_sharkesh", "name": "«Нұркен / Шәркеш» Алтын Механика", "cat": "mechanic mens woodbox ornament priced", "price": 75900, "tag": "⚙️ Механика • Медициналық болат", "desc": "Медициналық болаттан соғылған алтын корпус, Шәркеш руының оюы, автоподзавод калибрі.", "img": "./images/watch-75900-sharkesh-goldmech.jpg", "badge": "Флагман Механика", "mech": "Автоподзаводты механикалық калибр", "glass": "Сапфир шыны", "case": "Медициналық болат + алтын жалату", "strap": "Алтын болат бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "extra_1", "name": "«Арғын / Тобықты» Ақ циферблат", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Арғын • Тобықты", "desc": "Абай елі Тобықты руының көз таңбасы, күміс болат корпус, мінсіз классика.", "img": "./images/extra/watch-extra-1.jpg", "badge": "Арғын таңбасы", "mech": "Жапондық кварц механизмі", "glass": "Минералды шыңдалған әйнек", "case": "316L тот баспайтын болат", "strap": "Классикалық болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_2", "name": "«ҚР ІІМ Полиция Капитан» Офицерлік", "cat": "service mens request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қызметтік • ІІМ Полиция", "desc": "Полиция ресми эмблемасы, әскери шені, ақ таза циферблат, қызметтік сыйлық.", "img": "./images/extra/watch-extra-2.jpg", "badge": "ІІМ • Полиция", "mech": "Жапондық дәл кварц", "glass": "Сапфир шыны", "case": "316L болат", "strap": "Болат бау", "water": "5 ATM", "is_price_on_request": true}, {"id": "extra_3", "name": "«Кіші жүз / Адай» Күміс корпус", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Адай • Жебе таңба", "desc": "Адай таңбасы, қара циферблат, күміс сатинирленген болат корпус пен бау.", "img": "./images/extra/watch-extra-3.jpg", "badge": "Адай таңбасы", "mech": "Жапондық кварц", "glass": "Минералды берік әйнек", "case": "316L болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_4", "name": "«ҚР ҰҚК / КНБ Арнайы жасақ»", "cat": "service mens request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қызметтік • ҰҚК Арнайы жасақ", "desc": "ҰҚК қалқан мен қылыш белгісі, қызметкердің тегі қашалған мықты болат сағат.", "img": "./images/extra/watch-extra-4.jpg", "badge": "ҰҚК • КНБ", "mech": "Жапондық кварц калибрі", "glass": "Сапфир әйнек", "case": "316L хирургиялық болат", "strap": "Төзімді болат бау", "water": "5 ATM", "is_price_on_request": true}, {"id": "extra_5", "name": "«Дулат / Жаныс» Классикалық алтын", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Дулат • Жаныс таңба", "desc": "Ұлы жүз Дулат руының дөңгелек таңбасы, сары алтын жылтыры, табиғи былғары бау.", "img": "./images/extra/watch-extra-5.jpg", "badge": "Дулат таңбасы", "mech": "Жапондық кварц", "glass": "Минералды шыны", "case": "Алтын жалатылған болат", "strap": "Былғары бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_6", "name": "«Қазыбек би / Арғын» Classic Steel", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Классика • Арғын", "desc": "Күміс болат корпус, Арғын руының көз таңбасы, талғампаз классикалық қара циферблат.", "img": "./images/extra/watch-extra-6.jpg", "badge": "Арғын таңбалы", "mech": "Жапондық кварц механизмі", "glass": "Минералды шыңдалған әйнек", "case": "316L тот баспайтын болат", "strap": "Классикалық болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_7", "name": "«Дәулет / Дулат» Stealth Black", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Stealth Black • Дулат", "desc": "Матовый қара PVD болат, Ұлы жүз Дулат руының дөңгелек таңбасы мен жеке есімі.", "img": "./images/extra/watch-extra-7.jpg", "badge": "Дулат таңбалы", "mech": "Жапондық кварц", "glass": "Шыңдалған қара күңгірт әйнек", "case": "Қара PVD болат", "strap": "Қара болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_9", "name": "«Қарақыпшақ Қобыланды» Болат бау", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қыпшақ • Батырлар рухы", "desc": "Қос алып таңбасы, болат бау, мықты корпус, сабырлы ерлерге арналған сағат.", "img": "./images/extra/watch-extra-9.jpg", "badge": "Қыпшақ таңбалы", "mech": "Жапондық кварц механизмі", "glass": "Минералды әйнек", "case": "316L болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_10", "name": "«ІІМ Полковник / ҚР Полициясы» Ақ циферблат", "cat": "service mens request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қызметтік • ІІМ", "desc": "Полиция ресми эмблемасы, әскери шені, ақ таза классикалық циферблат, болат бау.", "img": "./images/extra/watch-extra-10.jpg", "badge": "ІІМ • МВД", "mech": "Жапондық дәл кварц", "glass": "Сапфирлік шыны", "case": "316L тот баспайтын болат", "strap": "Классикалық болат бау", "water": "5 ATM", "is_price_on_request": true}, {"id": "extra_11", "name": "«Албан / Райымбек» Jubilee болат", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Албан • Jubilee", "desc": "Қоңырау таңбасы, Jubilee бес буынды болат бау, сызатқа төзімді сапфирлік әйнек.", "img": "./images/extra/watch-extra-11.jpg", "badge": "Албан таңбалы", "mech": "Жапондық кварц", "glass": "Сапфирлік әйнек", "case": "316L болат", "strap": "Jubilee болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_12", "name": "«Беріш / Сартай батыр» Күміс корпус", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Беріш • Жұлдыз таңба", "desc": "Кіші жүз Беріш руы, күміс сатинирленген болат корпус, терең қара циферблат.", "img": "./images/extra/watch-extra-12.jpg", "badge": "Беріш таңбалы", "mech": "Жапондық кварц", "glass": "Минералды берік әйнек", "case": "Күміс сатинирленген болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_13", "name": "«Төре Шыңғысхан ұрпағы» Тәжді сағат", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Төре • Хан таңбасы", "desc": "Төре әулетінің алтын тәж таңбасы, алтын мен болат үйлесімі, мәртебелі ерлер сағаты.", "img": "./images/extra/watch-extra-13.jpg", "badge": "Төре таңбасы", "mech": "Жапондық дәл кварц", "glass": "Сапфир әйнек", "case": "Алтын-болат комби", "strap": "Құйылған болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_14", "name": "«Қожа / Сұлтан» Алтын-қоңыр былғары бау", "cat": "mens request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қожа • Былғары бау", "desc": "Асыл алтын корпус, қоңыр табиғи былғары бау, классикалық араб өрнектерімен.", "img": "./images/extra/watch-extra-14.jpg", "badge": "Классика", "mech": "Жапондық кварц", "glass": "Сапфирлік шыны", "case": "Алтын жалатылған болат", "strap": "Табиғи былғары", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_15", "name": "«ҰҚК / КНБ Қалқан мен Қылыш» Төзімді болат", "cat": "service mens request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қызметтік • ҰҚК", "desc": "ҚР ҰҚК қалқан мен қылыш белгісі, қызметкердің тегі, жоғары дәлдіктегі арнайы болат сағат.", "img": "./images/extra/watch-extra-15.jpg", "badge": "ҰҚК • КНБ", "mech": "Жапондық кварц калибрі", "glass": "Сапфир шыны", "case": "316L хирургиялық болат", "strap": "Төзімді болат бау", "water": "5 ATM", "is_price_on_request": true}, {"id": "extra_16", "name": "«Тана / Сырым Датұлы» Оюлы циферблат", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Тана • Ою-өрнек", "desc": "Тана руының таңбасы, ұлттық қазақи өрнек, алтын мен болаттың үйлесімді жылтыры.", "img": "./images/extra/watch-extra-16.jpg", "badge": "Тана таңбалы", "mech": "Жапондық кварц", "glass": "Минералды шыңдалған шыны", "case": "316L болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_17", "name": "«Байұлы / Адай» Күміс сатинирленген", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Адай • Күміс болат", "desc": "Адай таңбасы, күміс сатинирленген безель, күнделікті тағуға өте ыңғайлы төзімді үлгі.", "img": "./images/extra/watch-extra-17.jpg", "badge": "Адай таңбалы", "mech": "Жапондық кварц", "glass": "Минералды шыны", "case": "Күміс сатинирленген болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_18", "name": "«Төртқара / Жалаңтөс батыр» Күміс Jubilee", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Төртқара • Jubilee", "desc": "Әлімұлы Төртқара таңбасы, күміс бес буынды бау, сапфирлік қорғаныс әйнегі.", "img": "./images/extra/watch-extra-18.jpg", "badge": "Төртқара таңбалы", "mech": "Жапондық кварц", "glass": "Сапфир шыны", "case": "316L болат", "strap": "Jubilee болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_19", "name": "«ҚР Қарулы Күштері / Десант» Әскери болат", "cat": "service mens request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қызметтік • ҚР ҚК", "desc": "Қорғаныс министрлігі, Десанттық әскер эмблемасы мен қызметкердің жеке нөмірі қашалған сағат.", "img": "./images/extra/watch-extra-19.jpg", "badge": "ҚР ҚК • Әскер", "mech": "Жапондық кварц калибрі", "glass": "Сапфир әйнек", "case": "316L соққыға төзімді болат", "strap": "Әскери болат бау", "water": "5 ATM", "is_price_on_request": true}, {"id": "extra_20", "name": "«Қуандық / Сарыарқа» Алтын корпус", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Арғын-Қуандық • Алтын", "desc": "Арғын ішіндегі Қуандық руының таңбасы, алтын түсті болат, сапфир әйнек, сыйлық қорабымен.", "img": "./images/extra/watch-extra-20.jpg", "badge": "Алтын үлгі", "mech": "Жапондық кварц", "glass": "Сапфир шыны", "case": "Алтын жалатылған болат", "strap": "Алтын болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_21", "name": "«Бағлан / Адай» Сегізқырлы алтын (Black Dial)", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Адай • Royal Octagon", "desc": "Сегізқырлы безель, терең қара циферблаттағы алтын жазулар мен Адай таңбасы.", "img": "./images/extra/watch-extra-21.jpg", "badge": "Top Choice", "mech": "Жапондық кварц", "glass": "Сапфир әйнек", "case": "Алтын сегізқырлы болат", "strap": "Алтын болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_22", "name": "«Stealth Black / Бүркіт» Қара сағат", "cat": "mens request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Stealth Black • Қыран", "desc": "Қазақстан қыран бүркіті бейнеленген толықтай қара матовый сатинирленген стильді сағат.", "img": "./images/extra/watch-extra-22.jpg", "badge": "Stealth Black", "mech": "Жапондық кварц", "glass": "Шыңдалған қара шыны", "case": "Қара PVD болат", "strap": "Қара болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_23", "name": "«Шекті / Тілеу батыр» Болат сағат", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Әлімұлы • Шекті", "desc": "Шекті руының таңбасы, күміс жылтыратылған болат бау, ақ циферблаттағы таза классика.", "img": "./images/extra/watch-extra-23.jpg", "badge": "Шекті таңбалы", "mech": "Жапондық кварц", "glass": "Минералды шыны", "case": "316L болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_24", "name": "«Ысты / Жетісу» Алтын жалатылған", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Ұлы жүз • Ысты", "desc": "Ұлы жүз Ысты руының таңбасы, алтын түсті болат, фирмалық сыйлық қорабымен бірге.", "img": "./images/extra/watch-extra-24.jpg", "badge": "Ысты таңбалы", "mech": "Жапондық кварц", "glass": "Сапфирлік әйнек", "case": "Алтын жалатылған болат", "strap": "Алтын болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_25", "name": "«Ошақты / Талас» Күміс классика", "cat": "mens ornament request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Ұлы жүз • Ошақты", "desc": "Ошақты таңбасы, күміс болат бау, қарапайым әрі мәртебелі ерлер сағаты.", "img": "./images/extra/watch-extra-25.jpg", "badge": "Ошақты таңбалы", "mech": "Жапондық кварц", "glass": "Минералды шыны", "case": "316L болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_26", "name": "«Премиум Ақ циферблат / Елтаңба»", "cat": "service mens woodbox request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Елтаңба • Ағаш қорап", "desc": "ҚР мемлекеттік елтаңбасы бейнеленген, ақ таза циферблат, қымбат сыйлық қорабымен.", "img": "./images/extra/watch-extra-26.jpg", "badge": "Елтаңбалы", "mech": "Жапондық кварц калибрі", "glass": "Сапфир шыны", "case": "316L болат", "strap": "Былғары бау", "water": "5 ATM", "is_price_on_request": true}, {"id": "showcase_arman", "name": "Two-Tone «Арман / Шапырашты» Шоукейс", "cat": "mens ornament showcase request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Шапырашты • Two-Tone", "desc": "Алтын мен болат үйлесімі, фирмалық UAQYT ақ пакеті мен төлқұжаты бар эксклюзивті үлгі.", "img": "./images/showcase/showcase-arman-shapyrashty-twotone.jpg", "badge": "Топ үлгі", "mech": "Жапондық дәл кварц", "glass": "Сапфирлік шыны", "case": "Two-Tone болат", "strap": "Комби болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "showcase_baglan", "name": "«Бағлан / Адай» Сегізқырлы Алтын Шоукейс", "cat": "mens ornament showcase request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Адай • Royal Octagon", "desc": "Royal Oak сегізқырлы корпусы, алтын таңба, сары алтын жылтыры, фирмалық сыйлық қаптамасы.", "img": "./images/showcase/showcase-baglan-aday-gold.jpg", "badge": "Топ үлгі", "mech": "Жапондық кварц механизмі", "glass": "Сапфир әйнек", "case": "Алтын жалатылған болат", "strap": "Алтын болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "showcase_zhanbolat", "name": "«Темір Жанболат» Офицерлік Болат Шоукейс", "cat": "service mens showcase request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Қызметтік • Офицерлік", "desc": "Қызметтік ресми эмблема, айнадай жалтыраған болат бау, фирмалық UAQYT пакетінде.", "img": "./images/showcase/showcase-temir-zhanbolat-service.jpg", "badge": "Қызметтік", "mech": "Жапондық кварц", "glass": "Минералды шыңдалған", "case": "316L тот баспайтын болат", "strap": "Болат бау", "water": "5 ATM", "is_price_on_request": true}, {"id": "p39900_roses", "name": "1+1 Жұптық «Раушан гүлді қорап»", "cat": "couples promo priced", "price": 39900, "tag": "❤️ 1+1 Жұптық • Раушан", "desc": "Ерлер және әйелдер сағаты бір жиынтықта. Қызыл раушан гүлдері мен фирмалық UAQYT қаптамасы.", "img": "./images/watch-39900-couples-roses.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Жапондық кварц (2 дана)", "glass": "Минералды шыңдалған әйнек", "case": "Тот баспайтын болат (2 сағат)", "strap": "Қос болат немесе былғары бау", "water": "3 ATM", "is_price_on_request": false}, {"id": "p75900_rahat_showcase", "name": "«Рахат Шекті / Ардана 13.11.1979»", "cat": "mechanic mens woodbox ornament couples priced", "price": 75900, "tag": "⚙️ Механика • Люкс ағаш қорап", "desc": "Көк циферблаттағы күн мен қыран, мерейтойлық жазу, гауһар тасты безель, қымбат вишня шкатулка.", "img": "./images/showcase/showcase-rahat-ardana-woodbox.jpg", "badge": "Люкс Премиум", "mech": "Швейцар типті механика (автоподзавод)", "glass": "Таза сапфир әйнек", "case": "Гауһар тасты безель, вишня ағаш қорабы", "strap": "Табиғи былғары бау", "water": "5 ATM", "is_price_on_request": false}, {"id": "couple_set_1", "name": "1+1 Жұптық «Шынар & Әділбек / Кіші жүз»", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • 6 Раушан", "desc": "Ерлер мен әйелдер сағаты, 6 қызыл раушан гүлі, жеке ру мен есімдер нақышталған сыйлықтық бокс.", "img": "./images/couples/couple-1.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Қос жапондық кварц (2 сағат)", "glass": "Сызатқа төзімді шыны", "case": "Тот баспайтын болат", "strap": "Болат қос бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_2", "name": "1+1 Жұптық «Мәңгілік Махаббат» Классика", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Болат бау", "desc": "Классикалық болат баулы ерлер мен ханымдар сағаты, мәңгілік махаббат белгісі мен есімдер.", "img": "./images/couples/couple-2.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Жапондық кварц (2 сағат)", "glass": "Минералды шыны", "case": "316L болат", "strap": "Қос болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_3", "name": "1+1 Жұптық «Нұрлан ❤️ Айдана» Two-Tone", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Two-Tone", "desc": "Комби түсті алтын мен болат баулы жұптық жиынтық, раушан гүлдер мен фирмалық UAQYT пакеті.", "img": "./images/couples/couple-3.jpg", "badge": "❤️ Two-Tone", "mech": "Жапондық кварц (2 дана)", "glass": "Сапфирлік жабын", "case": "Two-Tone алтын-күміс", "strap": "Комби болат қос бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_4", "name": "1+1 Жұптық «Бақытты Отбасы» Шкатулка", "cat": "couples promo woodbox request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Премиум бокс", "desc": "Мерейтойға, үйлену тойына (Беташар) арналған қос сағат жиынтығы, екі адамға жеке лазерлік гравюрасымен.", "img": "./images/couples/couple-4.jpg", "badge": "❤️ Үйлену тойы", "mech": "Жапондық дәл кварц (2 сағат)", "glass": "Сапфир шыны", "case": "Премиум болат", "strap": "Болат немесе былғары", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_5", "name": "1+1 Жұптық «Азамат ❤️ Мадина» Күміс болат", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Күміс болат", "desc": "Айнадай жылтыратылған қос күміс болат сағат, қара циферблаттағы ақ алтын жазулар.", "img": "./images/couples/couple-5.jpg", "badge": "❤️ 1+1 Бонус", "mech": "Жапондық кварц (2 дана)", "glass": "Минералды шыңдалған", "case": "316L тот баспайтын болат", "strap": "Қос болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_6", "name": "1+1 Жұптық «Жүректер Үндестігі» Раушан гүлмен", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Романтика", "desc": "Қызыл барқыт қораптағы хош иісті раушан гүлдері, мәңгілік сезім белгісі бар қос сағат.", "img": "./images/couples/couple-6.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Жапондық кварц механизмі", "glass": "Сызатқа төзімді шыны", "case": "Болат корпус", "strap": "Қос бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_7", "name": "1+1 Жұптық «Арманым & Махаббатым»", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Жеке гравюра", "desc": "Екі ғашықтың есімдері мен кездескен күні қашалған сағаттар, сыйлықтық пакетімен бірге.", "img": "./images/couples/couple-7.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Қос кварц калибрі", "glass": "Минералды шыны", "case": "316L болат", "strap": "Болат баулар", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_8", "name": "1+1 Жұптық «Қара & Алтын» Contrast Edition", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Контраст", "desc": "Ерлерге қара сұсты корпус, ханымға нәзік алтын жиекті корпус, тамаша үйлесім.", "img": "./images/couples/couple-8.jpg", "badge": "❤️ Стильді жұп", "mech": "Жапондық кварц", "glass": "Сапфирлік жабын", "case": "Тот баспайтын болат", "strap": "Былғары немесе болат", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_9", "name": "1+1 Жұптық «Аққулар Үйлесімі» Ақ циферблат", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Ақ циферблат", "desc": "Таза ақ циферблаттағы алтын әріптер, қос аққу секілді нәзік әрі сәнді жинақ.", "img": "./images/couples/couple-9.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Жапондық кварц (2 дана)", "glass": "Шыңдалған әйнек", "case": "316L болат", "strap": "Құйылған болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_10", "name": "1+1 Жұптық «Сүйіктіме Арнау» Қызыл бокс", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Сыйлықтық", "desc": "Туған күнге, мерекеге немесе үйлену тойына ең керемет естелік сыйлық жиынтығы.", "img": "./images/couples/couple-10.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Жапондық кварц", "glass": "Минералды шыны", "case": "Болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_11", "name": "1+1 Жұптық «Бір шаңырақ астында»", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Шаңырақ", "desc": "Шаңырақ таңбасы мен екі жастың тегі қашалған, отбасылық береке белгісі болатын сағаттар.", "img": "./images/couples/couple-11.jpg", "badge": "❤️ Шаңырақ", "mech": "Қос кварц калибрі", "glass": "Сапфир шыны", "case": "316L болат", "strap": "Болат баулар", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_12", "name": "1+1 Жұптық «Шексіз Махаббат» Алтын жиекті", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Алтын жиек", "desc": "Алтын жиекті безель, раушан гүлдермен әрленген қорап, екі сағаттағы жеке нақыш.", "img": "./images/couples/couple-12.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Жапондық кварц", "glass": "Минералды әйнек", "case": "Алтын жалатылған болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_13", "name": "1+1 Жұптық «Қос Ғашық» Jubilee баумен", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Jubilee", "desc": "Бес буынды классикалық Jubilee бауы бар екі сағат, қолыңызға өте жайлы орнығады.", "img": "./images/couples/couple-13.jpg", "badge": "❤️ Jubilee жұп", "mech": "Жапондық кварц (2 дана)", "glass": "Минералды шыны", "case": "316L болат", "strap": "Jubilee қос болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_14", "name": "1+1 Жұптық «Мерейтойлық Сыйлық»", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Мерейтой", "desc": "10, 20, 25 жылдық отау құру мерейтойына арналған естелік жазулары бар жұптық сағаттар.", "img": "./images/couples/couple-14.jpg", "badge": "❤️ Мерейтой", "mech": "Қос жапондық кварц", "glass": "Сапфирлік жабын", "case": "316L тот баспайтын болат", "strap": "Болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_15", "name": "1+1 Жұптық «Таза Махаббат» Ақ қорапта", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Ақ бокс", "desc": "Сәнді ақ сыйлық қорабы, раушан гүлдер композициясы, екі адамға жеке басылған гравюра.", "img": "./images/couples/couple-15.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Жапондық кварц", "glass": "Минералды әйнек", "case": "Болат", "strap": "Болат қос бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_16", "name": "1+1 Жұптық «Байлық & Береке» Алтын комби", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Алтын комби", "desc": "Алтын мен болаттың тамаша үйлесімі, циферблаттағы ру таңбасы немесе отбасылық герб.", "img": "./images/couples/couple-16.jpg", "badge": "❤️ Алтын комби", "mech": "Жапондық кварц (2 сағат)", "glass": "Сапфир шыны", "case": "Алтын-болат комби", "strap": "Қос болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "couple_set_17", "name": "1+1 Жұптық «Жұлдызды Түн» Deep Black Dial", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Deep Black", "desc": "Тұңғиық қара циферблат, алтын жазулар мен жұлдызды өрнек, ең сәнді фотосессияға лайық.", "img": "./images/couples/couple-17.jpg", "badge": "❤️ Deep Black", "mech": "Қос дәл кварц", "glass": "Минералды шыңдалған шыны", "case": "316L болат", "strap": "Қара немесе күміс болат бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_8", "name": "1+1 Жұптық «Айдос ❤️ Ақерке» Қызыл бокс", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Раушан", "desc": "Қызыл қораптағы раушан гүлдермен көмкерілген ерлер мен әйелдер сағаты, жеке гравюрамен.", "img": "./images/extra/watch-extra-8.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Қос кварц механизмі (2 дана)", "glass": "Сызатқа төзімді шыны", "case": "Тот баспайтын болат", "strap": "Болат баулар", "water": "3 ATM", "is_price_on_request": true}, {"id": "extra_27", "name": "1+1 Жұптық «Мәңгілік Махаббат» Розалармен", "cat": "couples promo request", "price": null, "price_str": "Бағасын нақтылау", "tag": "❤️ 1+1 Жұптық • Раушан", "desc": "Қызыл қорапта 6 раушан гүлі, ерлер және ханымдар сағаты, екі адамның есімі нақышталған.", "img": "./images/extra/watch-extra-27.jpg", "badge": "❤️ 1+1 Жұптық", "mech": "Қос жапондық кварц", "glass": "Минералды берік әйнек", "case": "Тот баспайтын болат (2 дана)", "strap": "Болат қос бау", "water": "3 ATM", "is_price_on_request": true}, {"id": "showcase_zhangeldi", "name": "«Жангелді ❤️ Еркетай» Stealth Black Шоукейс", "cat": "couples mens showcase request", "price": null, "price_str": "Бағасын нақтылау", "tag": "Stealth Black • Жұптық", "desc": "Күңгірт матовый қара болат, алтын жазулар мен махаббат белгісі қашалған стильді сағат.", "img": "./images/showcase/showcase-zhangeldi-erketay-black.jpg", "badge": "Stealth Black", "mech": "Жапондық дәл кварц", "glass": "Қара шыңдалған шыны", "case": "Қара PVD болат", "strap": "Қара болат бау", "water": "3 ATM", "is_price_on_request": true}];
     const reviewsData = [{"id": "rev_matluba", "author": "Матлуба ханым", "city": "Шымкент қаласы", "rating": 5, "order": "1+1 Жұптық сағат (Раушан гүлді қорап)", "quote": "«Сәлеметсіз бе! Сағаттар жетті! Өте қатты ұнады, дәл біз ойлағандай әрі тез келді. Жолдасыма тосынсый болды, рақмет сіздерге!»", "img": "./images/reviews/review-matluba.jpg", "tag": "WhatsApp пікір • 1+1 Жұптық", "badge": "Расталған тапсырыс"}, {"id": "rev_1", "author": "Ерлан мырза", "city": "Астана қаласы", "rating": 5, "order": "«Найман / Болатшы» Two-Tone", "quote": "«Сағат қолыма тиді, нағыз сапа! Лазерлік жазуы өте анық, көрікті көрінеді екен. Жігіттерге үлкен алғыс!»", "img": "./images/reviews/review-1.jpg", "tag": "WhatsApp скриншот • Найман руы", "badge": "Астанаға жеткізілді"}, {"id": "rev_2", "author": "Айгүл ханым", "city": "Алматы қаласы", "rating": 5, "order": "1+1 Жұптық «Шынар & Әділбек»", "quote": "«Жұбайыма үйлену тойымыздың 5 жылдығына алған едім. Қорабы, раушан гүлдері, сағаттары керемет! Қуанышымызда шек жоқ!»", "img": "./images/reviews/review-2.jpg", "tag": "WhatsApp чат • Үйлену тойы", "badge": "Алматы шоурум"}, {"id": "rev_3", "author": "Қанат мырза", "city": "Атырау қаласы", "rating": 5, "order": "«Байұлы / Адай» Күміс сағат", "quote": "«Атырауға Қазпоштамен небәрі 2 күнде жеткізіп берді. Адайдың таңбасы тамаша қашалған. Барлық туыстарға сілтемені тараттым!»", "img": "./images/reviews/review-3.jpg", "tag": "WhatsApp скриншот • Адай таңбасы", "badge": "Атырауға жеткізілді"}, {"id": "rev_4", "author": "Нұрбол мырза", "city": "Қарағанды қаласы", "rating": 5, "order": "«ҚР ІІМ Полиция» Офицерлік", "quote": "«Әріптесімнің подполковник атағын алуына сыйладық. Ұжым болып риза болдық, офицерлік нақышы өте мәртебелі шыққан!»", "img": "./images/reviews/review-4.jpg", "tag": "WhatsApp скриншот • ІІМ офицері", "badge": "Қызметтік сағат"}, {"id": "rev_5", "author": "Динара ханым", "city": "Ақтөбе қаласы", "rating": 5, "order": "«Әлімұлы / Шекті» Премиум сағат", "quote": "«Әкемнің 60 жас мерейтойына арнайы тапсырыс бергенбіз. Әкемнің көзіне жас келді, өте риза болды. Сіздерге мың алғыс!»", "img": "./images/reviews/review-5.jpg", "tag": "WhatsApp чат • Мерейтой 60 жас", "badge": "Ақтөбеге жеткізілді"}, {"id": "rev_6", "author": "Бауыржан мырза", "city": "Тараз қаласы", "rating": 5, "order": "«Ұлы жүз / Дулат» Алтын сағат", "quote": "«Алтын жалатуы жылтырап тұр, 1 аптадан бері тағып жүрмін, суға төзімділігін де тексердім — керемет! Сенімді дүкен екен!»", "img": "./images/reviews/review-6.jpg", "tag": "WhatsApp скриншот • Дулат руы", "badge": "Таразға жеткізілді"}, {"id": "rev_7", "author": "Меруерт ханым", "city": "Қостанай қаласы", "rating": 5, "order": "1+1 Жұптық «Айдос & Ақерке»", "quote": "«Қызыл қорабы мен пакеті нағыз премиум деңгейде! Күйеуім екеуіміз бірге тағып жүрміз. Достарымыздың бәрі қызығып сұрауда!»", "img": "./images/reviews/review-7.jpg", "tag": "WhatsApp скриншот • 1+1 Жұптық", "badge": "Қостанайға жеткізілді"}, {"id": "rev_8", "author": "Азамат мырза", "city": "Орал қаласы", "rating": 5, "order": "«Беріш / Сартай» Сатинирленген болат", "quote": "«Беріш руының таңбасын дәл осылай шебер жасайды деп ойламаппын. Қолға өте ыңғайлы, ауырлығы бар нағыз ерлер сағаты!»", "img": "./images/reviews/review-8.jpg", "tag": "WhatsApp скриншот • Беріш руы", "badge": "Оралға жеткізілді"}, {"id": "rev_9", "author": "Жандос мырза", "city": "Павлодар қаласы", "rating": 5, "order": "«Арғын / Қазыбек би» Classic Steel", "quote": "«Менеджерлер өте сыпайы, макетін алдын ала ватсаптан бекітіп жіберді. Дәл келіскендей шықты. Көп рақмет!»", "img": "./images/reviews/review-9.jpg", "tag": "WhatsApp чат • Арғын руы", "badge": "Павлодарға жеткізілді"}, {"id": "rev_10", "author": "Гүлнар ханым", "city": "Семей қаласы", "rating": 5, "order": "«Қыпшақ / Қобыланды батыр»", "quote": "«Ұлыма университет бітіргеніне сыйлыққа алдық. Сағаттың әйнегі сызат түспейтін, бауы мықты. Баламыз қатты мәз болды!»", "img": "./images/reviews/review-10.jpg", "tag": "WhatsApp скриншот • Сыйлыққа", "badge": "Семейге жеткізілді"}, {"id": "rev_11", "author": "Марат мырза", "city": "Түркістан қаласы", "rating": 5, "order": "«Қожа / Сұлтан» Алтын корпус", "quote": "«Түркістанға автобуспен тез салып жіберді, келесі күні қолыма алдым. Сапасы 100/100. Бағасы да тиімді!»", "img": "./images/reviews/review-11.jpg", "tag": "WhatsApp скриншот • Қожа әулеті", "badge": "Түркістанға жеткізілді"}, {"id": "rev_12", "author": "Айнұр ханым", "city": "Көкшетау қаласы", "rating": 5, "order": "1+1 Жұптық «Нұрлан & Айдана»", "quote": "«Біз бұл дүкеннен екінші рет алып жатырмыз. Бұрын ағама алғанбыз, енді өзімізге жұптық сағат алдық. Сапа өзгермеген, супер!»", "img": "./images/reviews/review-12.jpg", "tag": "WhatsApp чат • Қайта тапсырыс", "badge": "Көкшетауға жеткізілді"}, {"id": "rev_13", "author": "Руслан мырза", "city": "Алматы қаласы", "rating": 5, "order": "«Төртқара / Жалаңтөс» Jubilee", "quote": "«Сайран Ситидегі 320 кеңсеге өзім барып алдым. Барлық модельді көрсетті, гравюрасын 15 минутта жасап берді. Керемет қызмет!»", "img": "./images/reviews/review-13.jpg", "tag": "Шоурумнан алу • Төртқара", "badge": "Сайран Сити 320"}, {"id": "rev_14", "author": "Әсел ханым", "city": "Қызылорда қаласы", "rating": 5, "order": "1+1 Жұптық «Махаббат & Сүйіспеншілік»", "quote": "«Поштамен тегін жеткізіп берді. Сағаттардың жылтыры, раушан гүлдері бәрі бүлінбей аман-есен келді. Рақмет UAQYT командасына!»", "img": "./images/reviews/review-14.jpg", "tag": "WhatsApp скриншот • 1+1 Жұптық", "badge": "Қызылордаға жеткізілді"}, {"id": "rev_15", "author": "Сұлтан мырза", "city": "Жезқазған қаласы", "rating": 5, "order": "«Албан / Райымбек» Сапфир механика", "quote": "«Автоподзавод механикасы нағыз швейцарлықтай сағат сайын дәл соғады. Қорабы қымбат ағаштан. Өзіме алған ең дұрыс таңдауым!»", "img": "./images/reviews/review-15.jpg", "tag": "WhatsApp скриншот • Механика", "badge": "Жезқазғанға жеткізілді"}, {"id": "rev_16", "author": "Зарина ханым", "city": "Өскемен қаласы", "rating": 5, "order": "«Шапырашты / Аймұрат» Оюлы алтын", "quote": "«Күйеуіме сыйладым, достарының бәрі қайдан алдың деп сұрап жатыр екен. Лазермен жазылған жазу мәңгі өшпейді екен, рақмет!»", "img": "./images/reviews/review-16.jpg", "tag": "WhatsApp чат • Шапырашты", "badge": "Өскеменге жеткізілді"}, {"id": "rev_17", "author": "Бекзат мырза", "city": "Талдықорған қаласы", "rating": 5, "order": "«ҚР ҰҚК Шекара қызметі»", "quote": "«Шекарашылар күніне орай алған едік. Эмблемасы мінсіз, бояуы қанық. Әскерилер үшін таптырмас сыйлық!»", "img": "./images/reviews/review-17.jpg", "tag": "WhatsApp скриншот • Шекара қызметі", "badge": "Қызметтік сағат"}, {"id": "rev_18", "author": "Дана ханым", "city": "Шымкент қаласы", "rating": 5, "order": "1+1 Жұптық «Бақытты Отбасы»", "quote": "«Ата-анамыздың күміс тойына алдық. Олар өте қатты толқып, қуанды. Осындай әдемі қазақи бұйым жасайтындарыңызға рақмет!»", "img": "./images/reviews/review-18.jpg", "tag": "WhatsApp скриншот • Күміс той", "badge": "Шымкентке жеткізілді"}, {"id": "rev_19", "author": "Тимур мырза", "city": "Астана қаласы", "rating": 5, "order": "«Royal Oak Айдос» Blue Tapisserie", "quote": "«Сегізқырлы безелі керемет. Көгілдір циферблаттағы алтын жазу нағыз сән. Kaspi Red-пен алып, жеңіл бөліп төледім.»", "img": "./images/reviews/review-19.jpg", "tag": "WhatsApp скриншот • Royal Oak", "badge": "Kaspi Red арқылы"}, {"id": "rev_20", "author": "Әлішер мырза", "city": "Алматы қаласы", "rating": 5, "order": "«Ысты / Жетісу» Алтын сағат", "quote": "«Жетісу Ысты руының таңбасы дәл шежіредегідей. Кепілдік талоны мен пакеті бәрі жинақы. Достарыма міндетті түрде ұсынамын!»", "img": "./images/reviews/review-20.jpg", "tag": "WhatsApp чат • Ысты руы", "badge": "Алматыға жеткізілді"}, {"id": "rev_21", "author": "Сағыныш ханым", "city": "Ақтау қаласы", "rating": 5, "order": "1+1 Жұптық «Жүректер Үндестігі»", "quote": "«Ақтауға дейін тез келді. Сағаттар суретінен де әдемі екен тіріде! Раушан гүлдері де әдемі сақталған. Көп рақмет сіздерге!»", "img": "./images/reviews/review-21.jpg", "tag": "WhatsApp скриншот • Каспий өңірі", "badge": "Ақтауға жеткізілді"}];
 
     let activeFilter = 'all';
@@ -5227,6 +5567,24 @@
       window.open(`https://wa.me/77073356059?text=${text}`, '_blank');
     }
 
+    // Hero Showcase Switcher & Lightbox
+    function switchHeroShowcase(imgSrc, title, desc, btn) {
+      const imgElem = document.getElementById('heroShowcaseMainImg');
+      const titleElem = document.getElementById('heroShowcaseTitle');
+      const descElem = document.getElementById('heroShowcaseDesc');
+      if (imgElem) imgElem.src = imgSrc;
+      if (titleElem) titleElem.textContent = title;
+      if (descElem && desc) descElem.textContent = desc;
+      document.querySelectorAll('.hero-thumb-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+    }
+
+    function openShowcaseLightbox(imgSrc, title) {
+      const currentImg = document.getElementById('heroShowcaseMainImg');
+      const src = currentImg ? currentImg.src : imgSrc;
+      window.open(src, '_blank');
+    }
+
     // Filter catalog
     function setCategoryFilter(cat, btn) {
       activeFilter = cat;
@@ -5255,6 +5613,8 @@
             matchesCat = cardCat.includes('priced');
           } else if (activeFilter === 'request') {
             matchesCat = cardCat.includes('request');
+          } else if (activeFilter === 'mens') {
+            matchesCat = cardCat.includes('mens') && !cardCat.includes('couples');
           } else {
             matchesCat = cardCat.includes(activeFilter);
           }
