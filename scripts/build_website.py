@@ -3844,7 +3844,7 @@ def generate():
 
     soup, unmapped = i18n_engine.localize(html_content, all_products_sorted)
     i18n_engine.apply_dark(soup)
-    i18n_engine.reorder(soup, ["hero", "story", "picks", "holidays", "catalog", "bonus", "customizer", "reviews", "socials", "contact"])
+    i18n_engine.reorder(soup, ["hero", "story", "picks", "holidays", "bonus", "catalog", "customizer", "reviews", "socials", "contact"])
     if unmapped:
         print("UNMAPPED Kazakh strings:", len(unmapped))
         for u in unmapped[:60]:
