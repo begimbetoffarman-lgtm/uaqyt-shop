@@ -87,8 +87,12 @@ CSS_FAQ = '''
 '''
 
 JS_FAQ = '''
-    // always open at the top of the page (unless a #section link is used)
-    if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', () => { if (!location.hash) { window.scrollTo(0, 0); setTimeout(() => window.scrollTo(0, 0), 300); } }); }
+    // always open at the very top, even if the link carried a #section (e.g. copied after clicking the menu)
+    (function () {
+      const top = () => window.scrollTo(0, 0);
+      if (location.hash) { try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} }
+      top(); window.addEventListener('load', () => { top(); setTimeout(top, 250); setTimeout(top, 900); });
+    })();
     // dynamic chip counts: price buckets follow the active category and search
     (function () {
       const origFilter = filterCatalog;

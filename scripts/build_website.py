@@ -3807,6 +3807,7 @@ def generate():
       document.querySelector('.navbar').classList.remove('open');
     }}));
 
+    ['touchstart', 'wheel', 'keydown', 'mousedown'].forEach(ev => window.addEventListener(ev, () => {{ window.__uaqytTouched = true; }}, {{ once: true, passive: true }}));
     // Entry offer (once per session)
     function closeOffer() {{
       document.getElementById('offerOverlay').classList.remove('active');
@@ -3814,6 +3815,7 @@ def generate():
     try {{
       if (!sessionStorage.getItem('uaqytOfferSeen')) {{
         setTimeout(() => {{
+          if (!window.__uaqytTouched) window.scrollTo(0, 0);
           document.getElementById('offerOverlay').classList.add('active');
           sessionStorage.setItem('uaqytOfferSeen', '1');
         }}, 2500);
