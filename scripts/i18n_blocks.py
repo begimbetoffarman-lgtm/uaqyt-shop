@@ -270,6 +270,8 @@ JS_EXTRA = r'''
       if (/couples/.test(p.cat) && (engrave || e2)) msg += '\n• ' + (LANG === 'kk' ? 'Ерлер сағатындағы есім' : 'Имя на мужских часах') + ': «' + (engrave || '—') + '»\n• ' + (LANG === 'kk' ? 'Әйелдер сағатындағы есім' : 'Имя на женских часах') + ': «' + (e2 || '—') + '»';
       else if (engrave) msg += '\n• ' + tt('wa_engrave') + ': «' + engrave + '»';
       if (city) msg += '\n• ' + tt('wa_city') + ': ' + city;
+      const bp = document.getElementById('bonusModalPick');
+      if (window.bonusChoice && bp && bp.style.display !== 'none') msg += '\n• ' + (LANG === 'kk' ? 'Бонус сағат (әйелдер): №' : 'Бонусные часы (женские): №') + window.bonusChoice;
       window.open(waLink(msg), '_blank');
     }
 

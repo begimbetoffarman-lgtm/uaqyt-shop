@@ -106,6 +106,40 @@ JS_FAQ = '''
         } catch (e) {}
       };
     })();
+    // ═════════ bonus watch picker inside the order modal ═════════
+    (function () {
+      const BT = {
+        ru: { t: '🎁 Выберите бонусные часы (женские)', h: 'Вторые часы в подарок. Нажмите на понравившуюся модель, можно выбрать и позже в WhatsApp.' },
+        kk: { t: '🎁 Бонус сағатты таңдаңыз (әйелдер)', h: 'Екінші сағат сыйлыққа. Ұнаған модельді басыңыз, WhatsApp-та кейінірек те таңдауға болады.' }
+      };
+      window.bonusChoice = null;
+      const prev = openProductModal;
+      openProductModal = function (id) {
+        prev(id);
+        const p = currentModalProduct; if (!p) return;
+        let box = document.getElementById('bonusModalPick');
+        if (!box) {
+          box = document.createElement('div'); box.id = 'bonusModalPick'; box.className = 'bonus-pick bonus-modal-pick';
+          let h = '<div class="bonus-pick-title"></div><div class="bonus-modal-hint"></div><div class="bonus-pick-grid">';
+          for (let i = 1; i <= 14; i++) h += '<div class="bonus-thumb" data-n="' + i + '"><img src="./images/bonus/women-' + i + '.jpg" alt="Бонус ' + i + '" loading="lazy"><b>' + i + '</b></div>';
+          box.innerHTML = h + '</div>';
+          box.addEventListener('click', function (e) {
+            const th = e.target.closest('.bonus-thumb'); if (!th) return;
+            const n = +th.dataset.n;
+            window.bonusChoice = (window.bonusChoice === n) ? null : n;
+            box.querySelectorAll('.bonus-thumb').forEach(x => x.classList.toggle('sel', +x.dataset.n === window.bonusChoice));
+          });
+          document.querySelector('.modal-promo-note').after(box);
+        }
+        window.bonusChoice = null;
+        box.querySelectorAll('.bonus-thumb').forEach(x => x.classList.remove('sel'));
+        const t = BT[LANG] || BT.ru;
+        box.querySelector('.bonus-pick-title').textContent = t.t;
+        box.querySelector('.bonus-modal-hint').textContent = t.h;
+        const pair = /couples/.test(p.cat);
+        box.style.display = (pair || p.is_price_on_request || p.price < 25900) ? 'none' : '';
+      };
+    })();
     // ═════════ pair products: two names, no bonus note ═════════
     (function () {
       const origOpen = openProductModal;
@@ -140,15 +174,25 @@ JS_FAQ = '''
 
 BONUS_GALLERY = (
     '<div class="bonus-pick">'
-    + bi("Бонусные женские часы на выбор", "Таңдауға арналған әйелдер бонус сағаттары", "div", "bonus-pick-title")
+    + bi("Бонусные женские часы: 14 моделей на выбор", "Бонус әйелдер сағаттары: таңдауға 14 модель", "div", "bonus-pick-title")
     + '<div class="bonus-pick-grid">'
-    + "".join('<img src="./images/bonus/women-%d.jpg" alt="" loading="lazy">' % i for i in range(1, 7))
+    + "".join('<div class="bonus-thumb"><img src="./images/bonus/women-%d.jpg" alt="Бонус %d" loading="lazy"><b>%d</b></div>' % (i, i, i) for i in range(1, 15))
     + '</div></div>'
 )
 
 CSS_BONUS = '''
     .bonus-pick { margin: 18px 0 4px; }
     .bonus-pick-title { font-weight: 700; font-size: 15px; margin-bottom: 10px; color: var(--text); }
-    .bonus-pick-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-    .bonus-pick-grid img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 14px; border: 1px solid var(--border); }
+    .bonus-pick-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+    .bonus-thumb { position: relative; }
+    .bonus-thumb img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 12px; border: 2px solid var(--border); }
+    .bonus-thumb b { position: absolute; left: 4px; top: 4px; min-width: 20px; height: 20px; padding: 0 4px; border-radius: 10px; background: rgba(15,23,42,.82); color: #fff; font-size: 11px; line-height: 20px; text-align: center; }
+    @media (min-width: 700px) { .bonus-pick-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
+    /* picker inside the order modal */
+    .bonus-modal-pick { margin: 14px 0; }
+    .bonus-modal-pick .bonus-pick-title { margin-bottom: 4px; }
+    .bonus-modal-hint { font-size: 12.5px; opacity: .7; margin-bottom: 8px; }
+    .bonus-modal-pick .bonus-thumb { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .bonus-modal-pick .bonus-thumb.sel img { border-color: #d4af37; box-shadow: 0 0 0 2px rgba(212,175,55,.45); }
+    .bonus-modal-pick .bonus-thumb.sel::after { content: '\\2713'; position: absolute; right: 6px; bottom: 6px; width: 24px; height: 24px; border-radius: 12px; background: #d4af37; color: #0f172a; font-weight: 800; text-align: center; line-height: 24px; }
 '''
