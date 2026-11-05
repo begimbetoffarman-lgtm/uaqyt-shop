@@ -193,7 +193,7 @@ def generate():
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>UAQYT — Жеке жазуы бар есімді сағаттар бутигі | Сайран Сити 320</title>
-  <meta name="description" content="UAQYT — жеке есім мен шежіре-ру таңбалары, қызметтік органдардың (ІІМ, ҰҚК, ТЖМ, ҚР ҚК) ресми эмблемалары қашалған мәртебелі қол сағаттар бутигі. 1 сатып алсаңыз — 2-ші сағат ТЕГІН!">
+  <meta name="description" content="UAQYT — жеке есім мен шежіре-ру таңбалары, қызметтік органдардың (ІІМ, ҰҚК, ТЖМ, ҚР ҚК) ресми эмблемалары жазылған мәртебелі қол сағаттары. 1 сатып алсаңыз — 2-ші сағат ТЕГІН!">
   <link rel="icon" href="./favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="./images/favicon-192.png">
   <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
@@ -2773,7 +2773,7 @@ def generate():
       <img src="./images/logo.jpg" alt="UAQYT kzt" class="brand-logo-img">
       <div class="brand-text">
         <span class="brand-name">UAQYT</span>
-        <span class="brand-sub">kzt • Есімді сағаттар бутигі</span>
+        <span class="brand-sub">kzt • Есімі жазылған сағаттар</span>
       </div>
     </a>
 
@@ -2868,25 +2868,25 @@ def generate():
           <img src="./images/logo.jpg" alt="UAQYT kzt" class="hero-showcase-logo-img">
           <div class="hero-showcase-brand-meta">
             <span>UAQYT</span>
-            <small>kzt • Есімді сағаттар бутигі</small>
+            <small>kzt • Есімі жазылған сағаттар</small>
           </div>
         </div>
       </div>
-      <div class="hero-showcase-visual" onclick="openShowcaseLightbox('./images/showcase/showcase-baglan-aday-gold.jpg', '«Бағлан / Адай» Сегізқырлы алтын сағат')">
-        <img src="./images/showcase/showcase-baglan-aday-gold.jpg" alt="Бағлан Адай руы сағаты" id="heroShowcaseMainImg">
+      <div class="hero-showcase-visual" onclick="openShowcaseLightbox('./images/showcase/showcase-naiman-metet.jpg', '«Метет / Орта жүз Найман» Классикалық былғары бау')">
+        <img src="./images/showcase/showcase-naiman-metet.jpg" alt="Найман руы сағаты" id="heroShowcaseMainImg">
         <div class="hero-showcase-visual-overlay">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
           <span>Толық өлшемде көру</span>
         </div>
       </div>
       <div class="hero-showcase-info">
-        <div class="hero-showcase-tag">✨ ХИТ ҮЛГІ • ЖЕКЕ ГРАВЮРА</div>
-        <h3 class="hero-showcase-title" id="heroShowcaseTitle">«Бағлан / Адай» Сегізқырлы алтын сағат</h3>
-        <p class="hero-showcase-desc" id="heroShowcaseDesc">Лазерлік гравюра • Фирмалық сыйлық қорабы</p>
+        <div class="hero-showcase-tag">✨ ХИТ ҮЛГІ • ЕСІМ ЖАЗЫЛАДЫ</div>
+        <h3 class="hero-showcase-title" id="heroShowcaseTitle">«Метет / Орта жүз Найман» Классикалық былғары бау</h3>
+        <p class="hero-showcase-desc" id="heroShowcaseDesc">Есім жазылады • Фирмалық сыйлық қорабы</p>
         <div class="hero-showcase-thumbs">
-          <button type="button" class="hero-thumb-btn active" onclick="switchHeroShowcase('./images/showcase/showcase-baglan-aday-gold.jpg', '«Бағлан / Адай» Сегізқырлы алтын сағат', 'Лазерлік гравюра • Фирмалық сыйлық қорабы', this)">
-            <img src="./images/showcase/showcase-baglan-aday-gold.jpg" alt="Алтын Адай">
-            <span>Алтын Адай</span>
+          <button type="button" class="hero-thumb-btn active" onclick="switchHeroShowcase('./images/showcase/showcase-naiman-metet.jpg', '«Метет / Орта жүз Найман» Классикалық былғары бау', 'Есім жазылады • Фирмалық сыйлық қорабы', this)">
+            <img src="./images/showcase/showcase-naiman-metet.jpg" alt="Найман">
+            <span>Найман</span>
           </button>
           <button type="button" class="hero-thumb-btn" onclick="switchHeroShowcase('./images/showcase/showcase-zhangeldi-erketay-black.jpg', '«Жангелді / Еркетай» Қара стиль сағаты', 'Қара стиль • Күңгірт жабын • Айрықша дизайн', this)">
             <img src="./images/showcase/showcase-zhangeldi-erketay-black.jpg" alt="Қара стиль">
@@ -2923,7 +2923,7 @@ def generate():
         <div class="promo-features">
           <div class="promo-feat-item">✓ 2-ші сағат 100% ТЕГІН</div>
           <div class="promo-feat-item">✓ 25 900 ₸-ден бастап барлық сағатқа жарамды</div>
-          <div class="promo-feat-item">✓ Екі сағатқа да жеке гравюра</div>
+          <div class="promo-feat-item">✓ Екі сағатқа да жеке есім жазылады</div>
           <div class="promo-feat-item">✓ Фирмалық сыйлық қорабымен</div>
           <div class="promo-feat-item">✓ 6–12 ай кепілдік</div>
         </div>
@@ -3060,10 +3060,10 @@ def generate():
       <div class="price-tabs">
         <span class="price-tabs-label">Баға бойынша:</span>
         <button class="price-chip active" onclick="setPriceFilter('all', this)">Барлық баға</button>
-        <button class="price-chip" onclick="setPriceFilter('t1', this)">30 000 ₸ дейін ({T1})</button>
+        <button class="price-chip" onclick="setPriceFilter('t1', this)">30 000 ₸-ге дейін ({T1})</button>
         <button class="price-chip" onclick="setPriceFilter('t2', this)">30 000 – 40 000 ₸ ({T2})</button>
         <button class="price-chip" onclick="setPriceFilter('t3', this)">40 000 – 55 000 ₸ ({T3})</button>
-        <button class="price-chip" onclick="setPriceFilter('t4', this)">55 000 ₸ бастап ({T4})</button>
+        <button class="price-chip" onclick="setPriceFilter('t4', this)">55 000 ₸-ден бастап ({T4})</button>
       </div>
       <div class="catalog-count" id="catalogCount" aria-live="polite"></div>
     </div>
@@ -3080,7 +3080,7 @@ def generate():
       <div class="section-subtitle">Ресми парақшаларымыз</div>
       <h2 class="section-title">Әлеуметтік желілерде бізбен бірге болыңыз</h2>
       <p style="color: var(--text-muted); font-size: 15px; margin-top: 8px;">
-        Күнделікті сағат жасау барысы, лазерлік гравюра процесі және тұтынушылардың нақты видео-шолулары.
+        Күнделікті сағат жасау барысы, есім жазу процесі және тұтынушылардың нақты видео-шолулары.
       </p>
     </div>
 
@@ -3116,7 +3116,7 @@ def generate():
           </div>
           <h3 class="social-card-title">TikTok-тағы миллион қаралым жинаған видеолар</h3>
           <p class="social-card-desc">
-            Лазерлік станоктың сағатқа өрнек қашау процесі, суға батырып тексеру сынақтары және трендтегі бейнероликтер.
+            Лазер станогында сағатқа есім жазу процесі, суға батырып тексеру сынақтары және трендтегі бейнероликтер.
           </p>
         </div>
         <a href="https://www.tiktok.com/@uaqyt.kzz2?_t=ZM-8uQyLn8Uuxi&_r=1" target="_blank" rel="noopener" class="btn-social-cta">
@@ -3154,7 +3154,7 @@ def generate():
         <span class="showroom-badge">ШОУРУМ ЖӘНЕ ШЕБЕРХАНА</span>
         <h2 class="showroom-title">Алматы қаласындағы ресми бутикке келіңіз</h2>
         <p class="showroom-desc">
-          Барлық сағатты қолыңызбен ұстап көріп, салмағын байқап, лазерлік гравюра үрдісіне өзіңіз куә бола аласыз. 2GIS картасы арқылы жолды оңай тауып келіңіз!
+          Барлық сағатты қолыңызбен ұстап көріп, салмағын байқап, есімнің жазылу үрдісіне өзіңіз куә бола аласыз. 2GIS картасы арқылы жолды оңай тауып келіңіз!
         </p>
 
         <div class="info-list">
@@ -3225,7 +3225,7 @@ def generate():
           </div>
         </div>
         <p style="font-size: 13.5px; line-height: 1.6;">
-          Жеке есім, ру таңбасы және ведомстволық эмблема қашалған қол сағаттар бутигі. Қазақстан бойынша 1000-нан астам риза клиент.
+          Жеке есім, ру таңбасы және ведомстволық эмблема жазылған қол сағаттары. Қазақстан бойынша 1000-нан астам риза клиент.
         </p>
         <div style="margin-top: 10px; font-size: 13px;">
           📍 Алматы, Өтеген батыр 11а, БЦ Сайран Сити 320
@@ -3233,7 +3233,7 @@ def generate():
       </div>
 
       <div>
-        <h4 class="footer-title">Навигация</h4>
+        <h4 class="footer-title">Мәзір</h4>
         <ul class="footer-links">
           <li><a href="#hero" class="footer-link">Басты бет</a></li>
           <li><a href="#bonus" class="footer-link">1+1 Бонус сағат</a></li>
@@ -3772,7 +3772,7 @@ def generate():
       const wa = document.getElementById('pickWa');
       if (wa) {{
         const who = {{ mens: 'ерлерге сыйлық', couples: 'жұбайларға (1+1)', service: 'қызметкерге' }}[pick.who] || 'таңдалмаған';
-        const bud = {{ t1: '30 000 ₸ дейін', t2: '30 000 – 40 000 ₸', t3: '40 000 – 55 000 ₸', t4: '55 000 ₸ бастап' }}[pick.budget] || 'маңызды емес';
+        const bud = {{ t1: '30 000 ₸-ге дейін', t2: '30 000 – 40 000 ₸', t3: '40 000 – 55 000 ₸', t4: '55 000 ₸-ден бастап' }}[pick.budget] || 'маңызды емес';
         wa.href = 'https://wa.me/{WA}?text=' + encodeURIComponent('Сәлеметсіз бе! Сағат таңдауға көмектесіңізші. Кімге: ' + who + '. Бюджет: ' + bud + '.');
       }}
     }}
