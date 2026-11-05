@@ -6,7 +6,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 from compile_data import all_products_sorted, customer_reviews, mens_all, couples_all, priced_products, request_products
 from i18n_products import PROD_RU, STRAP_RU, BRAND_SWAP, ru_piece_join
-from i18n_faq import FAQ_SECTION, CSS_FAQ, JS_FAQ, BONUS_GALLERY, CSS_BONUS
+from i18n_faq import FAQ_SECTION, CSS_FAQ, JS_FAQ, BONUS_GALLERY, CSS_BONUS, PROMO_BODY
 from i18n_blocks import bi, LANG_SWITCH, RIBBON, HOLIDAY_SECTION, STORY_SECTION, CSS_EXTRA, JS_EXTRA
 from i18n_features import PICKER_SECTION, DOCK_HTML, CART_HTML, CSS_FEATURES, JS_FEATURES
 import i18n_engine
@@ -2916,9 +2916,7 @@ def generate():
       <div class="promo-info">
         <span class="promo-tag">🔥 АРНАЙЫ АКЦИЯ: 1 + 1</span>
         <h2 class="promo-heading">25 900 ₸-ден бастап сағат алсаңыз — 2-ші сағат ТЕГІН!</h2>
-        <p class="promo-text">
-          Қазіргі науқан бойынша каталогтан кез келген ерлер немесе рулық сағатын таңдағанда — суреттегі стильді бонус сағатты сыйлық ретінде ТЕГІН аласыз! Жұбайыңызға, досыңызға немесе туысыңызға қосарланған қуаныш сыйлаңыз.
-        </p>
+        {PROMO_BODY}
 
         <div class="promo-features">
           <div class="promo-feat-item">✓ 2-ші сағат 100% ТЕГІН</div>

@@ -2754,6 +2754,40 @@
     .bonus-modal-pick .bonus-thumb.sel img { border-color: #d4af37; box-shadow: 0 0 0 2px rgba(212,175,55,.45); }
     .bonus-modal-pick .bonus-thumb.sel::after { content: '\2713'; position: absolute; right: 6px; bottom: 6px; width: 24px; height: 24px; border-radius: 12px; background: #d4af37; color: #0f172a; font-weight: 800; text-align: center; line-height: 24px; }
 
+    /* gift reveal in modal */
+    .gift-banner { position: relative; display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 16px; background: linear-gradient(135deg, rgba(212,175,55,.22), rgba(190,24,93,.18)); border: 1px solid rgba(212,175,55,.55); margin-bottom: 12px; overflow: visible; }
+    .gift-icon { font-size: 34px; line-height: 1; flex: 0 0 auto; }
+    .gift-h1 { font-weight: 800; font-size: 15.5px; line-height: 1.25; }
+    .gift-h2 { font-size: 12.5px; opacity: .8; margin-top: 3px; }
+    .bonus-modal-pick.gift-reveal .gift-banner { animation: giftPop .55s cubic-bezier(.2,1.4,.4,1) backwards; }
+    .bonus-modal-pick.gift-reveal .gift-icon { animation: giftWiggle 1.1s .4s ease-in-out 2; transform-origin: 50% 80%; }
+    .bonus-modal-pick.has-pick .gift-banner { background: linear-gradient(135deg, rgba(34,197,94,.22), rgba(212,175,55,.2)); border-color: rgba(74,222,128,.6); }
+    .gift-conf { position: absolute; left: 30px; top: 14px; font-size: 18px; pointer-events: none; z-index: 5; animation: confFly 1.5s ease-out forwards; }
+    @keyframes giftPop { 0% { transform: scale(.9) translateY(8px); opacity: .55; } 100% { transform: none; opacity: 1; } }
+    @keyframes giftWiggle { 0%,100% { transform: rotate(0); } 20% { transform: rotate(-14deg) scale(1.1); } 40% { transform: rotate(12deg) scale(1.1); } 60% { transform: rotate(-8deg); } 80% { transform: rotate(6deg); } }
+    @keyframes thumbIn { from { opacity: .55; transform: scale(.92); } to { opacity: 1; transform: none; } }
+    @keyframes confFly { 0% { transform: translate(0,0) rotate(0) scale(.6); opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(1.15); opacity: 0; } }
+    /* gift ribbon on catalog cards */
+        .gift-ribbon { display: inline-block; margin: 0 0 8px; padding: 4px 9px; border-radius: 12px; font-size: 11px; font-weight: 800; color: #fff; background: linear-gradient(135deg, #e11d48, #be185d); box-shadow: 0 4px 10px rgba(190,24,93,.35); pointer-events: none; }
+    /* promo steps */
+    .promo-steps { display: grid; gap: 10px; margin: 14px 0; }
+    .promo-step { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: rgba(255,255,255,.06); border: 1px solid rgba(212,175,55,.35); font-weight: 600; line-height: 1.3; }
+    .promo-step i { flex: 0 0 auto; width: 28px; height: 28px; border-radius: 14px; background: #d4af37; color: #0f172a; font-style: normal; font-weight: 800; text-align: center; line-height: 28px; }
+    @media (prefers-reduced-motion: reduce) { .gift-banner, .gift-icon, .bonus-thumb { animation: none !important; } }
+
+    /* modal: swipe strip instead of a tall grid */
+    .bonus-modal-pick .bonus-pick-grid { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 8px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+    .bonus-modal-pick { width: 100%; max-width: 100%; min-width: 0; contain: inline-size; }
+    .bonus-modal-pick .bonus-thumb { flex: 0 0 92px; scroll-snap-align: start; }
+    @media (max-width: 700px) {
+      .modal-card { grid-template-columns: minmax(0, 1fr) !important; }
+      .modal-img-col, .modal-info-col { min-width: 0; }
+      .modal-price-box { flex-wrap: wrap; }
+      .modal-trust { font-size: 13px; }
+    }
+    .promo-features .promo-feat-item:nth-child(-n+2) { display: none; }
+    @media (max-width: 700px) { .promo-heading { font-size: clamp(24px, 7.2vw, 32px) !important; line-height: 1.2; } }
+
   </style>
 </head>
 <body>
@@ -2985,9 +3019,7 @@
 <div class="promo-info">
 <span class="promo-tag"><span data-bi="" data-kk="🔥 АРНАЙЫ АКЦИЯ: 1 + 1" data-ru="🔥 АКЦИЯ: БОНУСНЫЕ ЧАСЫ">🔥 АКЦИЯ: БОНУСНЫЕ ЧАСЫ</span></span>
 <h2 class="promo-heading"><span data-bi="" data-kk="25 900 ₸-ден бастап сағат алсаңыз — 2-ші сағат ТЕГІН!" data-ru="Часы от 25 900 ₸: вторые часы в подарок">Часы от 25 900 ₸: вторые часы в подарок</span></h2>
-<p class="promo-text">
-          <span data-bi="" data-kk="Каталогтан сағат алсаңыз, екінші сағат сыйлыққа беріледі: жұбайыңызға, досыңызға немесе туысыңызға бірден екі сыйлық жасаңыз. Акцияның қазіргі шарттарын WhatsApp-та нақтылаймыз." data-ru="Купите часы из каталога и получите вторые часы в подарок: порадуйте жену, друга или родственника сразу двумя подарками. Актуальные условия акции подтвердим в WhatsApp.">Купите часы из каталога и получите вторые часы в подарок: порадуйте жену, друга или родственника сразу двумя подарками. Актуальные условия акции подтвердим в WhatsApp.</span>
-        </p>
+<div class="promo-steps"><div class="promo-step"><i>1</i><span data-bi="" data-kk="25 900 ₸-ден бастап кез келген сағатты таңдаңыз" data-ru="Выберите любые часы от 25 900 ₸">Выберите любые часы от 25 900 ₸</span></div><div class="promo-step"><i>2</i><span data-bi="" data-kk="Екінші сағатты біз сыйлаймыз, тегін" data-ru="Вторые часы дарим мы, бесплатно">Вторые часы дарим мы, бесплатно</span></div><div class="promo-step"><i>3</i><span data-bi="" data-kk="Сыйлықты 14 әйелдер моделінен өзіңіз таңдайсыз" data-ru="Подарок выберете сами из 14 женских моделей">Подарок выберете сами из 14 женских моделей</span></div></div>
 <div class="promo-features">
 <div class="promo-feat-item"><span data-bi="" data-kk="✓ Екінші сағат сыйлыққа" data-ru="✓ Вторые часы в подарок">✓ Вторые часы в подарок</span></div>
 <div class="promo-feat-item"><span data-bi="" data-kk="✓ 25 900 ₸-ден бастап барлық сағатқа жарамды" data-ru="✓ Действует на все часы от 25 900 ₸">✓ Действует на все часы от 25 900 ₸</span></div>
@@ -6577,39 +6609,82 @@
         } catch (e) {}
       };
     })();
-    // ═════════ bonus watch picker inside the order modal ═════════
+    // ═════════ gift reveal + bonus picker inside the order modal ═════════
     (function () {
       const BT = {
-        ru: { t: '🎁 Выберите бонусные часы (женские)', h: 'Вторые часы в подарок. Нажмите на понравившуюся модель, можно выбрать и позже в WhatsApp.' },
-        kk: { t: '🎁 Бонус сағатты таңдаңыз (әйелдер)', h: 'Екінші сағат сыйлыққа. Ұнаған модельді басыңыз, WhatsApp-та кейінірек те таңдауға болады.' }
+        ru: { h1: 'Отличный выбор! Вторые часы дарим мы', h2: 'Листайте и выберите подарок: 14 женских моделей', pick: 'Выберите подарок', ok: 'Ваш подарок: модель №', chg: 'Нажмите на другую модель, чтобы поменять', ribbon: '+1 в подарок' },
+        kk: { h1: 'Тамаша таңдау! Екінші сағатты біз сыйлаймыз', h2: 'Сырғытып, сыйлықты таңдаңыз: 14 әйелдер моделі', pick: 'Сыйлықты таңдаңыз', ok: 'Сіздің сыйлығыңыз: №', chg: 'Ауыстыру үшін басқа модельді басыңыз', ribbon: '+1 сыйлыққа' }
       };
       window.bonusChoice = null;
+      const eligible = p => p && !p.is_price_on_request && p.price >= 25900 && !/couples/.test(p.cat);
+      const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function confetti(host) {
+        if (reduce) return;
+        const em = ['🎉', '✨', '🎁', '⭐', '💛'];
+        for (let i = 0; i < 14; i++) {
+          const el = document.createElement('span'); el.className = 'gift-conf'; el.textContent = em[i % em.length];
+          el.style.setProperty('--dx', (Math.random() * 220 - 110).toFixed(0) + 'px');
+          el.style.setProperty('--dy', (-60 - Math.random() * 90).toFixed(0) + 'px');
+          el.style.setProperty('--rot', (Math.random() * 120 - 60).toFixed(0) + 'deg');
+          el.style.animationDelay = (Math.random() * 0.25).toFixed(2) + 's';
+          host.appendChild(el); setTimeout(() => el.remove(), 1800);
+        }
+      }
+      function paint(box) {
+        const t = BT[LANG] || BT.ru;
+        const n = window.bonusChoice;
+        box.querySelector('.gift-h1').textContent = n ? '🎁 ' + t.ok + n : '🎉 ' + t.h1;
+        box.querySelector('.gift-h2').textContent = n ? t.chg : t.h2;
+        box.classList.toggle('has-pick', !!n);
+        box.querySelectorAll('.bonus-thumb').forEach(x => x.classList.toggle('sel', +x.dataset.n === n));
+      }
+
       const prev = openProductModal;
       openProductModal = function (id) {
         prev(id);
         const p = currentModalProduct; if (!p) return;
+        const old = document.querySelector('.modal-promo-note'); if (old) old.style.display = 'none';
         let box = document.getElementById('bonusModalPick');
         if (!box) {
           box = document.createElement('div'); box.id = 'bonusModalPick'; box.className = 'bonus-pick bonus-modal-pick';
-          let h = '<div class="bonus-pick-title"></div><div class="bonus-modal-hint"></div><div class="bonus-pick-grid">';
-          for (let i = 1; i <= 14; i++) h += '<div class="bonus-thumb" data-n="' + i + '"><img src="./images/bonus/women-' + i + '.jpg" alt="Бонус ' + i + '" loading="lazy"><b>' + i + '</b></div>';
+          let h = '<div class="gift-banner"><div class="gift-icon">🎁</div><div><div class="gift-h1"></div><div class="gift-h2"></div></div></div><div class="bonus-pick-grid">';
+          for (let i = 1; i <= 14; i++) h += '<div class="bonus-thumb" data-n="' + i + '" style="--i:' + i + '"><img src="./images/bonus/women-' + i + '.jpg" alt="Подарок ' + i + '" loading="lazy"><b>' + i + '</b></div>';
           box.innerHTML = h + '</div>';
           box.addEventListener('click', function (e) {
             const th = e.target.closest('.bonus-thumb'); if (!th) return;
             const n = +th.dataset.n;
             window.bonusChoice = (window.bonusChoice === n) ? null : n;
-            box.querySelectorAll('.bonus-thumb').forEach(x => x.classList.toggle('sel', +x.dataset.n === window.bonusChoice));
+            paint(box);
+            if (window.bonusChoice) confetti(box.querySelector('.gift-banner'));
           });
-          document.querySelector('.modal-promo-note').after(box);
+          (old || document.querySelector('.modal-trust')).after(box);
         }
         window.bonusChoice = null;
-        box.querySelectorAll('.bonus-thumb').forEach(x => x.classList.remove('sel'));
-        const t = BT[LANG] || BT.ru;
-        box.querySelector('.bonus-pick-title').textContent = t.t;
-        box.querySelector('.bonus-modal-hint').textContent = t.h;
-        const pair = /couples/.test(p.cat);
-        box.style.display = (pair || p.is_price_on_request || p.price < 25900) ? 'none' : '';
+        const show = eligible(p);
+        box.style.display = show ? '' : 'none';
+        paint(box);
+        if (show) {
+          box.classList.remove('gift-reveal'); void box.offsetWidth; box.classList.add('gift-reveal');
+          setTimeout(() => confetti(box.querySelector('.gift-banner')), 350);
+        }
       };
+
+      // gift ribbon on eligible catalog cards (no price talk: just a signal)
+      function ribbons() {
+        const t = BT[LANG] || BT.ru;
+        document.querySelectorAll('.product-card').forEach(card => {
+          const pr = parseInt(card.getAttribute('data-price'));
+          const cat = card.getAttribute('data-category') || '';
+          if (!(pr >= 25900 && pr < 999999) || cat.includes('couples')) return;
+          let r = card.querySelector('.gift-ribbon');
+          if (!r) { r = document.createElement('span'); r.className = 'gift-ribbon'; const ttl = card.querySelector('.card-title'); if (ttl) ttl.before(r); else card.appendChild(r); }
+          r.textContent = '🎁 ' + t.ribbon;
+        });
+      }
+      ribbons();
+      const prevLang = setLang;
+      setLang = function (l) { prevLang(l); ribbons(); const b = document.getElementById('bonusModalPick'); if (b) paint(b); };
     })();
     // ═════════ pair products: two names, no bonus note ═════════
     (function () {
@@ -6637,7 +6712,7 @@
         if (!pair) i2.value = '';
         lab2.textContent = t.f; lab2.style.display = pair ? '' : 'none';
         const note = document.querySelector('.modal-promo-note');
-        if (note) note.style.display = (pair || (!p.is_price_on_request && p.price < 25900)) ? 'none' : '';
+        if (note) note.style.display = 'none';
       };
     })();
 
