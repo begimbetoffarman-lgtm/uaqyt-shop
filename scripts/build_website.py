@@ -209,6 +209,7 @@ def generate():
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json">{{"@context": "https://schema.org", "@type": "Store", "name": "UAQYT", "description": "Именные часы с гравировкой: имя, дата или родовая тамга на циферблате. Алматы, доставка по Казахстану.", "url": "https://uaqyt-shop.vercel.app/", "image": "https://uaqyt-shop.vercel.app/images/og-image.jpg", "telephone": "+77079781857", "address": {{"@type": "PostalAddress", "streetAddress": "ул. Утеген батыра 11а, БЦ «Сайран Сити», офис 320", "addressLocality": "Алматы", "addressCountry": "KZ"}}, "openingHoursSpecification": [{{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "10:00", "closes": "20:00"}}], "sameAs": ["https://www.instagram.com/uaqyt.kzt"]}}</script>
+  <script>try{{if('scrollRestoration' in history)history.scrollRestoration='manual';}}catch(e){{}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">

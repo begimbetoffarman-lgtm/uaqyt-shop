@@ -87,6 +87,8 @@ CSS_FAQ = '''
 '''
 
 JS_FAQ = '''
+    // always open at the top of the page (unless a #section link is used)
+    if (!location.hash) { window.scrollTo(0, 0); window.addEventListener('load', () => { if (!location.hash) { window.scrollTo(0, 0); setTimeout(() => window.scrollTo(0, 0), 300); } }); }
     // dynamic chip counts: price buckets follow the active category and search
     (function () {
       const origFilter = filterCatalog;
