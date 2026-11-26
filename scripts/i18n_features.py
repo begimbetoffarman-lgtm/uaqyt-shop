@@ -20,7 +20,7 @@ PICKER_SECTION = f'''<section class="picker-section" id="picks">
       <div class="picker-row">
         {bi("Кому дарим?", "Кімге сыйлаймыз?", "div", "picker-label")}
         <div class="picker-chips" id="pickWho">
-          {chips("who", [("husband", "👨 Мужу", "👨 Күйеуге"), ("dad", "👴 Папе", "👴 Әкеге"), ("bro", "🧑 Брату", "🧑 Ағаға, інісіне"), ("friend", "🤝 Другу или коллеге", "🤝 Досқа немесе әріптеске"), ("couples", "💑 Паре (1+1)", "💑 Жұпқа (1+1)"), ("service", "🛡️ Сотруднику (МВД, КНБ, ВС)", "🛡️ Қызметкерге (ІІМ, ҰҚК, ҚР ҚК)")])}
+          {chips("who", [("husband", "👨 Мужу", "👨 Күйеуге"), ("dad", "👴 Папе", "👴 Әкеге"), ("bro", "🧑 Брату", "🧑 Ағаға, інісіне"), ("friend", "🤝 Другу или коллеге", "🤝 Досқа немесе әріптеске"), ("her", "👩 Ей (жене, маме, девушке)", "👩 Оған (әйелге, анаға, қызға)"), ("couples", "💑 Паре (1+1)", "💑 Жұпқа (1+1)"), ("service", "🛡️ Сотруднику (МВД, КНБ, ВС)", "🛡️ Қызметкерге (ІІМ, ҰҚК, ҚР ҚК)")])}
         </div>
       </div>
       <div class="picker-row">
@@ -160,7 +160,7 @@ JS_FEATURES = r'''
       pk_none: 'выберите ответы выше', add_picks: 'Подборка добавлена в «Мой выбор»', remind: 'Напомнить за 2 недели',
       wa_remind: (name, date) => 'Здравствуйте! Напомните мне, пожалуйста, за 2 недели до праздника «' + name + '» (' + date + '): хочу заказать часы с гравировкой.',
       wa_pick4: (who, occ, st, bud) => 'Здравствуйте! Помогите выбрать часы. Кому: ' + who + '. Повод: ' + occ + '. Стиль: ' + st + '. Бюджет: ' + bud + '.',
-      pw: { husband: 'мужу', dad: 'папе', bro: 'брату', friend: 'другу или коллеге', couples: 'паре (1+1)', service: 'сотруднику', none: 'не выбрано' },
+      pw: { husband: 'мужу', dad: 'папе', bro: 'брату', friend: 'другу или коллеге', her: 'ей (жене, маме, девушке)', couples: 'паре (1+1)', service: 'сотруднику', none: 'не выбрано' },
       po: { bday: 'день рождения', jub: 'юбилей', ann: 'годовщина', ny: 'Новый год', feb23: '23 февраля', any: 'просто так', none: 'не выбран' },
       ps: { tamga: 'с родовой тамгой', classic: 'строгая классика', mech: 'механика', box: 'в деревянной коробке', none: 'любой' },
       tips: { bday: 'Гравировка имени и даты рождения запомнится надолго.', jub: 'К юбилею подойдут золотистый корпус и подарочная коробка.', ann: 'На годовщину посмотрите парные часы 1+1.', ny: 'Гравировка делается под заказ: лучше написать заранее.', feb23: 'Классика и имя на циферблате: достойный подарок мужчине.', any: 'Имя на циферблате делает подарок личным даже без повода.' }
@@ -180,7 +180,7 @@ JS_FEATURES = r'''
       pk_none: 'жоғарыдан жауап таңдаңыз', add_picks: 'Таңдау «Таңдаулыларға» қосылды', remind: '2 апта бұрын еске салу',
       wa_remind: (name, date) => 'Сәлеметсіз бе! «' + name + '» (' + date + ') мерекесіне 2 апта қалғанда еске салыңызшы: есімі жазылған сағат тапсырыс бергім келеді.',
       wa_pick4: (who, occ, st, bud) => 'Сәлеметсіз бе! Сағат таңдауға көмектесіңізші. Кімге: ' + who + '. Мереке: ' + occ + '. Стиль: ' + st + '. Бюджет: ' + bud + '.',
-      pw: { husband: 'күйеуге', dad: 'әкеге', bro: 'ағаға/інісіне', friend: 'досқа немесе әріптеске', couples: 'жұпқа (1+1)', service: 'қызметкерге', none: 'таңдалмаған' },
+      pw: { husband: 'күйеуге', dad: 'әкеге', bro: 'ағаға/інісіне', friend: 'досқа немесе әріптеске', her: 'әйелге, анаға, қызға', couples: 'жұпқа (1+1)', service: 'қызметкерге', none: 'таңдалмаған' },
       po: { bday: 'туған күн', jub: 'мерейтой', ann: 'той жылдығы', ny: 'Жаңа жыл', feb23: '23 ақпан', any: 'себепсіз', none: 'таңдалмаған' },
       ps: { tamga: 'ру таңбасымен', classic: 'қатаң классика', mech: 'механика', box: 'ағаш қорапта', none: 'кез келген' },
       tips: { bday: 'Циферблаттағы есім мен туған күн ұзақ есте қалады.', jub: 'Мерейтойға алтын түсті корпус пен сыйлық қорабы лайық.', ann: 'Той жылдығына 1+1 жұптық сағаттарды қараңыз.', ny: 'Есім тапсырыспен жазылады: алдын ала жазған дұрыс.', feb23: 'Классика мен циферблаттағы есім: ер адамға лайықты сыйлық.', any: 'Циферблаттағы есім сыйлықты себепсіз де жеке етеді.' }
@@ -333,7 +333,8 @@ JS_FEATURES = r'''
     function pickList() {
       let list = productsData.filter(p => !p.is_price_on_request);
       const w = pick.who;
-      if (w === 'couples') list = list.filter(p => p.cat.includes('couples'));
+      if (w === 'her') list = list.filter(p => p.cat.includes('ladies'));
+      else if (w === 'couples') list = list.filter(p => p.cat.includes('couples'));
       else if (w === 'service') list = list.filter(p => p.cat.includes('service'));
       else if (w) list = list.filter(p => p.cat.includes('mens') && !p.cat.includes('couples'));
       if (pick.style === 'tamga') list = list.filter(p => p.cat.includes('ornament'));
@@ -362,7 +363,7 @@ JS_FEATURES = r'''
     function addPicksToSel() { (window.__lastPicks || []).forEach(p => { if (!inSel(p.id)) SEL.push({ id: p.id, text: '' }); }); saveSel(); syncSel(); openCart(); }
     function applyPickToCatalog() {
       let cat = 'all';
-      if (pick.who === 'couples') cat = 'couples'; else if (pick.who === 'service') cat = 'service'; else if (pick.who) cat = 'mens';
+      if (pick.who === 'her') cat = 'ladies'; else if (pick.who === 'couples') cat = 'couples'; else if (pick.who === 'service') cat = 'service'; else if (pick.who) cat = 'mens';
       else if (pick.style === 'tamga') cat = 'ornament'; else if (pick.style === 'mech') cat = 'mechanic'; else if (pick.style === 'box') cat = 'woodbox';
       const tab = document.querySelector('[data-filter="' + cat + '"]'); if (tab) setCategoryFilter(cat, tab);
       const idx = { t1: 1, t2: 2, t3: 3, t4: 4 }[pick.budget] || 0; const chips = document.querySelectorAll('.price-chip');

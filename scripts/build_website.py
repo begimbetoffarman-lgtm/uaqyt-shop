@@ -4,7 +4,7 @@ import os, sys, json
 sys.path.insert(0, os.path.dirname(__file__))
 sys.stdout.reconfigure(encoding='utf-8')
 
-from compile_data import all_products_sorted, customer_reviews, mens_all, couples_all, priced_products, request_products
+from compile_data import all_products_sorted, customer_reviews, mens_all, couples_all, ladies_all, priced_products, request_products
 from i18n_products import PROD_RU, STRAP_RU, BRAND_SWAP, ru_piece_join
 from i18n_faq import FAQ_SECTION, CSS_FAQ, JS_FAQ, BONUS_GALLERY, CSS_BONUS, PROMO_BODY
 from i18n_blocks import bi, LANG_SWITCH, RIBBON, HOLIDAY_SECTION, STORY_SECTION, CSS_EXTRA, JS_EXTRA
@@ -3049,6 +3049,7 @@ def generate():
       <div class="filter-tabs">
         <button class="filter-tab active" data-filter="mens" onclick="setCategoryFilter('mens', this)">👑 Ерлер сағаттары ({len(mens_all)})</button>
         <button class="filter-tab filter-tab-hot" data-filter="couples" onclick="setCategoryFilter('couples', this)">❤️ 1+1 Жұптық сағаттар ({len(couples_all)})</button>
+        <button class="filter-tab" data-filter="ladies" onclick="setCategoryFilter('ladies', this)">👩 Әйелдер сағаттары ({len(ladies_all)})</button>
         <button class="filter-tab" data-filter="all" onclick="setCategoryFilter('all', this)">Барлығы ({len(all_products_sorted)})</button>
         <button class="filter-tab" data-filter="service" onclick="setCategoryFilter('service', this)">🛡️ Қызметтік (ІІМ, ҰҚК, ҚР ҚК)</button>
         <button class="filter-tab" data-filter="ornament" onclick="setCategoryFilter('ornament', this)">Шежіре Ру-Таңбалы</button>
